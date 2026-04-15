@@ -51,23 +51,23 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
   const truckTheme =
     mode === "login"
       ? {
-          cabin: "from-[#6B778A] via-[#425164] to-[#131C27]",
-          trailer: "from-[#DCE6F2] via-[#A6B7CB] to-[#5E7289]",
-          accent: "bg-[#C7D4E2]",
-          bumper: "bg-[#1A2430]",
-          wheel: "bg-[#0D1219]",
-          rim: "bg-[#F2F5FA]",
-          badge: "Login Preview",
-        }
+        cabin: "from-[#6B778A] via-[#425164] to-[#131C27]",
+        trailer: "from-[#DCE6F2] via-[#A6B7CB] to-[#5E7289]",
+        accent: "bg-[#C7D4E2]",
+        bumper: "bg-[#1A2430]",
+        wheel: "bg-[#0D1219]",
+        rim: "bg-[#F2F5FA]",
+        badge: "Login Preview",
+      }
       : {
-          cabin: "from-[#2D96FF] via-[#0F67EE] to-[#083B9C]",
-          trailer: "from-[#BFE8FF] via-[#79C7FF] to-[#2B8AF3]",
-          accent: "bg-[#8FE6FF]",
-          bumper: "bg-[#0A2C70]",
-          wheel: "bg-[#081018]",
-          rim: "bg-[#FAFCFF]",
-          badge: "Activate Workspace",
-        };
+        cabin: "from-[#2D96FF] via-[#0F67EE] to-[#083B9C]",
+        trailer: "from-[#BFE8FF] via-[#79C7FF] to-[#2B8AF3]",
+        accent: "bg-[#8FE6FF]",
+        bumper: "bg-[#0A2C70]",
+        wheel: "bg-[#081018]",
+        rim: "bg-[#FAFCFF]",
+        badge: "Activate Workspace",
+      };
 
   return (
     <div className="relative h-[340px] overflow-hidden rounded-[26px] border border-[#DDE4F2] bg-[#DFF4FF] shadow-[0_30px_70px_rgba(46,58,131,0.12)] sm:h-[440px] lg:h-full lg:min-h-[690px]">
@@ -153,16 +153,6 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
         <span className="h-2 w-2 rounded-full bg-[#2E3A83]" />
         {truckTheme.badge}
       </div>
-
-      <div className="absolute bottom-5 left-5 right-5 rounded-[18px] border border-white/50 bg-white/70 p-3 shadow-[0_12px_28px_rgba(46,58,131,0.12)] backdrop-blur-md">
-        <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#2E3A83]">
-          <ImageIcon size={14} />
-          Replace Hero Image
-        </div>
-        <p className="mt-1 break-all text-xs leading-5 text-[#51607E]">
-          {imagePath}
-        </p>
-      </div>
     </div>
   );
 }
@@ -228,14 +218,14 @@ export default function Login() {
     try {
       setServerError("");
 
-      const response = await logIn(data).unwrap();
-      const responseRole = normalizeAuthRole(response.type ?? null);
+      // const response = await logIn(data).unwrap();
+      // const responseRole = normalizeAuthRole(response.type ?? null);
 
-      if (!response.success || !responseRole) {
-        throw new Error("Login response did not include a valid user role.");
-      }
+      // if (!response.success || !responseRole) {
+      //   throw new Error("Login response did not include a valid user role.");
+      // }
 
-      router.replace(resolvePostLoginPath(responseRole, redirectPath));
+      // router.replace(resolvePostLoginPath(responseRole, redirectPath));
     } catch (error) {
       setServerError(getErrorMessage(error, "Login failed. Please try again."));
     }
@@ -274,19 +264,19 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#EEF2F8] px-3 py-3 sm:px-4 sm:py-4">
-      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] max-w-[1560px] flex-col overflow-hidden rounded-[30px] border border-[#DDE3F0] bg-white p-3 shadow-[0_30px_90px_rgba(46,58,131,0.16)] sm:p-4 lg:p-5">
-        <div className="grid flex-1 gap-4 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full flex-col overflow-hidden rounded-[30px]  p-3 sm:p-4 lg:p-5">
+        <div className="grid flex-1 gap-4 lg:grid-cols-[5fr_7fr]">
           <section
             style={formAnimation ? { animation: formAnimation } : undefined}
             className={[
-              "flex items-center justify-center rounded-[26px] border border-[#EDF1F7] bg-white px-6 py-8 sm:px-8 lg:px-10",
+              "flex items-center justify-center rounded-[26px] not-last:px-6 py-8 sm:px-8 lg:px-10",
               isLoginMode ? "lg:order-1" : "lg:order-2",
             ].join(" ")}
           >
             <div className="w-full max-w-[338px]">
               <div className="mb-10 flex justify-center">
                 <Image
-                  src="/logo.svg"
+                  src="/images/auth/website_logo.png"
                   alt="FleetOS"
                   width={110}
                   height={50}
@@ -608,11 +598,7 @@ export default function Login() {
                 </form>
               )}
 
-              <div className="mt-6 text-center text-xs leading-6 text-[#7B849B]">
-                {env.designMode
-                  ? "Design mode is active. Login still works locally, and workspace activation UI is ready for your next backend."
-                  : "This authentication screen is ready for the live integration flow."}
-              </div>
+
             </div>
           </section>
 
@@ -630,3 +616,4 @@ export default function Login() {
     </div>
   );
 }
+// Glad to see you again. Log in to your account.
