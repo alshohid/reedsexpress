@@ -57,7 +57,7 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
         bumper: "bg-[#1A2430]",
         wheel: "bg-[#0D1219]",
         rim: "bg-[#F2F5FA]",
-        badge: "Login Preview",
+
       }
       : {
         cabin: "from-[#2D96FF] via-[#0F67EE] to-[#083B9C]",
@@ -66,7 +66,7 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
         bumper: "bg-[#0A2C70]",
         wheel: "bg-[#081018]",
         rim: "bg-[#FAFCFF]",
-        badge: "Activate Workspace",
+
       };
 
   return (
@@ -148,11 +148,6 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
       )}
 
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0)_42%,rgba(16,24,40,0.14)_100%)]" />
-
-      <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/72 px-3 py-1.5 text-xs font-semibold tracking-[0.08em] text-[#2E3A83] shadow-[0_10px_24px_rgba(46,58,131,0.12)] backdrop-blur">
-        <span className="h-2 w-2 rounded-full bg-[#2E3A83]" />
-        {truckTheme.badge}
-      </div>
     </div>
   );
 }
@@ -265,7 +260,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#EEF2F8] px-3 py-3 sm:px-4 sm:py-4">
       <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full flex-col overflow-hidden rounded-[30px]  p-3 sm:p-4 lg:p-5">
-        <div className="grid flex-1 gap-4 lg:grid-cols-[5fr_7fr]">
+        <div className={`grid flex-1 gap-4 ${isLoginMode ? "lg:grid-cols-[5fr_7fr]" : "lg:grid-cols-[7fr_5fr]"}`}>
           <section
             style={formAnimation ? { animation: formAnimation } : undefined}
             className={[
