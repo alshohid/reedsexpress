@@ -535,14 +535,6 @@ export default function DesignDashboard() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-xs font-medium text-[#667085]">
-          <div className="rounded-full bg-[#F5F7FF] px-3 py-1.5 text-[#2E3A83]">
-            Primary color: #2E3A83
-          </div>
-          <div className="rounded-full bg-[#F7F8FC] px-3 py-1.5">
-            API disabled for design handoff
-          </div>
-        </div>
       </section>
     </div>
   );

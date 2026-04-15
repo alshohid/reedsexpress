@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ArrowLeftRight, ArrowRight, ImageIcon } from "lucide-react";
+import { ArrowLeftRight, ArrowRight } from "lucide-react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { useRouter, useSearchParams } from "next/navigation";
 import { env } from "@/src/lib/env";
@@ -70,7 +70,7 @@ function AuthVisualPanel({ mode }: AuthVisualPanelProps) {
       };
 
   return (
-    <div className="relative h-[340px] overflow-hidden rounded-[26px] border border-[#DDE4F2] bg-[#DFF4FF] shadow-[0_30px_70px_rgba(46,58,131,0.12)] sm:h-[440px] lg:h-full lg:min-h-[690px]">
+    <div className="relative h-[320px] overflow-hidden rounded-[26px] border border-[#DDE4F2] bg-[#DFF4FF] shadow-[0_30px_70px_rgba(46,58,131,0.12)] sm:h-[400px] lg:h-full lg:min-h-0">
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#E5F8FF_0%,#A9DCF8_38%,#F7FBFF_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),transparent_34%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.42),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.52),transparent_30%)]" />
 
@@ -213,14 +213,14 @@ export default function Login() {
     try {
       setServerError("");
 
-      // const response = await logIn(data).unwrap();
-      // const responseRole = normalizeAuthRole(response.type ?? null);
+      const response = await logIn(data).unwrap();
+      const responseRole = normalizeAuthRole(response.type ?? null);
 
-      // if (!response.success || !responseRole) {
-      //   throw new Error("Login response did not include a valid user role.");
-      // }
+      if (!response.success || !responseRole) {
+        throw new Error("Login response did not include a valid user role.");
+      }
 
-      // router.replace(resolvePostLoginPath(responseRole, redirectPath));
+      router.replace(resolvePostLoginPath(responseRole, redirectPath));
     } catch (error) {
       setServerError(getErrorMessage(error, "Login failed. Please try again."));
     }
@@ -258,13 +258,13 @@ export default function Login() {
     : undefined;
 
   return (
-    <div className="min-h-screen bg-[#EEF2F8] px-3 py-3 sm:px-4 sm:py-4">
-      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full flex-col overflow-hidden rounded-[30px]  p-3 sm:p-4 lg:p-5">
-        <div className={`grid flex-1 gap-4 ${isLoginMode ? "lg:grid-cols-[5fr_7fr]" : "lg:grid-cols-[7fr_5fr]"}`}>
+    <div className="box-border h-[100dvh] overflow-hidden bg-[#EEF2F8] px-3 py-3 sm:px-4 sm:py-4">
+      <div className="mx-auto flex h-full w-full flex-col overflow-hidden rounded-[30px] p-3 sm:p-4 lg:p-5">
+        <div className={`grid h-full min-h-0 flex-1 gap-4 ${isLoginMode ? "lg:grid-cols-[5fr_7fr]" : "lg:grid-cols-[7fr_5fr]"}`}>
           <section
             style={formAnimation ? { animation: formAnimation } : undefined}
             className={[
-              "flex items-center justify-center rounded-[26px] not-last:px-6 py-8 sm:px-8 lg:px-10",
+              "flex min-h-0 items-center justify-center rounded-[26px] px-6 py-8 sm:px-8 lg:px-10",
               isLoginMode ? "lg:order-1" : "lg:order-2",
             ].join(" ")}
           >
@@ -600,7 +600,7 @@ export default function Login() {
           <section
             style={visualAnimation ? { animation: visualAnimation } : undefined}
             className={[
-              "overflow-hidden rounded-[26px]",
+              "hidden min-h-0 overflow-hidden rounded-[26px] lg:block",
               isLoginMode ? "lg:order-2" : "lg:order-1",
             ].join(" ")}
           >

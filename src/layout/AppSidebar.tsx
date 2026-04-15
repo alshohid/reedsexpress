@@ -11,6 +11,7 @@ import {
   type DashboardRole,
 } from "@/src/lib/sidebarConfig";
 import { useAuth } from "@/src/redux/features/auth/hooks";
+import Image from "next/image";
 
 interface AppSidebarProps {
   role?: DashboardRole;
@@ -94,16 +95,13 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
           onClick={handleItemClick}
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-lg font-bold text-[#2E3A83]">
-            RX
+            <Image src="/images/auth/website_logo.png" alt="Logo" width={40} height={40} />
           </div>
 
           {isExpanded && (
             <div className="min-w-0">
-              <p className="truncate text-base font-semibold text-[#111827]">
-                ReedsExpress
-              </p>
-              <p className="truncate text-xs text-[#667085]">
-                Logistics Control
+              <p className="truncate text-[1.25rem] font-semibold text-[#111827]">
+                FleetOS
               </p>
             </div>
           )}
@@ -139,7 +137,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                       href={item.path ?? "#"}
                       onClick={handleItemClick}
                       className={[
-                        "group flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition",
+                        "group flex items-center gap-3 rounded-2xl px-3 py-3 text-[1rem] font-medium transition",
                         isExpanded ? "justify-start" : "justify-center",
                         active
                           ? "bg-[#2E3A83] text-white shadow-[0_10px_26px_rgba(46,58,131,0.24)]"
@@ -168,17 +166,6 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
       </div>
 
       <div className="mt-6 border-t border-[#EEF2FB] pt-4">
-        {isExpanded && env.designMode && (
-          <div className="mb-4 rounded-2xl bg-[#F5F7FF] p-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#2E3A83]">
-              Design Mode
-            </p>
-            <p className="mt-1 text-xs leading-5 text-[#667085]">
-              API requests are disabled while the new UI is being prepared.
-            </p>
-          </div>
-        )}
-
         <button
           type="button"
           onClick={handleLogout}

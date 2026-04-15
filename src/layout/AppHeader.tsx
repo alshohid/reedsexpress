@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { Bell, Menu, MessageSquare } from "lucide-react";
+import { Bell, ChevronRightCircle, Menu, MessageSquare } from "lucide-react";
 import { useSidebar } from "@/src/context/SidebarContext";
 import { env } from "@/src/lib/env";
 import { buildCrumbs } from "@/src/lib/helper/breadcrumbs";
@@ -48,25 +48,17 @@ const AppHeader = () => {
                     {crumb}
                   </span>
                   {index !== crumbs.length - 1 && (
-                    <span className="text-[#D0D5DD]">/</span>
+                    <span className="text-[#D0D5DD]">
+                      <ChevronRightCircle size={16} />
+                    </span>
                   )}
                 </div>
               ))}
             </div>
-
-            <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#98A2B3]">
-              New visual system ready for backend integration
-            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          {env.designMode && (
-            <div className="hidden rounded-full border border-[#DCE4FF] bg-[#F5F7FF] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#2E3A83] sm:inline-flex">
-              Design Mode
-            </div>
-          )}
-
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E3E8F7] text-[#2E3A83] transition hover:bg-[#F5F7FF]"

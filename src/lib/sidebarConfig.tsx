@@ -110,6 +110,12 @@ export const adminSidebarConfig: SidebarConfig = {
       path: "/admin/dashboard/dispatchers",
     },
     {
+      section: "Management",
+      icon: <UserCog size={18} />,
+      name: "Performance ",
+      path: "/admin/dashboard/performance",
+    },
+    {
       section: "Operations",
       icon: <FolderOpen size={18} />,
       name: "Documents",
@@ -117,15 +123,27 @@ export const adminSidebarConfig: SidebarConfig = {
     },
     {
       section: "Operations",
-      icon: <BarChart3 size={18} />,
-      name: "Reports",
-      path: "/admin/dashboard/reports",
+      icon: <LifeBuoy size={18} />,
+      name: "Support",
+      path: "/admin/dashboard/support",
     },
     {
       section: "Finance",
       icon: <Receipt size={18} />,
-      name: "Finance",
-      path: "/admin/dashboard/finance",
+      name: "Invoices",
+      path: "/admin/dashboard/invoices",
+    },
+    {
+      section: "Finance",
+      icon: <Receipt size={18} />,
+      name: "Statements",
+      path: "/admin/dashboard/statements",
+    },
+    {
+      section: "Finance",
+      icon: <Receipt size={18} />,
+      name: "Pricing & Plan",
+      path: "/admin/dashboard/pricing-plan",
     },
     {
       section: "Settings",

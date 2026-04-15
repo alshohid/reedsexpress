@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SidebarProvider } from "@/src/context/SidebarContext";
 import { ThemeProvider } from "@/src/context/ThemeContext";
-// import { TwScreenSize } from "../components/TwScreenSize";
+import { TwScreenSize } from "../components/TwScreenSize";
 import ReduxProvider from "@/src/redux/ReduxProvider";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider>
             <SidebarProvider>{children}</SidebarProvider>
-            {/* <TwScreenSize /> */}
+            <TwScreenSize />
           </ThemeProvider>
         </ReduxProvider>
       </body>
