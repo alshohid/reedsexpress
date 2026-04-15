@@ -35,7 +35,7 @@ export default function RoleDashboardShell({
   const isDashboardHome = pathname === dashboardHref;
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#F5F7FB]">
+    <div className="min-h-screen overflow-x-hidden bg-[#FFFFFF]">
       <AppSidebar role={role} />
       <Backdrop />
 

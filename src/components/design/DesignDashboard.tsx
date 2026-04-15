@@ -253,23 +253,21 @@ export default function DesignDashboard() {
         {cardData.map(({ title, value, icon: Icon }) => (
           <div
             key={title}
-            className="rounded-[24px] border border-[#E7EBF7] bg-white p-6 shadow-[0_16px_40px_rgba(46,58,131,0.06)]"
+            className="rounded-[24px] border border-[#E7EBF7] bg-[#F8FAFB] p-6 shadow-[0_16px_40px_rgba(46,58,131,0.06)]"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF2FF] text-[#2E3A83]">
+            <div className="flex items-start justify-start gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#CACEE2] text-[#2E3A83]">
                 <Icon size={22} />
               </div>
-              <div className="rounded-full border border-[#E4EAFB] bg-[#FAFBFF] px-3 py-1 text-xs font-medium text-[#7B86A6]">
-                Design Mode
+
+              <div className="flex flex-col gap-2">
+                <h2 className="text-[2rem] font-semibold leading-none text-[#101828]">
+                  {value}
+                </h2>
+                <p className="mt-2 text-sm text-[#667085]">{title}</p>
               </div>
             </div>
 
-            <div className="mt-8">
-              <h2 className="text-[2rem] font-semibold leading-none text-[#101828]">
-                {value}
-              </h2>
-              <p className="mt-2 text-sm text-[#667085]">{title}</p>
-            </div>
           </div>
         ))}
       </div>

@@ -22,7 +22,7 @@ const AppHeader = () => {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E7EBF7] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-[#E7EBF7] bg-[#FFFFFF] backdrop-blur">
       <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <button

@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSidebar } from "@/src/context/SidebarContext";
 import { authRoutes } from "@/src/lib/auth/config";
-import { env } from "@/src/lib/env";
 import {
   getSidebarConfig,
   type DashboardRole,
@@ -77,12 +76,12 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
   return (
     <aside
       className={[
-        "fixed left-0 top-0 z-[600] flex h-screen flex-col border-r border-[#E7EBF7] bg-white px-4 py-5 shadow-[0_18px_50px_rgba(15,23,42,0.06)] transition-all duration-300 ease-in-out",
+        "fixed left-0 top-0 z-[600] flex h-[100dvh] flex-col overflow-hidden border-r border-[#E7EBF7] bg-[#F6F8FA] px-3 py-4 shadow-[0_18px_50px_rgba(15,23,42,0.06)] transition-all duration-300 ease-in-out lg:px-3.5",
         sidebarWidth,
         isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       ].join(" ")}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-[#EEF2FB] pb-5">
+      <div className="flex items-center justify-between gap-3 border-b border-[#EEF2FB] pb-4">
         <Link
           href={
             role === "dispatcher"
@@ -94,13 +93,13 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
           className="flex min-w-0 items-center gap-3"
           onClick={handleItemClick}
         >
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-lg font-bold text-[#2E3A83]">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] bg-[#EEF2FF] text-lg font-bold text-[#2E3A83]">
             <Image src="/images/auth/website_logo.png" alt="Logo" width={40} height={40} />
           </div>
 
           {isExpanded && (
             <div className="min-w-0">
-              <p className="truncate text-[1.25rem] font-semibold text-[#111827]">
+              <p className="truncate text-[1.15rem] font-semibold tracking-[-0.02em] text-[#111827]">
                 FleetOS
               </p>
             </div>
@@ -110,24 +109,24 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
         <button
           type="button"
           onClick={toggleSidebar}
-          className="hidden h-10 w-10 items-center justify-center rounded-xl border border-[#E3E8F7] text-[#667085] transition hover:bg-[#F8FAFF] hover:text-[#2E3A83] lg:inline-flex"
+          className="hidden h-9 w-9 items-center justify-center rounded-[0.95rem] border border-[#E3E8F7] text-[#667085] transition hover:bg-[#F8FAFF] hover:text-[#2E3A83] lg:inline-flex"
           aria-label="Toggle sidebar"
         >
           {isExpanded ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
         </button>
       </div>
 
-      <div className="mt-6 flex-1 overflow-y-auto pr-1">
-        <div className="space-y-6">
+      <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-0.5 no-scrollbar">
+        <div className="space-y-4">
           {groups.map((group) => (
             <section key={group.section}>
               {isExpanded && (
-                <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#98A2B3]">
+                <p className="mb-1.5 px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#98A2B3]">
                   {group.section}
                 </p>
               )}
 
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {group.items.map((item) => {
                   const active = isActive(item.path);
 
@@ -137,7 +136,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                       href={item.path ?? "#"}
                       onClick={handleItemClick}
                       className={[
-                        "group flex items-center gap-3 rounded-2xl px-3 py-3 text-[1rem] font-medium transition",
+                        "group flex min-h-[2.85rem] items-center gap-3 rounded-[1.15rem] px-2.5 py-2.5 text-[0.95rem] font-medium transition",
                         isExpanded ? "justify-start" : "justify-center",
                         active
                           ? "bg-[#2E3A83] text-white shadow-[0_10px_26px_rgba(46,58,131,0.24)]"
@@ -146,7 +145,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                     >
                       <span
                         className={[
-                          "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition",
+                          "inline-flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-[0.9rem] transition",
                           active
                             ? "bg-white/14 text-white"
                             : "bg-[#F5F7FF] text-[#2E3A83] group-hover:bg-[#E8EEFF]",
@@ -165,17 +164,17 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
         </div>
       </div>
 
-      <div className="mt-6 border-t border-[#EEF2FB] pt-4">
+      <div className="mt-4 border-t border-[#EEF2FB] pt-3">
         <button
           type="button"
           onClick={handleLogout}
           className={[
-            "flex w-full items-center rounded-2xl px-3 py-3 text-sm font-medium transition",
+            "flex w-full items-center rounded-[1.15rem] px-2.5 py-2.5 text-sm font-medium transition",
             isExpanded ? "justify-start gap-3" : "justify-center",
             "text-[#344054] hover:bg-[#F7F8FE] hover:text-[#2E3A83]",
           ].join(" ")}
         >
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#2E3A83]">
+          <span className="inline-flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-[0.9rem] bg-[#F5F7FF] text-[#2E3A83]">
             <LogOut size={18} />
           </span>
           {isExpanded && (
