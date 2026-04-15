@@ -9,6 +9,7 @@ export default function AdminDashboardLayout({
       role="admin"
       dashboardHref="/admin/dashboard"
       placeholderTitle="Admin Workspace Placeholder"
+      implementedPaths={["/admin/dashboard/user-management"]}
     >
       {children}
     </RoleDashboardShell>

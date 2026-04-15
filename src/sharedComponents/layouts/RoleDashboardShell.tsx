@@ -15,6 +15,7 @@ type RoleDashboardShellProps = {
   role: DashboardRole;
   dashboardHref: string;
   placeholderTitle: string;
+  implementedPaths?: string[];
 };
 
 export default function RoleDashboardShell({
@@ -22,6 +23,7 @@ export default function RoleDashboardShell({
   role,
   dashboardHref,
   placeholderTitle,
+  implementedPaths = [],
 }: RoleDashboardShellProps) {
   const { isExpanded, isMobileOpen } = useSidebar();
   const pathname = usePathname();
@@ -33,6 +35,9 @@ export default function RoleDashboardShell({
       : "lg:ml-[5.5rem]";
 
   const isDashboardHome = pathname === dashboardHref;
+  const isImplementedPath = implementedPaths.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
+  );
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FFFFFF]">
@@ -44,7 +49,7 @@ export default function RoleDashboardShell({
       >
         <AppHeader />
         <div className="p-4 sm:p-6">
-          {env.designMode && !isDashboardHome ? (
+          {env.designMode && !isDashboardHome && !isImplementedPath ? (
             <DesignModePlaceholder
               title={placeholderTitle}
               dashboardHref={dashboardHref}
