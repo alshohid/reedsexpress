@@ -45,7 +45,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                     className={`
             h-11 w-full rounded-lg
             border border-gray-200 dark:border-[#26344B]
-            bg-white dark:bg-[#18222D]
+            bg-[#F8FAFB] dark:bg-[#18222D]
             py-2.5 pl-12 pr-4
             text-sm text-gray-800 dark:text-white/90
             placeholder:text-gray-400 dark:placeholder:text-white/30

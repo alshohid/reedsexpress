@@ -105,6 +105,12 @@ import FinancialIcon from "./financialicon.svg"
 import WarningIcon from "./warningIconsvg.svg"
 import CharityIcon from "./charityIcon.svg"
 import CondolenceBookIcon from "./condolencebooksvg.svg"
+import RedDotIcon from "./Ellipse 3379.svg"
+import DownCaretIcon from "./caret-down.svg"
+import FileDocumentIcon from "./file-view.svg"
+import MessageIcon from "./message_logo.svg"
+import NoitificationIcon from "./notification_icon.svg"
+import RightGoingArrow from "./rightGoingArrow.svg"
 
 
 export {
@@ -213,4 +219,10 @@ export {
   HorizontaLDots,
   ChevronUpIcon,
   ChatIcon,
+  DownCaretIcon,
+  FileDocumentIcon,
+  MessageIcon,
+  NoitificationIcon,
+  RedDotIcon,
+  RightGoingArrow
 };

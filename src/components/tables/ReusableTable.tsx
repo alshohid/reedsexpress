@@ -70,9 +70,9 @@ export default function ReusableTable<T>({
     rowRenderers.length >= colCount
       ? rowRenderers.slice(0, colCount)
       : [
-          ...rowRenderers,
-          ...Array(colCount - rowRenderers.length).fill(emptyRenderer),
-        ];
+        ...rowRenderers,
+        ...Array(colCount - rowRenderers.length).fill(emptyRenderer),
+      ];
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -223,7 +223,7 @@ export default function ReusableTable<T>({
                     isHeader
                     className={headerCellClassName}
                   >
-                    {header}
+                    <span className="text-[1rem] font-medium">{header}</span>
                   </TableCell>
                 ))}
               </TableRow>

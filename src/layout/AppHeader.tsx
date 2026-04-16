@@ -2,10 +2,12 @@
 
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { Bell, ChevronRightCircle, Menu, MessageSquare } from "lucide-react";
+import {
+  Bell, ChevronRightCircle, Menu,
+} from "lucide-react";
 import { useSidebar } from "@/src/context/SidebarContext";
-import { env } from "@/src/lib/env";
 import { buildCrumbs } from "@/src/lib/helper/breadcrumbs";
+import { MessageIcon, NotificationIcon, RightGoingArrow } from "../icons";
 
 const AppHeader = () => {
   const pathname = usePathname();
@@ -35,7 +37,7 @@ const AppHeader = () => {
           </button>
 
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-2 text-[1rem]">
               {crumbs.map((crumb, index) => (
                 <div key={`${crumb}-${index}`} className="flex items-center gap-2">
                   <span
@@ -49,7 +51,7 @@ const AppHeader = () => {
                   </span>
                   {index !== crumbs.length - 1 && (
                     <span className="text-[#D0D5DD]">
-                      <ChevronRightCircle size={16} />
+                      <RightGoingArrow />
                     </span>
                   )}
                 </div>
@@ -64,7 +66,7 @@ const AppHeader = () => {
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E3E8F7] text-[#2E3A83] transition hover:bg-[#F5F7FF]"
             aria-label="Messages"
           >
-            <MessageSquare size={18} />
+            <MessageIcon />
           </button>
 
           <button
@@ -72,7 +74,7 @@ const AppHeader = () => {
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E3E8F7] text-[#2E3A83] transition hover:bg-[#F5F7FF]"
             aria-label="Notifications"
           >
-            <Bell size={18} />
+            <NotificationIcon />
           </button>
 
           <div className="flex items-center gap-3 rounded-full border border-[#E7EBF7] bg-[#FBFCFF] px-2 py-1.5">
