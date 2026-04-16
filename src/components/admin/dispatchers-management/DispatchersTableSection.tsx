@@ -1,9 +1,14 @@
-import DispatchersTable from "./DispatchersTable";
+"use client";
 
-export default function DispatchersTableSection() {
-    return (
-        <div>
-            <DispatchersTable />
-        </div>
-    )
+import DispatchersTable, {
+  type DispatchersTableProps,
+  type DispatcherRecord,
+} from "./DispatchersTable";
+
+export type { DispatcherRecord };
+
+export default function DispatchersTableSection(
+  props: DispatchersTableProps,
+) {
+  return <DispatchersTable {...props} />;
 }
