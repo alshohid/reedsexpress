@@ -112,7 +112,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
         <button
           type="button"
           onClick={toggleSidebar}
-          className="hidden h-9 w-9 items-center justify-center rounded-[0.95rem] border border-[#E3E8F7] text-[#667085] transition hover:bg-[#F8FAFF] hover:text-[#2E3A83] lg:inline-flex"
+          className="hidden h-9 w-9 items-center justify-center rounded-[0.95rem] text-[#667085] transition hover:bg-[#F8FAFF] hover:text-[#2E3A83] lg:inline-flex"
           aria-label="Toggle sidebar"
         >
           {isExpanded ? <LayoutRightArrow size={18} /> : <LayoutRightArrow size={18} />}
