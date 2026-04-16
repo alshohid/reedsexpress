@@ -4,9 +4,7 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
-  MapPin,
-  ArrowUpDown,
-  ChevronDown,
+ 
 } from 'lucide-react';
 import { DownCaretIcon, PickUpIcon } from '@/src/icons';
 
@@ -157,7 +155,7 @@ export function ActiveLoads() {
                     <button
                       key={s}
                       onClick={() => {
-                        setSort(s as any);
+                        setSort(s as 'Newest' | 'Oldest');
                         setOpenSort(false);
                       }}
                       className="block w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
@@ -185,7 +183,7 @@ export function ActiveLoads() {
                     <button
                       key={f}
                       onClick={() => {
-                        setFilter(f as any);
+                        setFilter(f as 'All' | 'Pickup' | 'Delivered');
                         setPage(1);
                         setOpenFilter(false);
                       }}
