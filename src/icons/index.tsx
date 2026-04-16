@@ -112,7 +112,24 @@ import MessageIcon from "./message_logo.svg"
 import NoitificationIcon from "./notification_icon.svg"
 import RightGoingArrow from "./rightGoingArrow.svg"
 import LayoutRightArrow from "./layout-right.svg"
-
+import DashboardIconForDispacher from './dashboard-Icon.svg';
+import ReportsIcon from './reports-Icon.svg';
+import CarriesIcon from './carriers-Icon.svg';
+import DriversIcon from './drivers-Icon.svg';
+import LoadsIcon from './loads-Icon.svg';
+import CommunicationsIcon from './communicvations-Icon.svg';
+import DocumentsIcon from './documents-Icon.svg';
+import InvoicesIcon from './invoices-Icon.svg';
+import StatementsIcon from './statements-Icon.svg';
+import SettingsIconDispatcher from './settings-Icon.svg';
+import SupportIcon from './support-Icon.svg';
+import LogoutIcon from './logout-Icon.svg';
+import HomeIcon from './home-Icon.svg';
+import PeopleIcon from './people-Icon.svg';
+import TrackIcon from './track-Icon.svg';
+import MoneyIcon from './money-icon.svg';
+import TotalLoadsIcon from './total-loads-Icon.svg';
+import PickUpIcon from './pickup-icon.svg';
 
 export {
   WalletIcon,
@@ -226,5 +243,23 @@ export {
   NoitificationIcon,
   RedDotIcon,
   RightGoingArrow,
-  LayoutRightArrow
+  LayoutRightArrow,
+  DashboardIconForDispacher,
+  ReportsIcon,
+  CarriesIcon,
+  DriversIcon,
+  CommunicationsIcon,
+  SettingsIconDispatcher,
+  LogoutIcon,
+  LoadsIcon,
+  DocumentsIcon,
+  InvoicesIcon,
+  StatementsIcon,
+  SupportIcon,
+  TotalLoadsIcon,
+  MoneyIcon,
+  PeopleIcon,
+  HomeIcon,
+  TrackIcon,
+  PickUpIcon
 };

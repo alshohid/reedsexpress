@@ -16,6 +16,7 @@ import {
   UserCog,
   Users,
 } from "lucide-react";
+import { CarriesIcon, CommunicationsIcon, DashboardIconForDispacher, DocumentsIcon, DriversIcon, InvoicesIcon, LoadsIcon, ReportsIcon, StatementsIcon, SupportIcon } from "../icons";
 
 export type DashboardRole = "dispatcher" | "admin" | "super-admin";
 
@@ -46,43 +47,74 @@ export type SidebarConfig = {
 };
 
 export const dispatcherSidebarConfig: SidebarConfig = {
-  subtitle: "",
+  subtitle: '',
   navItems: [
     {
-      section: "Overview",
-      icon: <LayoutDashboard size={18} />,
-      name: "Dashboard",
-      path: "/dispatcher/dashboard",
+      section: 'Main Menu',
+      icon: <DashboardIconForDispacher />,
+      name: 'Dashboard',
+      path: '/dispatcher/dashboard',
     },
     {
-      section: "Operations",
-      icon: <Briefcase size={18} />,
-      name: "Assigned Loads",
-      path: "/dispatcher/dashboard/assigned-loads",
+      section: 'Main Menu',
+      icon: <ReportsIcon />,
+      name: 'Reports',
+      path: '/dispatcher/dashboard/reports',
     },
     {
-      section: "Operations",
-      icon: <Activity size={18} />,
-      name: "Live Tracking",
-      path: "/dispatcher/dashboard/live-tracking",
+      section: 'Management',
+      icon: <CarriesIcon />,
+      name: 'Carries',
+      path: '/dispatcher/dashboard/carries',
     },
     {
-      section: "Resources",
-      icon: <FolderOpen size={18} />,
-      name: "Documents",
-      path: "/dispatcher/dashboard/documents",
+      section: 'Management',
+      icon: <DriversIcon />,
+      name: 'Drivers',
+      path: '/dispatcher/dashboard/drivers',
     },
     {
-      section: "Resources",
-      icon: <LifeBuoy size={18} />,
-      name: "Support",
-      path: "/dispatcher/dashboard/support",
+      section: 'Operations',
+      icon: <LoadsIcon />,
+      name: 'Loads',
+      path: '/dispatcher/dashboard/loads',
     },
     {
-      section: "Settings",
+      section: 'Operations',
+      icon: <CommunicationsIcon />,
+      name: 'Communications',
+      path: '/dispatcher/dashboard/communications',
+    },
+    {
+      section: 'Operations',
+      icon: <DocumentsIcon />,
+      name: 'Documents',
+      path: '/dispatcher/dashboard/documents',
+    },
+    {
+      section: 'Finance',
+      icon: <InvoicesIcon />,
+      name: 'Invoices',
+      path: '/dispatcher/dashboard/invoices',
+    },
+    {
+      section: 'Finance',
+      icon: <StatementsIcon />,
+      name: 'Statements',
+      path: '/dispatcher/dashboard/statements',
+    },
+
+    {
+      section: 'Settings',
       icon: <Settings size={18} />,
-      name: "Settings",
-      path: "/dispatcher/dashboard/settings",
+      name: 'Settings',
+      path: '/dispatcher/dashboard/settings',
+    },
+    {
+      section: 'Settings',
+      icon: <SupportIcon/>,
+      name: 'Supports',
+      path: '/dispatcher/dashboard/supports',
     },
   ],
   quickLinks: [],
