@@ -7,5 +7,6 @@ export default function DispatcherAssignedLoadsPage() {
       title="Assigned Loads"
       description="All dispatcher pages now live under /dispatcher/dashboard. This section is ready for your new API integration."
     />
+    
   );
 }
