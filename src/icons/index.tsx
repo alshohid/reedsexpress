@@ -111,6 +111,7 @@ import FileDocumentIcon from "./file-view.svg"
 import MessageIcon from "./message_logo.svg"
 import NoitificationIcon from "./notification_icon.svg"
 import RightGoingArrow from "./rightGoingArrow.svg"
+import LayoutRightArrow from "./layout-right.svg"
 
 
 export {
@@ -224,5 +225,6 @@ export {
   MessageIcon,
   NoitificationIcon,
   RedDotIcon,
-  RightGoingArrow
+  RightGoingArrow,
+  LayoutRightArrow
 };

@@ -11,6 +11,7 @@ import {
 } from "@/src/lib/sidebarConfig";
 import { useAuth } from "@/src/redux/features/auth/hooks";
 import Image from "next/image";
+import { LayoutRightArrow } from "../icons";
 
 interface AppSidebarProps {
   role?: DashboardRole;
@@ -54,6 +55,8 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
     }
   };
 
+  const showExpandedContent = isExpanded || isMobileOpen;
+
   const sidebarWidth = isMobileOpen
     ? "w-[min(18rem,calc(100vw-2rem))]"
     : isExpanded
@@ -93,11 +96,11 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
           className="flex min-w-0 items-center gap-3"
           onClick={handleItemClick}
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] bg-[#EEF2FF] text-lg font-bold text-[#2E3A83]">
+          <div onClick={toggleSidebar} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] bg-[#EEF2FF] text-lg font-bold text-[#2E3A83]">
             <Image src="/images/auth/website_logo.png" alt="Logo" width={40} height={40} />
           </div>
 
-          {isExpanded && (
+          {showExpandedContent && (
             <div className="min-w-0">
               <p className="truncate text-[1.15rem] font-semibold tracking-[-0.02em] text-[#111827]">
                 FleetOS
@@ -112,7 +115,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
           className="hidden h-9 w-9 items-center justify-center rounded-[0.95rem] border border-[#E3E8F7] text-[#667085] transition hover:bg-[#F8FAFF] hover:text-[#2E3A83] lg:inline-flex"
           aria-label="Toggle sidebar"
         >
-          {isExpanded ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
+          {isExpanded ? <LayoutRightArrow size={18} /> : <LayoutRightArrow size={18} />}
         </button>
       </div>
 
@@ -120,7 +123,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
         <div className="space-y-4">
           {groups.map((group) => (
             <section key={group.section}>
-              {isExpanded && (
+              {showExpandedContent && (
                 <p className="mb-1.5 px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#98A2B3]">
                   {group.section}
                 </p>
@@ -137,7 +140,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                       onClick={handleItemClick}
                       className={[
                         "group flex min-h-[2.85rem] items-center gap-3 rounded-[1.15rem] px-2.5 py-2.5 text-[0.95rem] font-medium transition",
-                        isExpanded ? "justify-start" : "justify-center",
+                        showExpandedContent ? "justify-start" : "justify-center",
                         active
                           ? "bg-[#2E3A83] text-white shadow-[0_10px_26px_rgba(46,58,131,0.24)]"
                           : "text-[#344054] hover:bg-[#F7F8FE] hover:text-[#2E3A83]",
@@ -154,7 +157,9 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                         {item.icon}
                       </span>
 
-                      {isExpanded && <span className="truncate">{item.name}</span>}
+                      {showExpandedContent && (
+                        <span className="truncate">{item.name}</span>
+                      )}
                     </Link>
                   );
                 })}
@@ -170,14 +175,14 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
           onClick={handleLogout}
           className={[
             "flex w-full items-center rounded-[1.15rem] px-2.5 py-2.5 text-sm font-medium transition",
-            isExpanded ? "justify-start gap-3" : "justify-center",
+            showExpandedContent ? "justify-start gap-3" : "justify-center",
             "text-[#344054] hover:bg-[#F7F8FE] hover:text-[#2E3A83]",
           ].join(" ")}
         >
           <span className="inline-flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-[0.9rem] bg-[#F5F7FF] text-[#2E3A83]">
             <LogOut size={18} />
           </span>
-          {isExpanded && (
+          {showExpandedContent && (
             <span>{isLogoutLoading ? "Signing out..." : "Logout"}</span>
           )}
         </button>

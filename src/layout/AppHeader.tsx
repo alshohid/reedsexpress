@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import {
-  Bell, ChevronRightCircle, Menu,
+  Menu,
 } from "lucide-react";
 import { useSidebar } from "@/src/context/SidebarContext";
 import { buildCrumbs } from "@/src/lib/helper/breadcrumbs";
