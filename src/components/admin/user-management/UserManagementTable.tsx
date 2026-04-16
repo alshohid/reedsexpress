@@ -1,6 +1,5 @@
 "use client";
 
-import { Headset } from "lucide-react";
 import ReusableTable from "@/src/components/tables/ReusableTable";
 import { FileDocumentIcon } from "@/src/icons";
 

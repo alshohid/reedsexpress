@@ -56,8 +56,10 @@ export default function ReusableTable<T>({
   const dragStateRef = useRef({
     pointerId: -1,
     startX: 0,
+    startY: 0,
     startScrollLeft: 0,
     didDrag: false,
+    lockAxis: null as "horizontal" | "vertical" | null,
     isDragging: false,
   });
   const suppressClickRef = useRef(false);
@@ -131,8 +133,10 @@ export default function ReusableTable<T>({
     dragStateRef.current = {
       pointerId: -1,
       startX: 0,
+      startY: 0,
       startScrollLeft: 0,
       didDrag: false,
+      lockAxis: null,
       isDragging: false,
     };
 
@@ -140,7 +144,7 @@ export default function ReusableTable<T>({
   };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
       return;
     }
 
@@ -153,8 +157,10 @@ export default function ReusableTable<T>({
     dragStateRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
+      startY: event.clientY,
       startScrollLeft: container.scrollLeft,
       didDrag: false,
+      lockAxis: null,
       isDragging: true,
     };
 
@@ -171,12 +177,26 @@ export default function ReusableTable<T>({
     }
 
     const deltaX = event.clientX - dragState.startX;
+    const deltaY = event.clientY - dragState.startY;
 
-    if (Math.abs(deltaX) > 4) {
-      dragStateRef.current.didDrag = true;
-      container.scrollLeft = dragState.startScrollLeft - deltaX;
-      event.preventDefault();
+    if (dragState.lockAxis == null) {
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+
+      if (absX < 6 && absY < 6) {
+        return;
+      }
+
+      dragStateRef.current.lockAxis = absX > absY ? "horizontal" : "vertical";
     }
+
+    if (dragStateRef.current.lockAxis !== "horizontal") {
+      return;
+    }
+
+    dragStateRef.current.didDrag = true;
+    container.scrollLeft = dragState.startScrollLeft - deltaX;
+    event.preventDefault();
   };
 
   const handleClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
