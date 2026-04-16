@@ -139,7 +139,7 @@ const AppSidebar = ({ role = "admin" }: AppSidebarProps) => {
                       href={item.path ?? "#"}
                       onClick={handleItemClick}
                       className={[
-                        "group flex min-h-[2.85rem] items-center gap-3 rounded-[1.15rem] px-2.5 py-2.5 text-[0.95rem] font-medium transition",
+                        "group flex min-h-11 items-center gap-3 rounded-lg px-2.5 py-2.5 text-[0.95rem] font-medium transition",
                         showExpandedContent ? "justify-start" : "justify-center",
                         active
                           ? "bg-[#2E3A83] text-white shadow-[0_10px_26px_rgba(46,58,131,0.24)]"
