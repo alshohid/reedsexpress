@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import {
   Menu,
 } from "lucide-react";
+import NotificationDropdown from "@/src/components/header/NotificationDropdown";
 import { useSidebar } from "@/src/context/SidebarContext";
 import { buildCrumbs } from "@/src/lib/helper/breadcrumbs";
-import { MessageIcon, NotificationIcon, RightGoingArrow } from "../icons";
+import { MessageIcon, RightGoingArrow } from "../icons";
 
 const AppHeader = () => {
   const pathname = usePathname();
@@ -69,13 +70,7 @@ const AppHeader = () => {
             <MessageIcon />
           </button>
 
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E3E8F7] text-[#2E3A83] transition hover:bg-[#F5F7FF]"
-            aria-label="Notifications"
-          >
-            <NotificationIcon />
-          </button>
+          <NotificationDropdown />
 
           <div className="flex items-center gap-3 rounded-full border border-[#E7EBF7] bg-[#FBFCFF] px-2 py-1.5">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#DDE4FF] text-sm font-semibold text-[#2E3A83]">
