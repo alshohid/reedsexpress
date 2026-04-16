@@ -1,11 +1,11 @@
-import RoleSectionPage from "@/src/components/design/RoleSectionPage";
+import DispatchersManagementContainer from "@/src/components/admin/dispatchers-management/DispatchersManagementContainer";
+
+
 
 export default function AdminDispatchersPage() {
   return (
-    <RoleSectionPage
-      eyebrow="Admin"
-      title="Dispatchers"
-      description="Dispatcher oversight pages are now grouped under the clean /admin/dashboard/dispatchers route."
-    />
+    <div className="w-full">
+      <DispatchersManagementContainer />
+    </div>
   );
 }
