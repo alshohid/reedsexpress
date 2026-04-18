@@ -186,8 +186,8 @@
 }
 
 @font-face {
-  font-family: 'Schibsted Grotesk';
-  src: url('/fonts/SchibstedGrotesk-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -196,7 +196,7 @@
 body {
   background: #f5f7fb;
   color: #101828;
-  font-family: "Schibsted Grotesk", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 .font-domine {
   font-family: var(--font-domine);

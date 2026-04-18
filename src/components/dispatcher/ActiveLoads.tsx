@@ -72,7 +72,7 @@ const PAGE_SIZE = 3;
 
 const badgeClass: Record<LoadStatus, string> = {
   Delivered: 'border-green-200 bg-green-50 text-green-700',
-  Pickup: 'border-orange-200 bg-orange-50 text-orange-600',
+  Pickup: 'border-[#C48600] bg-[#EFD739]/20 text-[#C48600]',
 };
 
 export function ActiveLoads() {
@@ -214,7 +214,7 @@ export function ActiveLoads() {
               </div>
 
               <span
-                className={`rounded-full border px-2.5 py-[2px] text-xs font-medium ${badgeClass[load.status]}`}
+                className={`rounded-full border px-2.5 py-1 text-sm font-medium ${badgeClass[load.status]}`}
               >
                 {load.status}
               </span>
