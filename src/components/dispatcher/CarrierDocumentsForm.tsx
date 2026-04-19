@@ -6,10 +6,10 @@ import {
   FileText,
   Trash2,
   Download,
-  
 } from 'lucide-react';
 import UploadDropzoneField from '../ui/input/UploadDropzoneField';
 import { DeleteIcon, DocIcon } from '@/src/icons';
+import { useState } from 'react';
 
 interface CarrierDocumentsFormProps {
   onBack: () => void;
@@ -45,6 +45,8 @@ export default function CarrierDocumentsForm({
   onBack,
   onSubmit,
 }: CarrierDocumentsFormProps) {
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [uploadResetSignal, setUploadResetSignal] = useState(0);
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-[#E9EDF5] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] md:p-5">
@@ -68,7 +70,16 @@ export default function CarrierDocumentsForm({
           </select>
         </div>
 
-        <UploadDropzoneField />
+        <UploadDropzoneField
+          className='my-6'
+          hint="PNG, JPG up to 5Mb (Will appear on invoice)"
+          description="Click to upload or drag and drop"
+          maxSizeMb={5}
+          onFileChange={setLogoFile}
+          dropzoneBackgroundClassName="bg-[#F9FAFB]"
+          dropzoneHoverBackgroundClassName="hover:bg-[#F2F4F7]"
+          resetSignal={uploadResetSignal}
+        />
 
         <div className="mt-4 space-y-3">
           {pendingFiles.map(file => (
@@ -77,7 +88,7 @@ export default function CarrierDocumentsForm({
               className="flex items-center justify-between rounded-xl border border-[#EEF0F5] bg-[#F9FAFB] px-4 py-3"
             >
               <div className="flex items-center gap-3">
-                <DocIcon/>
+                <DocIcon />
                 <div>
                   <p className="text-sm text-[#111827]">{file}</p>
                   <p className="text-[11px] text-[#98A2B3]">
@@ -87,7 +98,7 @@ export default function CarrierDocumentsForm({
               </div>
 
               <button className="text-[#FF5A5F]">
-                <DeleteIcon/>
+                <DeleteIcon />
               </button>
             </div>
           ))}
@@ -129,7 +140,7 @@ export default function CarrierDocumentsForm({
                     className="flex items-center justify-between rounded-xl border border-[#EEF0F5] bg-white px-4 py-3"
                   >
                     <div className="flex items-center gap-3">
-                      <DocIcon/>
+                      <DocIcon />
                       <div>
                         <p className="text-sm text-[#111827]">{file.name}</p>
                         <p className="text-[11px] text-[#98A2B3]">

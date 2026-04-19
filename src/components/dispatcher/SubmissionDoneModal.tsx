@@ -1,6 +1,7 @@
 'use client';
 
-import { ThumbsUp, X } from 'lucide-react';
+import { CloseIcon, CloseLineIcon, SubmitIcon } from '@/src/icons';
+import { Modal } from '../ui/modal';
 
 interface SubmissionDoneModalProps {
   open: boolean;
@@ -11,21 +12,27 @@ export default function SubmissionDoneModal({
   open,
   onClose,
 }: SubmissionDoneModalProps) {
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="relative w-full max-w-[360px] rounded-2xl bg-white p-6 shadow-xl">
+    <Modal
+      isOpen={open}
+      onClose={onClose}
+      className="max-w-[360px] p-0"
+      contentBgClassName="bg-white"
+      textClassName="text-[#111827]"
+      overlayClassName = "bg-[#100F0F59] backdrop-blur-[2px]"
+      showCloseButton={false}
+    >
+      <div className="relative w-full rounded-2xl p-6 shadow-xl">
         <button
           onClick={onClose}
-          className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full text-[#111827]"
+          className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full border text-[#111827] "
         >
-          <X className="h-4 w-4" />
+          <CloseLineIcon/>
         </button>
 
         <div className="flex flex-col items-center text-center">
-          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#E9EEFF] text-[#2F3E9E]">
-            <ThumbsUp className="h-7 w-7 fill-current" />
+          <div className="mb-4 flex h-18 w-18 items-center justify-center rounded-full bg-[#E9EEFF] text-[#2F3E9E]">
+            <SubmitIcon />
           </div>
 
           <h3 className="mb-4 text-xl font-semibold text-[#111827]">
@@ -40,6 +47,6 @@ export default function SubmissionDoneModal({
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

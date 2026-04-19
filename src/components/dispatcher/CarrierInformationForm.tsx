@@ -53,6 +53,9 @@ export default function CarrierInformationForm({
   onNext,
   onCancel,
 }: CarrierInformationFormProps) {
+
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [uploadResetSignal, setUploadResetSignal] = useState(0);
   const [selectedPlanId, setSelectedPlanId] = useState<string>('pro');
   return (
     <div className="rounded-2xl border border-[#E9EDF5] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] md:p-5">
@@ -143,8 +146,15 @@ export default function CarrierInformationForm({
         <h3 className="mb-3 text-[24px] font-semibold text-[#111827]">
           Carrier Logo
         </h3>
-        <UploadDropzoneField/>
-       
+        <UploadDropzoneField
+          hint="PNG, JPG up to 5Mb (Will appear on invoice)"
+          description="Click to upload or drag and drop"
+          maxSizeMb={5}
+          onFileChange={setLogoFile}
+          dropzoneBackgroundClassName="bg-white"
+          dropzoneHoverBackgroundClassName="hover:bg-[#F2F4F7]"
+          resetSignal={uploadResetSignal}
+        />
       </div>
 
       <div className="mt-6">
@@ -221,7 +231,7 @@ export default function CarrierInformationForm({
           onClick={onNext}
           className="inline-flex h-13 flex-1 items-center justify-center rounded-xl bg-[#2F3E9E] px-6 text-sm font-medium text-white"
         >
-          Next <ArrowRightIcon/>
+          Next <ArrowRightIcon />
         </button>
       </div>
     </div>

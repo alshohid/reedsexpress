@@ -137,6 +137,7 @@ import UploadIcon from './Upload-icon.svg';
 import CheckIcon from './check-circle-icon.svg';
 import DeleteIcon from './trash-icon.svg';
 import DocIcon from './doc-icon.svg';
+import SubmitIcon from './submit-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -275,4 +276,5 @@ export {
   CheckIcon,
   DeleteIcon,
   DocIcon,
+  SubmitIcon,
 };
