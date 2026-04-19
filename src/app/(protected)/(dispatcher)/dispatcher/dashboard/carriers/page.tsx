@@ -1,7 +1,10 @@
-import React from 'react'
+import CarriersPageMainComponent from '@/src/components/dispatcher/CarriersPageMainComponent'
+import React, { Suspense } from 'react'
 
-export default function Carrierspage() {
+export default function CarriesPage() {
   return (
-    <div>Carrierspage</div>
+    <Suspense fallback={<div className="p-4">Loading...</div>}>
+      <CarriersPageMainComponent/>
+    </Suspense>
   )
 }

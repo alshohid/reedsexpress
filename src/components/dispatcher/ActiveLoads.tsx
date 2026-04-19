@@ -83,7 +83,8 @@ export function ActiveLoads() {
 
   const [openSort, setOpenSort] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const filtered = useMemo(() => {
     let d = [...loadsData];
 
@@ -113,88 +114,21 @@ export function ActiveLoads() {
 
   return (
     <>
-      <h3 className="mb-1 text-[24px] font-semibold text-[#101828]">
-        Active Loads
-      </h3>
-
-      <div className="overflow-hidden rounded-2xl border border-[#e8ecf4] bg-white">
+      <div className="overflow-hidden rounded-2xl  bg-white">
         {/* header */}
-        <div className=" border-[#f1f3f9] p-5">
-          <div className="flex flex-wrap items-center gap-2">
-            {/* search */}
-            <label className="relative flex-1 basis-48 rounded-lg">
-              <Search
-                size={15}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8]"
-              />
-
-              <input
-                value={query}
-                onChange={e => {
-                  setQuery(e.target.value);
-                  setPage(1);
-                }}
-                placeholder="Search by Id"
-                className="h-9 w-full rounded-lg border border-[#dde0ea] bg-[#fafbff] pl-8 pr-3 text-sm outline-none focus:border-[#2E3A83]"
-              />
-            </label>
-
-            {/* sort dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setOpenSort(s => !s)}
-                className="flex h-9 items-center gap-2 rounded-lg border border-[#dde0ea] px-3 text-sm hover:bg-[#f8faff]"
-              >
-                Sort
-                <DownCaretIcon />
-              </button>
-
-              {openSort && (
-                <div className="absolute right-0 mt-1 w-32 rounded-lg border bg-white shadow-md z-10">
-                  {['Newest', 'Oldest'].map(s => (
-                    <button
-                      key={s}
-                      onClick={() => {
-                        setSort(s as 'Newest' | 'Oldest');
-                        setOpenSort(false);
-                      }}
-                      className="block w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* filter dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setOpenFilter(s => !s)}
-                className="flex h-9 items-center gap-2 rounded-lg border border-[#dde0ea] px-3 text-sm hover:bg-[#f8faff]"
-              >
-                {filter}
-                <DownCaretIcon />
-              </button>
-
-              {openFilter && (
-                <div className="absolute right-0 mt-1 w-36 rounded-lg border bg-white shadow-md z-10">
-                  {['All', 'Pickup', 'Delivered'].map(f => (
-                    <button
-                      key={f}
-                      onClick={() => {
-                        setFilter(f as 'All' | 'Pickup' | 'Delivered');
-                        setPage(1);
-                        setOpenFilter(false);
-                      }}
-                      className="block w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
-                    >
-                      {f}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+        <div className=" border-[#f1f3f9] p-4">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#98A2B3]" />
+            <input
+              type="text"
+              placeholder="Search by Id"
+              value={searchTerm}
+              onChange={e => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="h-11 w-full rounded-xl border border-[#E5E7EB] bg-white pl-11 pr-4 text-sm text-[#111827] outline-none placeholder:text-[#9CA3AF] focus:border-[#C7D2FE]"
+            />
           </div>
         </div>
 
@@ -237,7 +171,9 @@ export function ActiveLoads() {
                 {/* delivery */}
                 <div className="flex-1 pl-4 px-4">
                   <p className="text-sm font-medium text-[#111827]">Delivery</p>
-                  <p className="text-xs text-[#6B7280] flex-1">{load.delivAddr}</p>
+                  <p className="text-xs text-[#6B7280] flex-1">
+                    {load.delivAddr}
+                  </p>
                 </div>
               </div>
             </div>
