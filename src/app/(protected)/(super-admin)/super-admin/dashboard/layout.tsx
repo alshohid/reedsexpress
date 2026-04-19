@@ -12,6 +12,7 @@ export default function SuperAdminDashboardLayout({
       implementedPaths={[
         "/super-admin/dashboard/performance",
         "/super-admin/dashboard/user-management",
+        "/super-admin/dashboard/support",
       ]}
     >
       {children}

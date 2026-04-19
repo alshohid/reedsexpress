@@ -215,6 +215,12 @@ export const superAdminSidebarConfig: SidebarConfig = {
       path: "/super-admin/dashboard/performance",
     },
     {
+      section: 'Operations',
+      icon: <LifeBuoy size={18} />,
+      name: 'Support',
+      path: '/super-admin/dashboard/support',
+    },
+    {
       section: "Platform",
       icon: <MonitorCog size={18} />,
       name: "Platform Control",
