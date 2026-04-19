@@ -64,8 +64,8 @@ export const dispatcherSidebarConfig: SidebarConfig = {
     {
       section: 'Management',
       icon: <CarriesIcon />,
-      name: 'Carries',
-      path: '/dispatcher/dashboard/carries',
+      name: 'Carriers',
+      path: '/dispatcher/dashboard/carriers',
     },
     {
       section: 'Management',

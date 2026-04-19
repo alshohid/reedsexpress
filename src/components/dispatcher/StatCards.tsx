@@ -46,9 +46,9 @@ export function StatsCards() {
           <StatCard key={c.label} {...c} />
         ))}
       </div>
-      <div className="flex w-full gap-3">
+      <div className="flex flex-col md:flex-row w-full gap-3">
         {cardData2.map(c => (
-          <div key={c.label} className="flex-1  ">
+          <div key={c.label} className="flex md:w-full ">
             <StatCard {...c} />
           </div>
         ))}

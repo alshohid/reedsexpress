@@ -9,8 +9,10 @@ export default function DispatcherDashboardLayout({
       role="dispatcher"
       dashboardHref="/dispatcher/dashboard"
       placeholderTitle="Dispatcher Workspace Placeholder"
-      implementedPaths={["/dispatcher/dashboard/reports", "/dispatcher/dashboard/loads"]}
-
+      implementedPaths={[
+        '/dispatcher/dashboard/reports',
+        '/dispatcher/dashboard/carriers',
+      ]}
     >
       {children}
     </RoleDashboardShell>

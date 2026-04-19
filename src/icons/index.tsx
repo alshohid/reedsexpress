@@ -133,6 +133,8 @@ import PickUpIcon from './pickup-icon.svg';
 import DollarIcon from './dollar.svg';
 import CircleIcon from './circle-Icon.svg';
 import InvoiceIcon from './invoice-Icon.svg';
+import UploadIcon from './Upload-icon.svg';
+import CheckIcon from './check-circle-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -267,4 +269,6 @@ export {
   DollarIcon,
   CircleIcon,
   InvoiceIcon,
+  UploadIcon,
+  CheckIcon,
 };
