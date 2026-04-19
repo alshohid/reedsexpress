@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
 import CarrierInformationForm from './CarrierInformationForm';
 import CarrierDocumentsForm from './CarrierDocumentsForm';
 import SubmissionDoneModal from './SubmissionDoneModal';
+import { useState } from 'react';
 
 type AddCarrierTabType = 'carrier-information' | 'documents';
 
@@ -14,10 +15,32 @@ const ADD_CARRIER_TABS: TabItem<AddCarrierTabType>[] = [
 ];
 
 export default function AddCarrierPageMainComponent() {
-  const [activeTab, setActiveTab] = useState<AddCarrierTabType>(
-    'carrier-information',
-  );
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const activeTab =
+    (searchParams.get('tab') as AddCarrierTabType) || 'carrier-information';
+
+  const handleTabChange = (key: AddCarrierTabType) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', key);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const goToDocumentsTab = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', 'documents');
+    router.push(`${pathname}?${params.toString()}`, { scroll: true});
+  };
+
+  const goToInformationTab = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', 'carrier-information');
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <>
@@ -26,19 +49,19 @@ export default function AddCarrierPageMainComponent() {
           <TopTabs
             tabs={ADD_CARRIER_TABS}
             activeKey={activeTab}
-            onChange={setActiveTab}
+            onChange={handleTabChange}
           />
 
           {activeTab === 'carrier-information' && (
             <CarrierInformationForm
-              onNext={() => setActiveTab('documents')}
-              onCancel={() => window.history.back()}
+              onNext={goToDocumentsTab}
+              onCancel={() => router.back()}
             />
           )}
 
           {activeTab === 'documents' && (
             <CarrierDocumentsForm
-              onBack={() => setActiveTab('carrier-information')}
+              onBack={goToInformationTab}
               onSubmit={() => setIsModalOpen(true)}
             />
           )}

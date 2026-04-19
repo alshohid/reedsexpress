@@ -6,13 +6,22 @@ import {
   FileText,
   Trash2,
   Download,
+  
 } from 'lucide-react';
+import UploadDropzoneField from '../ui/input/UploadDropzoneField';
+import { DeleteIcon, DocIcon } from '@/src/icons';
 
 interface CarrierDocumentsFormProps {
   onBack: () => void;
   onSubmit: () => void;
 }
-
+const documentTypes = [
+  'MC Authority',
+  'Void Check',
+  'Notice of Assignment',
+  'Carrier Contract',
+  'Power of Attorney',
+];
 const pendingFiles = ['Carrier Contract.pdf', 'Limited-Power_of_Attorney.pdf'];
 
 const uploadedGroups = [
@@ -48,23 +57,18 @@ export default function CarrierDocumentsForm({
             Select Document Type
           </label>
 
-          <button className="inline-flex h-11 w-full items-center justify-between rounded-xl border border-[#E5E7EB] bg-white px-4 text-sm text-[#9CA3AF]">
-            select type of document
-            <ChevronDown className="h-4 w-4 text-[#98A2B3]" />
-          </button>
+          <select className="h-11 w-full rounded-xl border border-[#E5E7EB] bg-white px-4 text-sm text-[#111827] outline-none">
+            <option value="">Select type of document</option>
+
+            {documentTypes.map(type => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="mt-4 flex min-h-[124px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#D8DEE8] bg-white px-4 py-8 text-center">
-          <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#EEF2FF] text-[#2F3E9E]">
-            <CloudUpload className="h-4 w-4" />
-          </div>
-          <p className="text-xs text-[#111827]">
-            Click to upload or drag and drop
-          </p>
-          <p className="mt-1 text-[11px] text-[#98A2B3]">
-            PNG, JPG up to 5Mb (will appear on invoice)
-          </p>
-        </div>
+        <UploadDropzoneField />
 
         <div className="mt-4 space-y-3">
           {pendingFiles.map(file => (
@@ -73,7 +77,7 @@ export default function CarrierDocumentsForm({
               className="flex items-center justify-between rounded-xl border border-[#EEF0F5] bg-[#F9FAFB] px-4 py-3"
             >
               <div className="flex items-center gap-3">
-                <FileText className="h-4 w-4 text-[#6B7280]" />
+                <DocIcon/>
                 <div>
                   <p className="text-sm text-[#111827]">{file}</p>
                   <p className="text-[11px] text-[#98A2B3]">
@@ -83,7 +87,7 @@ export default function CarrierDocumentsForm({
               </div>
 
               <button className="text-[#FF5A5F]">
-                <Trash2 className="h-4 w-4" />
+                <DeleteIcon/>
               </button>
             </div>
           ))}
@@ -125,7 +129,7 @@ export default function CarrierDocumentsForm({
                     className="flex items-center justify-between rounded-xl border border-[#EEF0F5] bg-white px-4 py-3"
                   >
                     <div className="flex items-center gap-3">
-                      <FileText className="h-4 w-4 text-[#6B7280]" />
+                      <DocIcon/>
                       <div>
                         <p className="text-sm text-[#111827]">{file.name}</p>
                         <p className="text-[11px] text-[#98A2B3]">

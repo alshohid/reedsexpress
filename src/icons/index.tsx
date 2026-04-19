@@ -135,6 +135,8 @@ import CircleIcon from './circle-Icon.svg';
 import InvoiceIcon from './invoice-Icon.svg';
 import UploadIcon from './Upload-icon.svg';
 import CheckIcon from './check-circle-icon.svg';
+import DeleteIcon from './trash-icon.svg';
+import DocIcon from './doc-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -271,4 +273,6 @@ export {
   InvoiceIcon,
   UploadIcon,
   CheckIcon,
+  DeleteIcon,
+  DocIcon,
 };
