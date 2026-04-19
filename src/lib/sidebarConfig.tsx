@@ -112,7 +112,7 @@ export const dispatcherSidebarConfig: SidebarConfig = {
     },
     {
       section: 'Settings',
-      icon: <SupportIcon/>,
+      icon: <SupportIcon />,
       name: 'Supports',
       path: '/dispatcher/dashboard/supports',
     },
@@ -207,6 +207,12 @@ export const superAdminSidebarConfig: SidebarConfig = {
       icon: <UserCog size={18} />,
       name: "Dispatcher Management",
       path: "/super-admin/dashboard/dispatcher-management",
+    },
+    {
+      section: "Management",
+      icon: <UserCog size={18} />,
+      name: "Performance",
+      path: "/super-admin/dashboard/performance",
     },
     {
       section: "Platform",

@@ -9,6 +9,10 @@ export default function SuperAdminDashboardLayout({
       role="super-admin"
       dashboardHref="/super-admin/dashboard"
       placeholderTitle="Super Admin Workspace Placeholder"
+      implementedPaths={[
+        "/super-admin/dashboard/performance",
+        "/super-admin/dashboard/user-management",
+      ]}
     >
       {children}
     </RoleDashboardShell>
