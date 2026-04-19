@@ -1,6 +1,7 @@
 import { DateRangeType } from "@/src/types/dispatcher/type";
 import { TopRevenueCarrierItem } from "../TopRevenueCarriers";
 import { RevenuePlanChartItem } from "../RevenuePlanChart";
+import { RevenueTrendChartData } from "../RevenueTrendChart";
 
 export const revenuePlanDataMap: Record<DateRangeType, RevenuePlanChartItem[]> =
   {
@@ -20,6 +21,30 @@ export const revenuePlanDataMap: Record<DateRangeType, RevenuePlanChartItem[]> =
       { label: "Enterprise", value: 22, color: "#f29eff" },
     ],
   };
+
+export const revenueTrendDataMap: Record<DateRangeType, RevenueTrendChartData> = {
+  "7d": {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    values: [12000, 18000, 15000, 22000, 21000, 26000, 28000],
+  },
+  "30d": {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    values: [45000, 52000, 48000, 61000, 56000, 68000],
+  },
+  "60d": {
+    labels: [
+      "Week 1",
+      "Week 2",
+      "Week 3",
+      "Week 4",
+      "Week 5",
+      "Week 6",
+      "Week 7",
+      "Week 8",
+    ],
+    values: [22000, 26000, 24000, 30000, 34000, 32000, 36000, 39000],
+  },
+};
 
 export const topRevenueCarriers: TopRevenueCarrierItem[] = [
   {

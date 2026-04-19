@@ -1,6 +1,7 @@
 'use client';
 
 import { DateRangeType } from '@/src/types/dispatcher/type';
+import GlobalDateFilter from '@/src/components/dispatcher/GlobalDateFilter';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +12,7 @@ import {
   Filler,
   type ChartData,
   type ChartOptions,
+  type ScriptableContext,
   type TooltipItem,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -24,65 +26,59 @@ ChartJS.register(
   Filler,
 );
 
-interface RevenueTrendChartProps {
-  dateRange: DateRangeType;
+export interface RevenueTrendChartData {
+  labels: string[];
+  values: number[];
 }
 
-const chartMap: Record<
-  DateRangeType,
-  {
-    labels: string[];
-    values: number[];
-  }
-> = {
-  '7d': {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    values: [12000, 18000, 15000, 22000, 21000, 26000, 28000],
-  },
-  '30d': {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    values: [45000, 52000, 48000, 61000, 56000, 68000],
-  },
-  '60d': {
-    labels: [
-      'Week 1',
-      'Week 2',
-      'Week 3',
-      'Week 4',
-      'Week 5',
-      'Week 6',
-      'Week 7',
-      'Week 8',
-    ],
-    values: [22000, 26000, 24000, 30000, 34000, 32000, 36000, 39000],
-  },
-};
+interface RevenueTrendChartProps {
+  chartData: RevenueTrendChartData;
+  filterValue?: DateRangeType;
+  onFilterChange?: (value: DateRangeType) => void;
+  title?: string;
+}
 
 export default function RevenueTrendChart({
-  dateRange,
+  chartData,
+  filterValue,
+  onFilterChange,
+  title = 'Revenue Trend',
 }: RevenueTrendChartProps) {
-  const selected = chartMap[dateRange];
+  const getAreaGradient = (context: ScriptableContext<'line'>) => {
+    const { ctx, chartArea } = context.chart;
+
+    if (!chartArea) {
+      return 'rgba(76, 132, 255, 0.18)';
+    }
+
+    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    gradient.addColorStop(0, 'rgba(76, 132, 255, 0.55)');
+    gradient.addColorStop(0.2, 'rgba(76, 132, 255, 0.3)');
+    gradient.addColorStop(0.5, 'rgba(76, 132, 255, 0.12)');
+    gradient.addColorStop(1, 'rgba(76, 132, 255, 0)');
+    return gradient;
+  };
 
   const data: ChartData<'line', number[], string> = {
-    labels: selected.labels,
+    labels: chartData.labels,
     datasets: [
       {
         label: 'Revenue',
-        data: selected.values,
-        borderColor: '#3B82F6',
-        backgroundColor: 'rgba(59, 130, 246, 0.12)',
+        data: chartData.values,
+        borderColor: '#4C84FF',
+        backgroundColor: getAreaGradient,
         fill: true,
         tension: 0.45,
         pointRadius: 3,
         pointHoverRadius: 5,
-        pointBackgroundColor: '#3B82F6',
+        pointBackgroundColor: '#4C84FF',
         pointBorderWidth: 0,
       },
     ],
   };
 
-  const maxValue = Math.max(...selected.values);
-  const yMax = Math.ceil(maxValue / 10000) * 10000;
+  const maxValue = Math.max(...chartData.values, 0);
+  const yMax = maxValue === 0 ? 10000 : Math.ceil(maxValue / 10000) * 10000;
 
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -146,7 +142,12 @@ export default function RevenueTrendChart({
 
   return (
     <div className="rounded-2xl border border-[#E6EAF2] bg-white p-5">
-      <h3 className="mb-4 text-[1rem] font-medium text-[#1F2430]">Revenue Trend</h3>
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="text-[1rem] font-medium text-[#1F2430]">{title}</h3>
+        {filterValue && onFilterChange ? (
+          <GlobalDateFilter value={filterValue} onChange={onFilterChange} />
+        ) : null}
+      </div>
       <div className="h-80">
         <Line data={data} options={options} />
       </div>

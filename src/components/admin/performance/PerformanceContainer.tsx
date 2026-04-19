@@ -1,5 +1,10 @@
 import PerformanceSummaryCard from "@/src/components/admin/performance/PerformanceSummaryCard";
-import { performanceData, revenuePlanDataMap, topRevenueCarriers } from "../../dispatcher/dummyData/data";
+import {
+    performanceData,
+    revenuePlanDataMap,
+    revenueTrendDataMap,
+    topRevenueCarriers,
+} from "../../dispatcher/dummyData/data";
 import RevenuePlanChart from "../../dispatcher/RevenuePlanChart";
 import TopRevenueCarriers from "../../dispatcher/TopRevenueCarriers";
 import RevenueTrendChart from "../../dispatcher/RevenueTrendChart";
@@ -8,6 +13,7 @@ import RevenueTrendChart from "../../dispatcher/RevenueTrendChart";
 export default function PerformanceContainer() {
 
     const revenuePlanItems = revenuePlanDataMap['30d'];
+    const revenueTrendData = revenueTrendDataMap['30d'];
     return (
         <section className="space-y-6">
             <h2 className="text-[2rem] font-semibold text-[#111827]">Performance</h2>
@@ -24,7 +30,7 @@ export default function PerformanceContainer() {
                 ))}
             </div>
             <div>
-                <RevenueTrendChart dateRange={'30d'} />
+                <RevenueTrendChart chartData={revenueTrendData} />
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_9fr]" >
                 <RevenuePlanChart items={revenuePlanItems} />

@@ -6,16 +6,16 @@ import AnalyticsOverview from '@/src/components/dispatcher/AnalyticsOverview';
 import CarrierReportTable from '@/src/components/dispatcher/CarrierReportTable';
 import DriverPerformanceTable from '@/src/components/dispatcher/DriverPerformanceTable';
 import EarningsSummary from '@/src/components/dispatcher/EarningsSummary';
-import RevenuePlanChart, {
-  RevenuePlanChartItem,
-} from '@/src/components/dispatcher/RevenuePlanChart';
+import RevenuePlanChart from '@/src/components/dispatcher/RevenuePlanChart';
 import RevenueTrendChart from '@/src/components/dispatcher/RevenueTrendChart';
-import TopRevenueCarriers, {
-  TopRevenueCarrierItem,
-} from '@/src/components/dispatcher/TopRevenueCarriers';
+import TopRevenueCarriers from '@/src/components/dispatcher/TopRevenueCarriers';
 import { DateRangeType } from '@/src/types/dispatcher/type';
 import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
-import { revenuePlanDataMap, topRevenueCarriers } from './dummyData/data';
+import {
+  revenuePlanDataMap,
+  revenueTrendDataMap,
+  topRevenueCarriers,
+} from './dummyData/data';
 
 
 type TabType = 'carrier' | 'driver' | 'earnings';
@@ -37,6 +37,7 @@ export default function ReportsPageMainComponent() {
 
   const activeTab = (searchParams.get('tab') as TabType) || 'carrier';
   const revenuePlanItems = revenuePlanDataMap[dateRange];
+  const revenueTrendData = revenueTrendDataMap[dateRange];
 
   const handleTabChange = (key: TabType) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -51,7 +52,7 @@ export default function ReportsPageMainComponent() {
         onDateRangeChange={setDateRange}
       />
 
-      <RevenueTrendChart dateRange={dateRange} />
+      <RevenueTrendChart chartData={revenueTrendData} />
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_9fr]">
         <RevenuePlanChart items={revenuePlanItems} />
