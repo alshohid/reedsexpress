@@ -253,10 +253,10 @@ export default function DesignDashboard() {
         {cardData.map(({ title, value, icon: Icon }) => (
           <div
             key={title}
-            className="rounded-[24px] border border-[#E7EBF7] bg-[#F8FAFB] p-6 shadow-[0_16px_40px_rgba(46,58,131,0.06)]"
+            className="rounded-lg border border-[#E7EBF7] bg-[#F8FAFB] p-6 shadow-[0_16px_40px_rgba(46,58,131,0.06)]"
           >
             <div className="flex items-start justify-start gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#CACEE2] text-[#2E3A83]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-[#CACEE2] text-[#2E3A83]">
                 <Icon size={22} />
               </div>
 

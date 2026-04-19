@@ -13,6 +13,7 @@ export default function AdminDashboardLayout({
         "/admin/dashboard/user-management",
         "/admin/dashboard/dispatchers",
         "/admin/dashboard/support",
+        "/admin/dashboard/performance",
       ]}
     >
       {children}

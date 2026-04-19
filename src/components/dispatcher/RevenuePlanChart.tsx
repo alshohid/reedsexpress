@@ -1,34 +1,37 @@
 'use client';
 
-import { DateRangeType } from '@/src/types/dispatcher/type';
 import { Chart as ChartJS, ArcElement, Tooltip, ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
 
 ChartJS.register(ArcElement, Tooltip);
 
-interface RevenuePlanChartProps {
-  dateRange: DateRangeType;
+export interface RevenuePlanChartItem {
+  color: string;
+  label: string;
+  value: number;
+  valueLabel?: string;
 }
 
-const planDataMap: Record<
-  DateRangeType,
-  { basic: number; pro: number; enterprise: number }
-> = {
-  '7d': { basic: 35, pro: 45, enterprise: 20 },
-  '30d': { basic: 43, pro: 42, enterprise: 15 },
-  '60d': { basic: 40, pro: 38, enterprise: 22 },
-};
+interface RevenuePlanChartProps {
+  items: RevenuePlanChartItem[];
+  title?: string;
+}
 
-export default function RevenuePlanChart({ dateRange }: RevenuePlanChartProps) {
-  const planData = planDataMap[dateRange];
+export default function RevenuePlanChart({
+  items,
+  title = 'Revenue by Plan',
+}: RevenuePlanChartProps) {
+  const chartData = items.map(item => item.value);
+  const chartColors = items.map(item => item.color);
+  const chartLabels = items.map(item => item.label);
 
   const data = {
-    labels: ['Basic', 'Pro', 'Enterprise'],
+    labels: chartLabels,
     datasets: [
       {
-        data: [planData.basic, planData.pro, planData.enterprise],
-        backgroundColor: ['#ffa4a6', '#7eceff', '#f29eff'],
+        data: chartData,
+        backgroundColor: chartColors,
         borderWidth: 0,
         hoverOffset: 4,
       },
@@ -47,34 +50,28 @@ export default function RevenuePlanChart({ dateRange }: RevenuePlanChartProps) {
     },
   };
 
-  const legendItems = [
-    { name: 'Basic', value: `${planData.basic}%`, color: '#ffa4a6' },
-    { name: 'Pro', value: `${planData.pro}%`, color: '#7eceff' },
-    { name: 'Enterprise', value: `${planData.enterprise}%`, color: '#f29eff' },
-  ];
-
   return (
     <div className="rounded-2xl border border-[#E6EAF2] bg-white p-5">
       <h3 className="mb-5 mt-5 text-center text-[1rem] font-medium text-[#1F2430]">
-        Revenue by Plan
+        {title}
       </h3>
 
       <div className="mx-auto h-auto w-[180px]">
         <Doughnut data={data} options={options} />
       </div>
 
-      <div className="mt-6 space-y-3 w-[180px] flex flex-col justify-center  mx-auto" >
-        {legendItems.map(item => (
-          <div key={item.name} className="flex items-center justify-between">
+      <div className="mx-auto mt-6 flex w-[180px] flex-col justify-center space-y-3">
+        {items.map(item => (
+          <div key={item.label} className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm text-[#5C6578]">
               <span
                 className="h-2.5 w-3.5 rounded-full"
                 style={{ backgroundColor: item.color }}
               />
-              {item.name}
+              {item.label}
             </div>
             <span className="text-sm font-semibold text-[#1F2430]">
-              {item.value}
+              {item.valueLabel ?? `${item.value}%`}
             </span>
           </div>
         ))}

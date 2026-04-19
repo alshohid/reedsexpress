@@ -146,7 +146,7 @@ export default function RevenueTrendChart({
 
   return (
     <div className="rounded-2xl border border-[#E6EAF2] bg-white p-5">
-      <h3 className="mb-4 text-sm font-medium text-[#1F2430]">Revenue Trend</h3>
+      <h3 className="mb-4 text-[1rem] font-medium text-[#1F2430]">Revenue Trend</h3>
       <div className="h-80">
         <Line data={data} options={options} />
       </div>

@@ -1,17 +1,22 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import AnalyticsOverview from '@/src/components/dispatcher/AnalyticsOverview';
 import CarrierReportTable from '@/src/components/dispatcher/CarrierReportTable';
 import DriverPerformanceTable from '@/src/components/dispatcher/DriverPerformanceTable';
 import EarningsSummary from '@/src/components/dispatcher/EarningsSummary';
-import RevenuePlanChart from '@/src/components/dispatcher/RevenuePlanChart';
+import RevenuePlanChart, {
+  RevenuePlanChartItem,
+} from '@/src/components/dispatcher/RevenuePlanChart';
 import RevenueTrendChart from '@/src/components/dispatcher/RevenueTrendChart';
-import TopRevenueCarriers from '@/src/components/dispatcher/TopRevenueCarriers';
+import TopRevenueCarriers, {
+  TopRevenueCarrierItem,
+} from '@/src/components/dispatcher/TopRevenueCarriers';
 import { DateRangeType } from '@/src/types/dispatcher/type';
 import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
-import { Skeleton } from '@/src/components/ui/skeleton';
+import { revenuePlanDataMap, topRevenueCarriers } from './dummyData/data';
+
 
 type TabType = 'carrier' | 'driver' | 'earnings';
 
@@ -21,6 +26,8 @@ const REPORT_TABS: TabItem<TabType>[] = [
   { key: 'earnings', label: 'Your Earnings' },
 ];
 
+
+
 export default function ReportsPageMainComponent() {
   const [dateRange, setDateRange] = useState<DateRangeType>('30d');
 
@@ -29,6 +36,7 @@ export default function ReportsPageMainComponent() {
   const searchParams = useSearchParams();
 
   const activeTab = (searchParams.get('tab') as TabType) || 'carrier';
+  const revenuePlanItems = revenuePlanDataMap[dateRange];
 
   const handleTabChange = (key: TabType) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -46,8 +54,8 @@ export default function ReportsPageMainComponent() {
       <RevenueTrendChart dateRange={dateRange} />
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_9fr]">
-        <RevenuePlanChart dateRange={dateRange} />
-        <TopRevenueCarriers />
+        <RevenuePlanChart items={revenuePlanItems} />
+        <TopRevenueCarriers carriers={topRevenueCarriers} />
       </section>
 
       <section className="space-y-4">
