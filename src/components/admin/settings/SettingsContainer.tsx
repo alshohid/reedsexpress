@@ -4,6 +4,7 @@ import { useTabsQueryState } from "@/src/lib/helper/useTabsQueryState";
 import TopTabs, { TabItem } from "../../common/TopTabs";
 import NotificationPreferences, { PrefItem, PrefKey } from "./NotificationPreference";
 import { useMemo, useState } from "react";
+import GenereralSettingContentSection from "./GeneralSettingContentSection";
 
 type TabKey = "general-setting" | "communication-setting" | "notification-setting";
 const tabs: TabItem<TabKey>[] = [
@@ -44,16 +45,19 @@ export default function SettingsContainer() {
             <div className="w-full">
                 <TopTabs tabs={tabs} activeKey={tab} onChange={setTab} />
             </div>
-            {tab === "notification-setting" && (
-                <NotificationPreferences
-                    items={items}
-                    value={prefs}
-                    onChange={handleChange}
-                    onSubmit={handleSubmit}
-                    submitLabel="Update"
-                />
-            )}
-
+            <div className="mt-6">
+                {tab === "general-setting" && <GenereralSettingContentSection />}
+                {/* {tab === "communication-setting" && <CommunicationSettingContentSection />} */}
+                {tab === "notification-setting" && (
+                    <NotificationPreferences
+                        items={items}
+                        value={prefs}
+                        onChange={handleChange}
+                        onSubmit={handleSubmit}
+                        submitLabel="Update"
+                    />
+                )}
+            </div>
         </div>
     );
 }

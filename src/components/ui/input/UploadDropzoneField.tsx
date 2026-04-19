@@ -1,52 +1,45 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { Upload } from "lucide-react";
 
 type UploadDropzoneFieldProps = {
     label?: string;
     hint?: string; // e.g. "JPG or PNG (max 3MB)"
+    description?: string;
     accept?: string; // "image/png,image/jpeg"
     maxSizeMb?: number;
     required?: boolean;
     error?: string;
     onFileChange?: (file: File | null) => void;
+    className?: string;
+    dropzoneClassName?: string;
+    dropzoneBackgroundClassName?: string;
+    dropzoneHoverBackgroundClassName?: string;
+    resetSignal?: number | string;
 };
 
-function ImageIcon() {
-    return (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-                d="M4 16l4-4 3 3 4-5 5 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M20 5H4v14h16V5Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M9 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
-                fill="currentColor"
-            />
-        </svg>
-    );
-}
-
 export default function UploadDropzoneField({
-    label = "Upload Logo",
-    hint = "JPG or PNG (max 3MB)",
+    label,
+    hint = "PNG, JPG up to 5Mb",
+    description = "Click to upload or drag and drop",
     accept = "image/png,image/jpeg",
-    maxSizeMb = 3,
+    maxSizeMb = 5,
     required = false,
     error,
     onFileChange,
+    className = "",
+    dropzoneClassName = "",
+    dropzoneBackgroundClassName = "bg-[#F9FAFB]",
+    dropzoneHoverBackgroundClassName = "hover:bg-[#F8FAFC]",
+    resetSignal,
 }: UploadDropzoneFieldProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [fileName, setFileName] = useState<string>("");
+
+    React.useEffect(() => {
+        setFileName("");
+    }, [resetSignal]);
 
     const validateAndSet = (file: File | null) => {
         if (!file) {
@@ -76,10 +69,12 @@ export default function UploadDropzoneField({
     };
 
     return (
-        <div className="w-full">
-            <label className="text-[1rem] font-medium text-[#161721]">
-                {label} {required ? <span className="text-red-500">*</span> : null}
-            </label>
+        <div className={["w-full", className].join(" ")}>
+            {label ? (
+                <label className="text-[1rem] font-medium text-[#161721]">
+                    {label} {required ? <span className="text-red-500">*</span> : null}
+                </label>
+            ) : null}
 
             <input
                 ref={inputRef}
@@ -98,27 +93,31 @@ export default function UploadDropzoneField({
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={onDrop}
                 className={[
-                    "mt-2 w-full cursor-pointer rounded-[10px]",
-                    "border border-dashed border-[#BFE3A8] bg-[#F4FFE9]",
-                    "px-4 py-8 sm:py-10",
+                    label ? "mt-2" : "",
+                    "w-full cursor-pointer rounded-[16px]",
+                    "border border-dashed border-[#98A2B3]",
+                    "px-4 py-10 sm:px-6 sm:py-12",
                     "flex flex-col items-center justify-center gap-2 text-center",
-                    "hover:opacity-95 transition",
+                    "transition-colors duration-200 hover:border-[#667085]",
+                    dropzoneBackgroundClassName,
+                    dropzoneHoverBackgroundClassName,
+                    dropzoneClassName,
                 ].join(" ")}
             >
-                <div className="h-10 w-10 rounded-full bg-[#E6F5D4] flex items-center justify-center text-[#3F4A3B]">
-                    <ImageIcon />
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EEF2F6] text-[#475467]">
+                    <Upload size={20} strokeWidth={2.25} />
                 </div>
 
-                <div className="text-[12px] text-[#161721]">
-                    <span className="font-semibold">Click to upload</span>{" "}
-                    <span className="text-gray-500">or Drag and Drop files here.</span>
+                <div className="space-y-1">
+                    <p className="text-[1rem] font-medium text-[#101828]">
+                        {description}
+                    </p>
+                    <div className="text-sm text-[#98A2B3]">{hint}</div>
                 </div>
-
-                <div className="text-[11px] text-gray-500">{hint}</div>
 
                 {fileName ? (
-                    <div className="mt-2 text-[12px] font-medium text-[#3F4A3B]">
-                        Selected: {fileName}
+                    <div className="mt-1 text-sm font-medium text-[#344054]">
+                        {fileName}
                     </div>
                 ) : null}
             </div>
