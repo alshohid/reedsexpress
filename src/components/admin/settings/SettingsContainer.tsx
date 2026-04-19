@@ -5,6 +5,7 @@ import TopTabs, { TabItem } from "../../common/TopTabs";
 import NotificationPreferences, { PrefItem, PrefKey } from "./NotificationPreference";
 import { useMemo, useState } from "react";
 import GenereralSettingContentSection from "./GeneralSettingContentSection";
+import CommunicationSettingContentSection from "./CommunicationSettingContentSection";
 
 type TabKey = "general-setting" | "communication-setting" | "notification-setting";
 const tabs: TabItem<TabKey>[] = [
@@ -47,7 +48,7 @@ export default function SettingsContainer() {
             </div>
             <div className="mt-6">
                 {tab === "general-setting" && <GenereralSettingContentSection />}
-                {/* {tab === "communication-setting" && <CommunicationSettingContentSection />} */}
+                {tab === "communication-setting" && <CommunicationSettingContentSection />}
                 {tab === "notification-setting" && (
                     <NotificationPreferences
                         items={items}
