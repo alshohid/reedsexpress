@@ -1,5 +1,6 @@
 "use client";
 
+import { UploadIcon } from "@/src/icons";
 import React, { useRef, useState } from "react";
 import { Upload } from "lucide-react";
 
@@ -34,8 +35,8 @@ export default function UploadDropzoneField({
     dropzoneHoverBackgroundClassName = "hover:bg-[#F8FAFC]",
     resetSignal,
 }: UploadDropzoneFieldProps) {
-    const inputRef = useRef<HTMLInputElement | null>(null);
-    const [fileName, setFileName] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [fileName, setFileName] = useState<string>('');
 
     React.useEffect(() => {
         setFileName("");
@@ -48,25 +49,25 @@ export default function UploadDropzoneField({
             return;
         }
 
-        const maxBytes = maxSizeMb * 1024 * 1024;
-        if (file.size > maxBytes) {
-            setFileName("");
-            onFileChange?.(null);
-            alert(`File too large. Max ${maxSizeMb}MB`);
-            return;
-        }
+    const maxBytes = maxSizeMb * 1024 * 1024;
+    if (file.size > maxBytes) {
+      setFileName('');
+      onFileChange?.(null);
+      alert(`File too large. Max ${maxSizeMb}MB`);
+      return;
+    }
 
-        setFileName(file.name);
-        onFileChange?.(file);
-    };
+    setFileName(file.name);
+    onFileChange?.(file);
+  };
 
-    const onPick = () => inputRef.current?.click();
+  const onPick = () => inputRef.current?.click();
 
-    const onDrop: React.DragEventHandler<HTMLDivElement> = (e) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files?.[0] ?? null;
-        validateAndSet(file);
-    };
+  const onDrop: React.DragEventHandler<HTMLDivElement> = e => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0] ?? null;
+    validateAndSet(file);
+  };
 
     return (
         <div className={["w-full", className].join(" ")}>
@@ -76,17 +77,17 @@ export default function UploadDropzoneField({
                 </label>
             ) : null}
 
-            <input
-                ref={inputRef}
-                type="file"
-                accept={accept}
-                className="hidden"
-                onChange={(e) => {
-                    const file = e.target.files?.[0] ?? null;
-                    validateAndSet(file);
-                    e.currentTarget.value = "";
-                }}
-            />
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={e => {
+          const file = e.target.files?.[0] ?? null;
+          validateAndSet(file);
+          e.currentTarget.value = '';
+        }}
+      />
 
             <div
                 onClick={onPick}

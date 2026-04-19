@@ -3,6 +3,7 @@
 import { CheckIcon, UploadIcon } from '@/src/icons';
 import { ArrowRightIcon, CloudUpload } from 'lucide-react';
 import { useState } from 'react';
+import UploadDropzoneField from '../ui/input/UploadDropzoneField';
 
 interface CarrierInformationFormProps {
   onNext: () => void;
@@ -142,18 +143,8 @@ export default function CarrierInformationForm({
         <h3 className="mb-3 text-[24px] font-semibold text-[#111827]">
           Carrier Logo
         </h3>
-
-        <div className="flex min-h-[124px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#D8DEE8] bg-white px-4 py-8 text-center">
-          <div className="mb-3 flex h-12 w-12 items-center cursor-pointer  justify-center rounded-full bg-[#EEF2FF] text-[#2F3E9E]">
-            <UploadIcon />
-          </div>
-          <p className="text-[16px] text-[#111827]">
-            Click to upload or drag and drop
-          </p>
-          <p className="mt-1 text-[14px] text-[#98A2B3]">
-            PNG, JPG up to 5MB (will appear on invoice)
-          </p>
-        </div>
+        <UploadDropzoneField/>
+       
       </div>
 
       <div className="mt-6">
