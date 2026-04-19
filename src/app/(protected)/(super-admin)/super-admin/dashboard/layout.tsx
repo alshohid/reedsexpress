@@ -13,6 +13,7 @@ export default function SuperAdminDashboardLayout({
         "/super-admin/dashboard/performance",
         "/super-admin/dashboard/user-management",
         "/super-admin/dashboard/support",
+        "/super-admin/dashboard/settings",
       ]}
     >
       {children}
