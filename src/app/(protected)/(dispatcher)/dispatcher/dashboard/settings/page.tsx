@@ -1,11 +1,10 @@
-import RoleSectionPage from "@/src/components/design/RoleSectionPage";
+import SettingsContainer from "@/src/components/admin/settings/SettingsContainer";
+
 
 export default function DispatcherSettingsPage() {
   return (
-    <RoleSectionPage
-      eyebrow="Dispatcher"
-      title="Settings"
-      description="Dispatcher settings now have their own protected role path under /dispatcher/dashboard/settings."
-    />
+    <div>
+      <SettingsContainer />
+    </div>
   );
 }

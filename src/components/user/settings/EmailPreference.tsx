@@ -4,24 +4,22 @@ import NotificationPreferences, { PrefItem, PrefKey } from "../../admin/settings
 export default function EmailPreference() {
     const items: PrefItem[] = useMemo(
         () => [
-            { key: "newDonationAlerts", title: "New Donation Alerts", desc: "Email me every time a donation is processed." },
-            { key: "condolenceMessageAlerts", title: "Condolence Message Alerts", desc: "Receive notification on flagged message" },
-            { key: "planExpiration", title: "Plan Expiration", desc: "Get notified before plan expires." },
-            { key: "deathNoticePostAlert", title: "Death Notice Post Alert", desc: "Get notified instantly whenever a Notice is posted." },
-            { key: "undertakerApplicationAlert", title: "Undertaker Application Alert", desc: "Receive notification on basis of per Application Submitted to register." },
-            { key: "fundraiseExpirationAlert", title: "Fundraise expiration Alert", desc: "Get notified instantly whenever a Notice is posted." },
-            { key: "charitySetting", title: "Charity Setting", desc: "Get notified whenever an undertaker selecting any charity." },
+            { key: "emailNotifications", title: "Email Notification", desc: "Get notified by email when a new update is available." },
+            { key: "inAppNotifications", title: "In App Notification", desc: "Receive alerts directly inside the dashboard." },
+            { key: "completedLoad", title: "Completed Load", desc: "Get notified whenever a load is marked as completed." },
+            { key: "documentVerification", title: "Document Verification", desc: "Receive alerts when submitted documents are verified." },
+            { key: "adminDocumentUpload", title: "Admin Document Upload", desc: "Get notified when an admin uploads a new document." },
+            { key: "DocumentCertificationExpirationAlert", title: "Document/Certification Expiration Alert", desc: "Receive reminders before documents or certifications expire." },
         ],
         []
     );
     const [prefs, setPrefs] = useState<Record<PrefKey, boolean>>({
-        newDonationAlerts: false,
-        condolenceMessageAlerts: false,
-        planExpiration: true,
-        deathNoticePostAlert: true,
-        undertakerApplicationAlert: false,
-        fundraiseExpirationAlert: false,
-        charitySetting: true,
+        emailNotifications: false,
+        inAppNotifications: true,
+        completedLoad: true,
+        documentVerification: true,
+        adminDocumentUpload: false,
+        DocumentCertificationExpirationAlert: true,
     });
     const handleSubmit = () => {
         console.log("submit");

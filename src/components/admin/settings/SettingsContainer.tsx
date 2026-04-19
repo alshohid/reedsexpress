@@ -4,39 +4,37 @@ import { useTabsQueryState } from "@/src/lib/helper/useTabsQueryState";
 import TopTabs, { TabItem } from "../../common/TopTabs";
 import NotificationPreferences, { PrefItem, PrefKey } from "./NotificationPreference";
 import { useMemo, useState } from "react";
-import ChangePasswordSection from "../../user/changepassword/ChangePasswordSection";
 
-type TabKey = "notification-preference" | "security-setting";
+type TabKey = "general-setting" | "communication-setting" | "notification-setting";
 const tabs: TabItem<TabKey>[] = [
-    { key: "notification-preference", label: "Notification Preference" },
-    { key: "security-setting", label: "Security Setting" },
+    { key: "general-setting", label: "General" },
+    { key: "communication-setting", label: "Communication Settings" },
+    { key: "notification-setting", label: "Notification Settings" },
 ];
 
 export default function SettingsContainer() {
-    const [tab, setTab] = useTabsQueryState<TabKey>("tab", "notification-preference");
-    const items: PrefItem[] = useMemo(
+    const [tab, setTab] = useTabsQueryState<TabKey>("tab", "general-setting");
+    const items = useMemo<PrefItem[]>(
         () => [
-            { key: "newDonationAlerts", title: "New Donation Alerts", desc: "Email me every time a donation is processed." },
-            { key: "condolenceMessageAlerts", title: "Condolence Message Alerts", desc: "Receive notification on flagged message" },
-            { key: "planExpiration", title: "Plan Expiration", desc: "Get notified before plan expires." },
-            { key: "deathNoticePostAlert", title: "Death Notice Post Alert", desc: "Get notified instantly whenever a Notice is posted." },
-            { key: "undertakerApplicationAlert", title: "Undertaker Application Alert", desc: "Receive notification on basis of per Application Submitted to register." },
-            { key: "fundraiseExpirationAlert", title: "Fundraise expiration Alert", desc: "Get notified instantly whenever a Notice is posted." },
-            { key: "charitySetting", title: "Charity Setting", desc: "Get notified whenever an undertaker selecting any charity." },
+            { key: "emailNotifications", title: "Email Notification", desc: "Get notified by email when a new update is available." },
+            { key: "inAppNotifications", title: "In App Notification", desc: "Receive alerts directly inside the dashboard." },
+            { key: "completedLoad", title: "Completed Load", desc: "Get notified whenever a load is marked as completed." },
+            { key: "documentVerification", title: "Document Verification", desc: "Receive alerts when submitted documents are verified." },
+            { key: "adminDocumentUpload", title: "Admin Document Upload", desc: "Get notified when an admin uploads a new document." },
+            { key: "DocumentCertificationExpirationAlert", title: "Document/Certification Expiration Alert", desc: "Receive reminders before documents or certifications expire." },
         ],
         []
     );
     const [prefs, setPrefs] = useState<Record<PrefKey, boolean>>({
-        newDonationAlerts: false,
-        condolenceMessageAlerts: false,
-        planExpiration: true,
-        deathNoticePostAlert: true,
-        undertakerApplicationAlert: false,
-        fundraiseExpirationAlert: false,
-        charitySetting: true,
+        emailNotifications: false,
+        inAppNotifications: true,
+        completedLoad: true,
+        documentVerification: true,
+        adminDocumentUpload: false,
+        DocumentCertificationExpirationAlert: true,
     });
     const handleSubmit = () => {
-        console.log("submit");
+        console.log("submit", prefs);
     }
     const handleChange = (key: PrefKey, value: boolean) => {
         setPrefs(prev => ({ ...prev, [key]: value }))
@@ -46,7 +44,7 @@ export default function SettingsContainer() {
             <div className="w-full">
                 <TopTabs tabs={tabs} activeKey={tab} onChange={setTab} />
             </div>
-            {tab === "notification-preference" && (
+            {tab === "notification-setting" && (
                 <NotificationPreferences
                     items={items}
                     value={prefs}
@@ -55,9 +53,7 @@ export default function SettingsContainer() {
                     submitLabel="Update"
                 />
             )}
-            {tab === "security-setting" && (
-                <ChangePasswordSection />
-            )}
+
         </div>
     );
 }
