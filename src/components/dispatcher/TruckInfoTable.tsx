@@ -1,6 +1,10 @@
 import { MoreHorizontal, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 import TablePagination from './TablePagination';
+import TruckDetailsModal from './TruckDetailsModal';
+import AddTruckSuccessModal from './carrier/AddTruckSuccessModal';
+import { AddTruckFormData } from '@/src/types/dispatcher/type';
+import AddTruckModal from './carrier/AddTruckModal';
 
 export default function TruckInfoTable() {
   const truckRows = [
@@ -48,13 +52,23 @@ export default function TruckInfoTable() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = truckRows.slice(startIndex, startIndex + itemsPerPage);
+  const [open, setOpen] = useState(false);
+ 
+  const [isAddTruckOpen, setIsAddTruckOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const handleCreateTruck = async (data: AddTruckFormData) => {
+    console.log('Truck payload:', data);
 
+  };
   return (
     <>
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <h2 className="text-[20px] font-semibold text-[#111827]">All Truck</h2>
 
-        <button className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95">
+        <button
+          onClick={() => setIsAddTruckOpen(true)}
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95"
+        >
           <Plus className="h-4 w-4" />
           Add Truck
         </button>
@@ -113,7 +127,10 @@ export default function TruckInfoTable() {
                 </td>
 
                 <td className="border-b border-[#F3F4F6] px-4 py-4">
-                  <button className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]">
+                  <button
+                    onClick={() => setOpen(true)}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]"
+                  >
                     <MoreHorizontal className="h-4 w-4" />
                   </button>
                 </td>
@@ -134,6 +151,34 @@ export default function TruckInfoTable() {
           />
         </div>
       </div>
+
+      <TruckDetailsModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        data={{
+          carrier: 'Ronaldo',
+          unitNumber: '101 or T-45',
+          truckType: 'Logic LTD',
+          modalMake: '+32 23234',
+          licensePlate: '',
+          vin: '',
+        }}
+        onEdit={field => {
+          console.log('Edit clicked:', field);
+        }}
+      />
+
+      <AddTruckModal
+        isOpen={isAddTruckOpen}
+        onClose={() => setIsAddTruckOpen(false)}
+        onSuccess={() => setIsSuccessOpen(true)}
+        onSubmit={handleCreateTruck}
+      />
+
+      <AddTruckSuccessModal
+        isOpen={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+      />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TablePagination from './TablePagination';
 import DriverDetailModal from './DriverDetailModal';
 import AddDriverModal from './AddDiverModal';
+import SubmissionDoneModal from './SubmissionDoneModal';
 
 export default function DriverInfoTable() {
   const driverRows = [
@@ -53,6 +54,13 @@ export default function DriverInfoTable() {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const handleAddDriverSuccess = () => {
+    setIsAddModalOpen(false); // Close form
+    setIsSuccessModalOpen(true); // Show success message
+  };
   return (
     <>
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -158,6 +166,12 @@ export default function DriverInfoTable() {
       <AddDriverModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+        onSuccess={handleAddDriverSuccess}
+      />
+
+      <SubmissionDoneModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </>
   );

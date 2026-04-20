@@ -38,9 +38,11 @@ interface Driver {
 export default function AddDriverModal({
   isOpen,
   onClose,
+  onSuccess,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }) {
   const [showDriverList, setShowDriverList] = useState(false);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
@@ -49,7 +51,9 @@ export default function AddDriverModal({
   const filteredDrivers = MOCK_DRIVERS.filter(d =>
     d.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-
+  const handleSubmit = () => {
+    onSuccess();
+  }
   return (
     <Modal
       isOpen={isOpen}
@@ -219,8 +223,9 @@ export default function AddDriverModal({
               Cancel
             </button>
             <button
-              
-              className="flex-1 py-4 bg-[#2B3674] text-white rounded-2xl font-bold hover:bg-[#1e2756] transition-all shadow-lg shadow-blue-900/20">
+              onClick={handleSubmit}
+              className="flex-1 py-4 bg-[#2B3674] text-white rounded-2xl font-bold hover:bg-[#1e2756] transition-all shadow-lg shadow-blue-900/20"
+            >
               Add Driver
             </button>
           </div>

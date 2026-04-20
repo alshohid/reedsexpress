@@ -1,6 +1,11 @@
-import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { DeleteIcon, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import TablePagination from './TablePagination';
+import { EditOptionIcon, TrashBinIcon } from '@/src/icons';
+import TrailerDetailsModal from './carrier/TrailerDetailsModal';
+import { AddTrailerFormData } from '@/src/types/dispatcher/type';
+import AddTrailerModal from './carrier/AddTrailerModal';
+import AddTrailerSuccessModal from './carrier/AddTrailerSuccessModal';
 
 export default function TrailerInfoTable() {
   const trailerRows = [
@@ -48,6 +53,14 @@ export default function TrailerInfoTable() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = trailerRows.slice(startIndex, startIndex + itemsPerPage);
+  const [open, setOpen] = useState(false);
+  
+  const [isAddTrailerOpen, setIsAddTrailerOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const handleCreateTrailer = async (data: AddTrailerFormData) => {
+    console.log('Trailer payload:', data);
+  };
 
   return (
     <>
@@ -56,7 +69,10 @@ export default function TrailerInfoTable() {
           All Trailer
         </h2>
 
-        <button className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95">
+        <button
+          onClick={() => setIsAddTrailerOpen(true)}
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95"
+        >
           <Plus className="h-4 w-4" />
           Add Trailer
         </button>
@@ -120,11 +136,14 @@ export default function TrailerInfoTable() {
 
                 <td className="border-b border-[#F3F4F6] px-4 py-4">
                   <div className="flex items-center gap-3">
-                    <button className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#344054] transition hover:bg-[#F8FAFC]">
-                      <Pencil className="h-4 w-4" />
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#344054] transition hover:bg-[#F8FAFC]"
+                    >
+                      <EditOptionIcon />
                     </button>
                     <button className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#FF5A5F] transition hover:bg-[#FFF5F5]">
-                      <Trash2 className="h-4 w-4" />
+                      <TrashBinIcon />
                     </button>
                   </div>
                 </td>
@@ -145,6 +164,33 @@ export default function TrailerInfoTable() {
           />
         </div>
       </div>
+
+      <TrailerDetailsModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        data={{
+          carrier: 'Ronaldo',
+          unitNumber: 'T06-45',
+          plateNumber: '',
+          type: 'Logic LTD',
+          plateState: '',
+        }}
+        onSave={updatedData => {
+          console.log('Updated trailer data:', updatedData);
+        }}
+      />
+
+      <AddTrailerModal
+        isOpen={isAddTrailerOpen}
+        onClose={() => setIsAddTrailerOpen(false)}
+        onSuccess={() => setIsSuccessOpen(true)}
+        onSubmit={handleCreateTrailer}
+      />
+
+      <AddTrailerSuccessModal
+        isOpen={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+      />
     </>
   );
 }
