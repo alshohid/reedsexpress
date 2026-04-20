@@ -65,8 +65,8 @@ export default function DispatcherPerformanceTable({
         tableClassName="w-full border-separate border-spacing-0"
         tableBodyClassName="divide-y-0"
         rowClassName="bg-white transition hover:bg-[#FCFCFD]"
-        headerCellClassName="border-b border-[#EAECF0] bg-[#F8FAFC] px-4 py-3 text-left text-[13px] font-medium text-[#667085] first:rounded-tl-[10px] last:rounded-tr-[10px]"
-        bodyCellClassName="border-b border-[#EAECF0] px-4 py-4 align-middle text-[15px] text-[#101828]"
+        headerCellClassName="border-b border-[#EAECF0] bg-[#F8FAFC] px-4 py-3 text-left text-[1rem] leading-5 font-medium text-[#667085] first:rounded-tl-[10px] last:rounded-tr-[10px]"
+        bodyCellClassName="border-b border-[#EAECF0] px-4 py-4 align-middle text-[1rem] leading-5 text-[#101828]"
         emptyText={emptyText}
         emptyCellClassName="block px-5 py-16 text-center text-sm text-[#667085]"
         rowRenderers={[

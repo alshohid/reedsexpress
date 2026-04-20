@@ -11,6 +11,7 @@ export default function SuperAdminDashboardLayout({
       placeholderTitle="Super Admin Workspace Placeholder"
       implementedPaths={[
         "/super-admin/dashboard/performance",
+        "/super-admin/dashboard/documents",
         "/super-admin/dashboard/user-management",
         "/super-admin/dashboard/support",
         "/super-admin/dashboard/settings",
