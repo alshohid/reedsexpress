@@ -5,6 +5,7 @@ import {
   dispatcherDocumentsByTab,
 } from "@/src/components/admin/documents/documentMockData";
 import type { TabKey } from "@/src/components/admin/documents/documentTypes";
+import { Suspense } from "react";
 
 const dispatcherDocumentTabs: TabItem<TabKey>[] = [
   { key: "load-documents", label: "Load Documents" },
@@ -13,12 +14,14 @@ const dispatcherDocumentTabs: TabItem<TabKey>[] = [
 
 export default function DispatcherDocumentsPage() {
   return (
-    <AdminDocumentsContainer
-      tabs={dispatcherDocumentTabs}
-      defaultTab="load-documents"
-      documentsByTab={dispatcherDocumentsByTab}
-      columns={dispatcherDocumentColumns}
-      minTableWidthPx={860}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminDocumentsContainer
+        tabs={dispatcherDocumentTabs}
+        defaultTab="load-documents"
+        documentsByTab={dispatcherDocumentsByTab}
+        columns={dispatcherDocumentColumns}
+        minTableWidthPx={860}
+      />
+    </Suspense>
   );
 }
