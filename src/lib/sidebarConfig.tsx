@@ -242,8 +242,14 @@ export const superAdminSidebarConfig: SidebarConfig = {
     {
       section: "Finance",
       icon: <CreditCard size={18} />,
-      name: "Billing",
-      path: "/super-admin/dashboard/billing",
+      name: "Invoices",
+      path: "/super-admin/dashboard/invoices",
+    },
+    {
+      section: "Finance",
+      icon: <CreditCard size={18} />,
+      name: "Statements",
+      path: "/super-admin/dashboard/statements",
     },
     {
       section: "Settings",
