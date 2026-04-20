@@ -16,6 +16,7 @@ export default function AdminDashboardLayout({
         "/admin/dashboard/performance",
         "/admin/dashboard/settings",
         "/admin/dashboard/documents",
+        "/admin/dashboard/invoices",
       ]}
     >
       {children}
