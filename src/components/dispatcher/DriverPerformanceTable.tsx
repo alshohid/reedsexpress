@@ -7,6 +7,8 @@ import TablePagination from './TablePagination';
 
 import DriverPerformanceDetailsModal from './DriverPerformanceDetailsModal';
 import { useModal } from '@/src/hooks/useModal';
+import SelectField from '../ui/input/searchInput/SelectField';
+import { monthOptions } from '../admin/performance/PerformanceContainer';
 
 interface DriverItem {
   id: string;
@@ -274,16 +276,24 @@ export default function DriverPerformanceTable() {
             <SearchInput placeholder="Search..." />
           </div>
 
-          <button className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#E1E6EF] bg-[#F8F9FC] px-4 text-sm text-[#4A5263]">
-            <ChevronDown size={16} />
-            March
-          </button>
+          <SelectField
+            // value={selectedMonth}
+            onChange={value => {
+               console.log(value)
+            }}
+           
+            options={monthOptions}
+            placeholder="March"
+            wrapperClassName="w-full sm:w-[116px]"
+            selectClassName="bg-[#FCFCFD]"
+           
+          />
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-[#E6EAF2]">
           <table className="min-w-full">
             <thead className="bg-[#F3F5F9]">
-              <tr className="text-left text-sm text-[#75809A]">
+              <tr className="text-left text-[1rem] text-[#75809A]">
                 <th className="px-4 py-4 font-medium">ID</th>
                 <th className="px-4 py-4 font-medium">Driver</th>
                 <th className="px-4 py-4 font-medium">Carrier</th>
@@ -298,7 +308,7 @@ export default function DriverPerformanceTable() {
               {currentData.map(item => (
                 <tr
                   key={item.id}
-                  className="border-t border-[#E9EDF5] text-sm text-[#1F2430]"
+                  className="border-t border-[#E9EDF5] text-[1rem] text-[#1F2430]"
                 >
                   <td className="px-4 py-4">{item.id}</td>
                   <td className="px-4 py-4">

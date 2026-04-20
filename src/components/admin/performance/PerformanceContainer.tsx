@@ -23,7 +23,7 @@ import SelectField, {
 
 const PAGE_SIZE = 6;
 
-const monthOptions: SelectOption[] = [
+export const monthOptions: SelectOption[] = [
     { value: "all", label: "All" },
     { value: "january", label: "January" },
     { value: "february", label: "February" },

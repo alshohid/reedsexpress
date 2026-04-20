@@ -1,6 +1,7 @@
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import TablePagination from "./TablePagination";
+import CarrierDetailModal from "./CarrierDetailModal";
 
 export default function CarrierInfoTable() {
 
@@ -79,69 +80,73 @@ export default function CarrierInfoTable() {
     const currentData = carrierRows.slice(
       startIndex,
       startIndex + itemsPerPage,
-    );
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
    
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-separate border-spacing-0 text-sm">
-        <thead>
-          <tr className="text-left text-[11px] font-medium text-[#8B8FA3]">
-            <th className="border-b border-[#EEF0F5] px-4 py-3">ID</th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3">Carriers</th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3">DBA Name</th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3">MC No.</th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3">
-              Pricing Plan
-            </th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3">Contact</th>
-            <th className="border-b border-[#EEF0F5] px-4 py-3"></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {currentData.map(row => (
-            <tr key={row.id} className="text-[13px] text-[#111827]">
-              <td className="border-b border-[#F3F4F6] px-4 py-4 font-medium text-[#5B6170]">
-                {row.id}
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F4F7] text-[10px] font-semibold text-[#6B7280]">
-                    {row.initials}
-                  </div>
-                  <span className="font-medium text-[#1F2937]">
-                    {row.company}
-                  </span>
-                </div>
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
-                {row.dba}
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
-                {row.mc}
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4">
-                <span className="font-medium text-[#374151]">{row.plan}</span>
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
-                {row.contact}
-              </td>
-
-              <td className="border-b border-[#F3F4F6] px-4 py-4 text-right">
-                <button className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]">
-                  <MoreHorizontal className="h-4 w-4" />
-                </button>
-              </td>
+    <>
+      <div className="overflow-x-auto">
+        <table className="w-full border-separate border-spacing-0 text-sm">
+          <thead>
+            <tr className="text-left text-[16px] font-medium text-[#8B8FA3]">
+              <th className="border-b border-[#EEF0F5] px-4 py-3">ID</th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3">Carriers</th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3">DBA Name</th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3">MC No.</th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3">
+                Pricing Plan
+              </th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3">Contact</th>
+              <th className="border-b border-[#EEF0F5] px-4 py-3"></th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-      </table>
+          <tbody>
+            {currentData.map(row => (
+              <tr key={row.id} className="text-[16px] text-[#111827]">
+                <td className="border-b border-[#F3F4F6] px-4 py-4 font-medium text-[#5B6170]">
+                  {row.id}
+                </td>
+
+                <td className="border-b border-[#F3F4F6] px-4 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F4F7] text-[10px] font-semibold text-[#6B7280]">
+                      {row.initials}
+                    </div>
+                    <span className="font-medium text-[#1F2937]">
+                      {row.company}
+                    </span>
+                  </div>
+                </td>
+
+                <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
+                  {row.dba}
+                </td>
+
+                <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
+                  {row.mc}
+                </td>
+
+                <td className="border-b border-[#F3F4F6] px-4 py-4">
+                  <span className="font-medium text-[#374151]">{row.plan}</span>
+                </td>
+
+                <td className="border-b border-[#F3F4F6] px-4 py-4 text-[#4B5563]">
+                  {row.contact}
+                </td>
+
+                <td className="border-b  border-[#F3F4F6] px-4 py-4 text-right">
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <div className="flex flex-col gap-4 bg-white px-4 py-4 md:flex-row md:items-center md:justify-between">
           <p className="text-sm text-[#2C3342]">
             Showing {startIndex + 1} to{' '}
@@ -154,6 +159,11 @@ export default function CarrierInfoTable() {
             onPageChange={setCurrentPage}
           />
         </div>
-    </div>
+      </div>
+      <CarrierDetailModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 }

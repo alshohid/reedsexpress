@@ -16,9 +16,9 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/carriers',
         '/dispatcher/dashboard/settings',
       ]}
-
     >
       {children}
+     
     </RoleDashboardShell>
   );
 }
