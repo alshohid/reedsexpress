@@ -70,6 +70,60 @@ function getPeriodParts(period?: string) {
     return [startDate, endDate];
 }
 
+function toIsoDate(value?: string | null) {
+    if (!value) {
+        return "";
+    }
+
+    const trimmedValue = value.trim();
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)) {
+        return trimmedValue;
+    }
+
+    const slashParts = trimmedValue.split("/");
+
+    if (slashParts.length === 3) {
+        const [firstPart, secondPart, yearPart] = slashParts;
+        const firstNumber = Number(firstPart);
+        const secondNumber = Number(secondPart);
+        const yearNumber = Number(yearPart);
+
+        if (
+            Number.isInteger(firstNumber)
+            && Number.isInteger(secondNumber)
+            && Number.isInteger(yearNumber)
+        ) {
+            const isMonthFirst = secondNumber > 12;
+            const month = isMonthFirst ? firstNumber : secondNumber;
+            const day = isMonthFirst ? secondNumber : firstNumber;
+
+            return [
+                String(yearNumber).padStart(4, "0"),
+                String(month).padStart(2, "0"),
+                String(day).padStart(2, "0"),
+            ].join("-");
+        }
+    }
+
+    return trimmedValue;
+}
+
+function isValidIsoDate(value: string) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return false;
+    }
+
+    const [year, month, day] = value.split("-").map(Number);
+    const parsedDate = new Date(year, month - 1, day);
+
+    return (
+        parsedDate.getFullYear() === year
+        && parsedDate.getMonth() === month - 1
+        && parsedDate.getDate() === day
+    );
+}
+
 export default function StatementGenerateContainer({
     dataset = dispatcherStatementDataset,
     backHref,
@@ -110,8 +164,8 @@ export default function StatementGenerateContainer({
                 ?? (seedStatement?.recipientType === "carrier" ? seedStatement.recipientId : ""),
             driverId: searchParams.get("driver")
                 ?? (seedStatement?.recipientType === "driver" ? seedStatement.recipientId : ""),
-            startDate: searchParams.get("start") ?? seedStartDate,
-            endDate: searchParams.get("end") ?? seedEndDate,
+            startDate: toIsoDate(searchParams.get("start") ?? seedStartDate),
+            endDate: toIsoDate(searchParams.get("end") ?? seedEndDate),
             selectedLoadIds: getLoadsFromParam(searchParams.get("loads")),
         };
     }, [searchParams, seedEndDate, seedStartDate, seedStatement]);
@@ -195,10 +249,22 @@ export default function StatementGenerateContainer({
         if (step >= 2) {
             if (!values.startDate.trim()) {
                 nextErrors.startDate = "Start date is required.";
+            } else if (!isValidIsoDate(values.startDate)) {
+                nextErrors.startDate = "Select a valid start date.";
             }
 
             if (!values.endDate.trim()) {
                 nextErrors.endDate = "End date is required.";
+            } else if (!isValidIsoDate(values.endDate)) {
+                nextErrors.endDate = "Select a valid end date.";
+            }
+
+            if (
+                isValidIsoDate(values.startDate)
+                && isValidIsoDate(values.endDate)
+                && values.endDate < values.startDate
+            ) {
+                nextErrors.endDate = "End date must be after start date.";
             }
         }
 

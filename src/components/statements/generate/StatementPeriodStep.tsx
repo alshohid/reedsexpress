@@ -14,12 +14,14 @@ function DateField({
     label,
     value,
     error,
+    min,
     onChange,
 }: {
     id: string;
     label: string;
     value: string;
     error?: string;
+    min?: string;
     onChange: (value: string) => void;
 }) {
     return (
@@ -30,19 +32,33 @@ function DateField({
             <div className="relative mt-2">
                 <input
                     id={id}
+                    type="date"
                     value={value}
+                    min={min}
                     onChange={(event) => onChange(event.target.value)}
-                    placeholder="Select Date & Time"
                     className={[
-                        "h-12 w-full rounded-lg border bg-white px-4 pr-11 text-base text-[#101828] outline-none placeholder:text-[#98A2B3] focus:border-[#C9D3E0]",
+                        "h-12 w-full rounded-lg border bg-white px-4 text-base text-[#101828] outline-none focus:border-[#C9D3E0]",
                         error ? "border-[#F04438]" : "border-[#D7DDE8]",
                     ].join(" ")}
                 />
-                <CalendarDays className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#667085]" />
             </div>
             {error ? <p className="mt-2 text-sm text-[#D92D20]">{error}</p> : null}
         </div>
     );
+}
+
+function formatDisplayDate(value: string) {
+    if (!value) {
+        return "";
+    }
+
+    const [year, month, day] = value.split("-");
+
+    if (!year || !month || !day) {
+        return value;
+    }
+
+    return `${day}/${month}/${year}`;
 }
 
 export default function StatementPeriodStep({
@@ -67,6 +83,7 @@ export default function StatementPeriodStep({
                     label="End Date"
                     value={form.endDate}
                     error={errors.endDate}
+                    min={form.startDate}
                     onChange={(endDate) => onChange({ ...form, endDate })}
                 />
             </div>
@@ -76,7 +93,7 @@ export default function StatementPeriodStep({
                     <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-[#2563EB]" />
                     <div>
                         <p className="text-sm font-semibold text-[#2563EB]">
-                            Period: {form.startDate} - {form.endDate}
+                            Period: {formatDisplayDate(form.startDate)} - {formatDisplayDate(form.endDate)}
                         </p>
                         <p className="mt-1 text-xs text-[#2563EB]">30 days</p>
                     </div>
