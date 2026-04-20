@@ -1,10 +1,31 @@
 import {
+    DocumentColumn,
     DocumentRecord,
     RequestDocumentItem,
+    TabKey,
     UserInformationItem,
 } from "./documentTypes";
 
 export const PAGE_SIZE = 8;
+
+export const adminDocumentColumns: DocumentColumn[] = [
+    { key: "carrier", label: "Carrier" },
+    { key: "dispatcher", label: "Dispatcher" },
+    { key: "type", label: "Type" },
+    { key: "document", label: "Document" },
+    { key: "date", label: "Date" },
+    { key: "status", label: "Status" },
+    { key: "actions", label: "" },
+];
+
+export const dispatcherDocumentColumns: DocumentColumn[] = [
+    { key: "loadNumber", label: "Load Number" },
+    { key: "type", label: "Type" },
+    { key: "document", label: "Document" },
+    { key: "date", label: "Date" },
+    { key: "status", label: "Status" },
+    { key: "actions", label: "" },
+];
 
 export const carrierDocuments: DocumentRecord[] = [
     {
@@ -183,6 +204,147 @@ export const driverOnboardingDocuments: DocumentRecord[] = [
     },
 ];
 
+export const dispatcherLoadDocuments: DocumentRecord[] = [
+    {
+        id: "load-001",
+        loadNumber: "20241215-001",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "POD - Proof of Delivery",
+        document: "POD.pdf",
+        date: "2024-03-29",
+        status: "Approved",
+    },
+    {
+        id: "load-002",
+        loadNumber: "20241215-002",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "BOL - Bill of Lading",
+        document: "BOL - Bill of Lading",
+        date: "2024-03-29",
+        status: "Pending",
+    },
+    {
+        id: "load-003",
+        loadNumber: "20241215-003",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "Rate Confirmation",
+        document: "Rate_Confirmation.PDF",
+        date: "2024-03-29",
+        status: "Approved",
+    },
+    {
+        id: "load-004",
+        loadNumber: "20241215-004",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "Scale Ticket",
+        document: "Scale_Ticket.PDF",
+        date: "2024-03-29",
+        status: "Pending",
+    },
+    {
+        id: "load-005",
+        loadNumber: "20241215-005",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "Inspection Report",
+        document: "Inspection_Report.PDF",
+        date: "2024-03-29",
+        status: "Rejected",
+    },
+    {
+        id: "load-006",
+        loadNumber: "20241215-006",
+        carrier: "Northline Logistics",
+        dispatcher: "Maya Chen",
+        type: "Fuel Receipt",
+        document: "Fuel_Receipt.pdf",
+        date: "2024-03-27",
+        status: "Approved",
+    },
+    {
+        id: "load-007",
+        loadNumber: "20241215-007",
+        carrier: "Blue Ridge Haulers",
+        dispatcher: "Ethan Clark",
+        type: "Lumper Receipt",
+        document: "Lumper_Receipt.pdf",
+        date: "2024-03-24",
+        status: "Pending",
+    },
+    {
+        id: "load-008",
+        loadNumber: "20241215-008",
+        carrier: "Atlas Cargo Group",
+        dispatcher: "Sophia Lee",
+        type: "Detention Request",
+        document: "Detention_Request.pdf",
+        date: "2024-03-21",
+        status: "Approved",
+    },
+];
+
+export const dispatcherCarrierDocuments: DocumentRecord[] = [
+    {
+        id: "dispatcher-carrier-001",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "Carrier Contract",
+        document: "Carrier_Contract.pdf",
+        date: "2024-03-29",
+        status: "Approved",
+    },
+    {
+        id: "dispatcher-carrier-002",
+        carrier: "Swift Freight Solutions",
+        dispatcher: "John Doe",
+        type: "Certificate of Insurance",
+        document: "Certificate_Insurance.pdf",
+        date: "2024-03-29",
+        status: "Pending",
+    },
+    {
+        id: "dispatcher-carrier-003",
+        carrier: "Northline Logistics",
+        dispatcher: "Maya Chen",
+        type: "MC Authority",
+        document: "MC_Authority.pdf",
+        date: "2024-03-25",
+        status: "Approved",
+    },
+    {
+        id: "dispatcher-carrier-004",
+        carrier: "Blue Ridge Haulers",
+        dispatcher: "Ethan Clark",
+        type: "W-9",
+        document: "W9.pdf",
+        date: "2024-03-18",
+        status: "Pending",
+    },
+    {
+        id: "dispatcher-carrier-005",
+        carrier: "Atlas Cargo Group",
+        dispatcher: "Sophia Lee",
+        type: "Trucker Intake Survey",
+        document: "Trucker_Intake_Survey.pdf",
+        date: "2024-03-12",
+        status: "Rejected",
+    },
+];
+
+export const adminDocumentsByTab: Partial<Record<TabKey, DocumentRecord[]>> = {
+    "carrier-documents": carrierDocuments,
+    "driver-onboarding": driverOnboardingDocuments,
+};
+
+export const dispatcherDocumentsByTab: Partial<Record<TabKey, DocumentRecord[]>> = {
+    "load-documents": dispatcherLoadDocuments,
+    "carrier-documents": dispatcherCarrierDocuments,
+};
+
 export const requestDocumentOptions: RequestDocumentItem[] = [
     {
         id: "notice-of-assignment",
@@ -198,9 +360,7 @@ export const requestDocumentOptions: RequestDocumentItem[] = [
 ];
 
 export function getDocumentsByTab(tab: string) {
-    return tab === "carrier-documents"
-        ? carrierDocuments
-        : driverOnboardingDocuments;
+    return adminDocumentsByTab[tab as TabKey] ?? carrierDocuments;
 }
 
 export function getUserInformationItems(

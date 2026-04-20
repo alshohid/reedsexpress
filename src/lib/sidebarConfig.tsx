@@ -216,10 +216,17 @@ export const superAdminSidebarConfig: SidebarConfig = {
     },
     {
       section: 'Operations',
+      icon: <FolderOpen size={18} />,
+      name: 'Documents',
+      path: '/super-admin/dashboard/documents',
+    },
+    {
+      section: 'Operations',
       icon: <LifeBuoy size={18} />,
       name: 'Support',
       path: '/super-admin/dashboard/support',
     },
+
     {
       section: "Platform",
       icon: <MonitorCog size={18} />,

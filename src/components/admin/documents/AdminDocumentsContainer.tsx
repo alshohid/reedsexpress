@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Plus } from "lucide-react";
 import TopTabs, { TabItem } from "../../common/TopTabs";
 import ReusablePagination from "../../tables/ReusablePagination";
@@ -14,10 +14,12 @@ import DocumentStatusBadge from "./components/DocumentStatusBadge";
 import DocumentsActionMenu from "./components/DocumentsActionMenu";
 import AddDocumentModal from "./AddDocumentModal";
 import {
-    getDocumentsByTab,
+    adminDocumentColumns,
+    adminDocumentsByTab,
     PAGE_SIZE,
 } from "./documentMockData";
 import {
+    DocumentColumn,
     DocumentRecord,
     SortValue,
     StatusFilterValue,
@@ -29,8 +31,6 @@ const tabs: TabItem<TabKey>[] = [
     { key: "carrier-documents", label: "Carrier Documents" },
     { key: "driver-onboarding", label: "Driver Onboarding" },
 ];
-
-const tableHeader = ["Carrier", "Dispatcher", "Type", "Document", "Date", "Status", ""];
 
 const statusFilterOptions: SelectOption[] = [
     { value: "all", label: "Status" },
@@ -48,28 +48,76 @@ const sortOptions: SelectOption[] = [
 
 type DocumentsTableProps = {
     items: DocumentRecord[];
+    columns: DocumentColumn[];
     currentPage: number;
     totalPages: number;
     totalItems: number;
     onPageChange: (page: number) => void;
     onViewDocument: (document: DocumentRecord) => void;
+    minTableWidthPx?: number;
 };
 
 function DocumentsTable({
     items,
+    columns,
     currentPage,
     totalPages,
     totalItems,
     onPageChange,
     onViewDocument,
+    minTableWidthPx = 980,
 }: DocumentsTableProps) {
+    const tableHeader = columns.map((column) => column.label);
+
+    const renderCell = (column: DocumentColumn, document: DocumentRecord) => {
+        switch (column.key) {
+            case "carrier":
+                return (
+                    <span className="block max-w-[150px] whitespace-normal font-medium">
+                        {document.carrier}
+                    </span>
+                );
+            case "dispatcher":
+                return <span className="text-[#344054]">{document.dispatcher}</span>;
+            case "loadNumber":
+                return (
+                    <span className="whitespace-nowrap font-medium text-[#344054]">
+                        {document.loadNumber ?? "-"}
+                    </span>
+                );
+            case "type":
+                return (
+                    <span className="block max-w-[220px] whitespace-normal text-[#101828]">
+                        {document.type}
+                    </span>
+                );
+            case "document":
+                return <DocumentNameCell name={document.document} />;
+            case "date":
+                return <span className="whitespace-nowrap text-[#344054]">{document.date}</span>;
+            case "status":
+                return <DocumentStatusBadge status={document.status} />;
+            case "actions":
+                return (
+                    <div className="flex justify-end">
+                        <DocumentsActionMenu
+                            document={document}
+                            onView={onViewDocument}
+                        />
+                    </div>
+                );
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="overflow-hidden rounded-[12px] border border-[#E4E7EC] bg-white">
             <ReusableTable<DocumentRecord>
                 tableHeader={tableHeader}
                 items={items}
                 getRowKey={(document) => document.id}
-                minTableWidthPx={980}
+                minTableWidthPx={minTableWidthPx}
                 wrapperClassName="rounded-none border-0 bg-transparent shadow-none"
                 tableClassName="w-full border-separate border-spacing-0"
                 tableBodyClassName="divide-y-0"
@@ -78,30 +126,9 @@ function DocumentsTable({
                 bodyCellClassName="border-b border-[#EAECF0] px-4 py-4 align-middle text-[1rem] leading-5 text-[#101828] last:text-right"
                 emptyText="No documents matched the current filters."
                 emptyCellClassName="block px-5 py-16 text-center text-sm text-[#667085]"
-                rowRenderers={[
-                    (document) => (
-                        <span className="block max-w-[150px] whitespace-normal font-medium">
-                            {document.carrier}
-                        </span>
-                    ),
-                    (document) => <span className="text-[#344054]">{document.dispatcher}</span>,
-                    (document) => (
-                        <span className="block max-w-[180px] whitespace-normal text-[#101828]">
-                            {document.type}
-                        </span>
-                    ),
-                    (document) => <DocumentNameCell name={document.document} />,
-                    (document) => <span className="whitespace-nowrap text-[#344054]">{document.date}</span>,
-                    (document) => <DocumentStatusBadge status={document.status} />,
-                    (document) => (
-                        <div className="flex justify-end">
-                            <DocumentsActionMenu
-                                document={document}
-                                onView={onViewDocument}
-                            />
-                        </div>
-                    ),
-                ]}
+                rowRenderers={columns.map((column) => (document) =>
+                    renderCell(column, document),
+                )}
             />
 
             <ReusablePagination
@@ -116,8 +143,24 @@ function DocumentsTable({
     );
 }
 
-export default function AdminDocumentsContainer() {
-    const [tab, setTab] = useTabsQueryState<TabKey>("tab", "carrier-documents");
+type AdminDocumentsContainerProps = {
+    title?: string;
+    tabs?: TabItem<TabKey>[];
+    defaultTab?: TabKey;
+    documentsByTab?: Partial<Record<TabKey, DocumentRecord[]>>;
+    columns?: DocumentColumn[];
+    minTableWidthPx?: number;
+};
+
+export default function AdminDocumentsContainer({
+    title = "All Documents",
+    tabs: documentTabs = tabs,
+    defaultTab = "carrier-documents",
+    documentsByTab = adminDocumentsByTab,
+    columns = adminDocumentColumns,
+    minTableWidthPx = 980,
+}: AdminDocumentsContainerProps) {
+    const [tab, setTab] = useTabsQueryState<TabKey>("tab", defaultTab);
     const [query, setQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState<StatusFilterValue>("all");
     const [sortOrder, setSortOrder] = useState<SortValue>("newest");
@@ -129,7 +172,29 @@ export default function AdminDocumentsContainer() {
         openModal: openAddDocumentModal,
         closeModal: closeAddDocumentModal,
     } = useModal(false);
-    const sourceDocuments = useMemo(() => getDocumentsByTab(tab), [tab]);
+    const fallbackTab = useMemo(
+        () => documentTabs[0]?.key ?? defaultTab,
+        [defaultTab, documentTabs],
+    );
+    const activeTab = useMemo(
+        () => (
+            documentTabs.some((documentTab) => documentTab.key === tab)
+                ? tab
+                : fallbackTab
+        ),
+        [documentTabs, fallbackTab, tab],
+    );
+
+    useEffect(() => {
+        if (tab !== activeTab) {
+            setTab(activeTab);
+        }
+    }, [activeTab, setTab, tab]);
+
+    const sourceDocuments = useMemo(
+        () => documentsByTab[activeTab] ?? [],
+        [activeTab, documentsByTab],
+    );
 
     const carrierOptions = useMemo(
         () =>
@@ -150,7 +215,7 @@ export default function AdminDocumentsContainer() {
     const filteredDocuments = useMemo(() => {
         const normalizedQuery = query.trim().toLowerCase();
 
-        return sourceDocuments
+        return [...sourceDocuments]
             .filter((document) => {
                 if (statusFilter === "all") {
                     return true;
@@ -223,7 +288,7 @@ export default function AdminDocumentsContainer() {
                 <div className="space-y-4">
                     <div>
                         <h2 className="text-2xl font-semibold tracking-[-0.02em] text-[#101828] sm:text-[1.75rem]">
-                            All Documents
+                            {title}
                         </h2>
                     </div>
 
@@ -266,10 +331,10 @@ export default function AdminDocumentsContainer() {
 
                     <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                         <TopTabs
-                            tabs={tabs}
-                            activeKey={tab}
+                            tabs={documentTabs}
+                            activeKey={activeTab}
                             onChange={handleTabChange}
-                            className="rounded-xl p-1 [&_button]:!rounded-lg [&_button]:!py-2.5 [&_button]:!text-xs sm:[&_button]:!text-sm"
+                            className="rounded-xl p-1 [&_button]:rounded-lg! [&_button]:py-2.5! [&_button]:text-xs! sm:[&_button]:text-sm!"
                         />
 
                         <button
@@ -284,11 +349,13 @@ export default function AdminDocumentsContainer() {
 
                     <DocumentsTable
                         items={paginatedDocuments}
+                        columns={columns}
                         currentPage={currentPage}
                         totalPages={totalPages}
                         totalItems={filteredDocuments.length}
                         onPageChange={setPage}
                         onViewDocument={handleViewDocument}
+                        minTableWidthPx={minTableWidthPx}
                     />
                 </div>
             </section>
@@ -298,7 +365,7 @@ export default function AdminDocumentsContainer() {
                 onClose={handleCloseModal}
                 document={selectedDocument}
                 uploadedDocuments={selectedUploadedDocuments}
-                userType={tab === "driver-onboarding" ? "Driver" : "Dispatcher"}
+                userType={activeTab === "driver-onboarding" ? "Driver" : "Dispatcher"}
             />
 
             <AddDocumentModal

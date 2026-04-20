@@ -15,6 +15,7 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/communications',
         '/dispatcher/dashboard/carriers',
         '/dispatcher/dashboard/settings',
+        '/dispatcher/dashboard/documents',
       ]}
 
     >
