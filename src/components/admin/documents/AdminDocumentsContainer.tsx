@@ -12,6 +12,7 @@ import { useTabsQueryState } from "@/src/lib/helper/useTabsQueryState";
 import DocumentNameCell from "./components/DocumentNameCell";
 import DocumentStatusBadge from "./components/DocumentStatusBadge";
 import DocumentsActionMenu from "./components/DocumentsActionMenu";
+import AddDocumentModal from "./AddDocumentModal";
 import {
     getDocumentsByTab,
     PAGE_SIZE,
@@ -123,7 +124,28 @@ export default function AdminDocumentsContainer() {
     const [page, setPage] = useState(1);
     const [selectedDocument, setSelectedDocument] = useState<DocumentRecord | null>(null);
     const { isOpen, openModal, closeModal } = useModal(false);
+    const {
+        isOpen: isAddDocumentModalOpen,
+        openModal: openAddDocumentModal,
+        closeModal: closeAddDocumentModal,
+    } = useModal(false);
     const sourceDocuments = useMemo(() => getDocumentsByTab(tab), [tab]);
+
+    const carrierOptions = useMemo(
+        () =>
+            Array.from(new Set(sourceDocuments.map((document) => document.carrier))).map(
+                (carrier) => ({ value: carrier, label: carrier }),
+            ),
+        [sourceDocuments],
+    );
+
+    const documentTypeOptions = useMemo(
+        () =>
+            Array.from(new Set(sourceDocuments.map((document) => document.type))).map(
+                (type) => ({ value: type, label: type }),
+            ),
+        [sourceDocuments],
+    );
 
     const filteredDocuments = useMemo(() => {
         const normalizedQuery = query.trim().toLowerCase();
@@ -252,7 +274,7 @@ export default function AdminDocumentsContainer() {
 
                         <button
                             type="button"
-                            onClick={() => console.log("Add Document")}
+                            onClick={openAddDocumentModal}
                             className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[0.9rem] bg-[#2E3A83] px-5 text-sm font-semibold text-white transition hover:bg-[#25306F] lg:w-auto"
                         >
                             <Plus className="h-5 w-5" />
@@ -277,6 +299,13 @@ export default function AdminDocumentsContainer() {
                 document={selectedDocument}
                 uploadedDocuments={selectedUploadedDocuments}
                 userType={tab === "driver-onboarding" ? "Driver" : "Dispatcher"}
+            />
+
+            <AddDocumentModal
+                isOpen={isAddDocumentModalOpen}
+                onClose={closeAddDocumentModal}
+                carrierOptions={carrierOptions}
+                documentTypeOptions={documentTypeOptions}
             />
         </>
     );
