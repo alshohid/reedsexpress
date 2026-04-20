@@ -17,9 +17,9 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/settings',
         '/dispatcher/dashboard/documents',
       ]}
-
     >
       {children}
+     
     </RoleDashboardShell>
   );
 }

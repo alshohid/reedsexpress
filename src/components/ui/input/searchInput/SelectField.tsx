@@ -35,6 +35,7 @@ export default function SelectField({
   selectClassName = "",
   iconClassName = "",
   disabled = false,
+
 }: SelectFieldProps) {
   return (
     <div className={wrapperClassName}>
@@ -53,7 +54,7 @@ export default function SelectField({
           onChange={onChange}
           disabled={disabled}
           className={[
-            "h-10 rounded-xl border border-[#D8E2EE] bg-[#F8FAFB] px-3.5 py-0 pr-9 text-sm font-medium text-[#344054] shadow-none transition focus:border-[#F8FAFB] focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:border-[#E4E7EC] disabled:bg-[#F8FAFC] disabled:text-[#98A2B3]",
+            "h-10 rounded-xl cursor-pointer border border-[#D8E2EE] bg-[#F8FAFB] px-3.5 py-0 pr-9 text-sm font-medium text-[#344054] shadow-none transition focus:border-[#F8FAFB] focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:border-[#E4E7EC] disabled:bg-[#F8FAFC] disabled:text-[#98A2B3]",
             "dark:bg-[#0D0D12] dark:border-gray-700 dark:text-gray-300 dark:placeholder:text-gray-500",
             selectClassName,
           ]

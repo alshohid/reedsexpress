@@ -46,7 +46,7 @@ export default function ReportsPageMainComponent() {
   };
 
   return (
-    <main className="min-h-screen space-y-6 p-4">
+    <main className="min-h-screen space-y-6">
       <AnalyticsOverview
         dateRange={dateRange}
         onDateRangeChange={setDateRange}

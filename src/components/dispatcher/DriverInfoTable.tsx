@@ -1,6 +1,8 @@
 import { MoreHorizontal, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 import TablePagination from './TablePagination';
+import DriverDetailModal from './DriverDetailModal';
+import AddDriverModal from './AddDiverModal';
 
 export default function DriverInfoTable() {
   const driverRows = [
@@ -47,8 +49,10 @@ export default function DriverInfoTable() {
       const currentData = driverRows.slice(
         startIndex,
         startIndex + itemsPerPage,
-      );
-
+  );
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   return (
     <>
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -56,7 +60,10 @@ export default function DriverInfoTable() {
           All Drivers
         </h2>
 
-        <button className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95">
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95"
+        >
           <Plus className="h-4 w-4" />
           Add Driver
         </button>
@@ -75,7 +82,7 @@ export default function DriverInfoTable() {
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0 text-sm">
           <thead>
-            <tr className="text-left text-[11px] font-medium text-[#8B8FA3]">
+            <tr className="text-left text-[16px] font-medium text-[#8B8FA3]">
               <th className="border-b border-[#EEF0F5] px-4 py-3">Name</th>
               <th className="border-b border-[#EEF0F5] px-4 py-3">Carrier</th>
               <th className="border-b border-[#EEF0F5] px-4 py-3">Truck No.</th>
@@ -90,7 +97,7 @@ export default function DriverInfoTable() {
 
           <tbody>
             {currentData.map((row, index) => (
-              <tr key={index} className="text-[13px] text-[#111827]">
+              <tr key={index} className="text-[16px] text-[#111827]">
                 <td className="border-b border-[#F3F4F6] px-4 py-4 font-medium text-[#1F2937]">
                   {row.name}
                 </td>
@@ -118,7 +125,10 @@ export default function DriverInfoTable() {
                 </td>
 
                 <td className="border-b border-[#F3F4F6] px-4 py-4">
-                  <button className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]">
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]"
+                  >
                     <MoreHorizontal className="h-4 w-4" />
                   </button>
                 </td>
@@ -139,6 +149,16 @@ export default function DriverInfoTable() {
           />
         </div>
       </div>
+
+      <DriverDetailModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
+      <AddDriverModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+      />
     </>
   );
 }

@@ -497,7 +497,7 @@ export default function CarrierReportTable() {
         <div className="overflow-x-auto rounded-xl border border-[#E6EAF2]">
           <table className="min-w-full">
             <thead className="bg-[#F3F5F9]">
-              <tr className="text-left text-sm text-[#75809A]">
+              <tr className="text-left text-[1rem] text-[#75809A]">
                 <th className="px-4 py-4 font-medium">Carriers</th>
                 <th className="px-4 py-4 font-medium">MC No.</th>
                 <th className="px-4 py-4 font-medium">Loads</th>
@@ -511,7 +511,7 @@ export default function CarrierReportTable() {
               {currentData.map(item => (
                 <tr
                   key={item.id}
-                  className="border-t border-[#E9EDF5] text-sm text-[#1F2430]"
+                  className="border-t border-[#E9EDF5] text-[1rem] text-[#1F2430]"
                 >
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">

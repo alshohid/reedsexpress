@@ -125,7 +125,7 @@ export default function DeliveryScheduleList() {
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0 text-sm">
           <thead>
-            <tr className="text-left text-[11px] font-medium text-[#8B8FA3]">
+            <tr className="text-left text-[1rem] font-medium text-[#8B8FA3]">
               <th className="border-b border-[#EEF0F5] px-4 py-3">Load ID</th>
               <th className="border-b border-[#EEF0F5] px-4 py-3">
                 Driver/Truck
@@ -143,7 +143,7 @@ export default function DeliveryScheduleList() {
 
           <tbody>
             {currentData.map((row, index) => (
-              <tr key={index} className="text-[13px] text-[#111827]">
+              <tr key={index} className="text-[1rem] text-[#111827]">
                 <td className="border-b border-[#F3F4F6] px-4 py-4 font-medium text-[#374151]">
                   {row.loadId}
                 </td>

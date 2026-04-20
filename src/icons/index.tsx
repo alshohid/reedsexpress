@@ -138,6 +138,8 @@ import CheckIcon from './check-circle-icon.svg';
 import DeleteIcon from './trash-icon.svg';
 import DocIcon from './doc-icon.svg';
 import SubmitIcon from './submit-icon.svg';
+import EditOptionIcon from './edit-icon.svg';
+import MessageChatIcon from './chat-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -277,4 +279,6 @@ export {
   DeleteIcon,
   DocIcon,
   SubmitIcon,
+  EditOptionIcon,
+  MessageChatIcon,
 };

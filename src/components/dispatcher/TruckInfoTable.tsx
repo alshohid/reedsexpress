@@ -73,7 +73,7 @@ export default function TruckInfoTable() {
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0 text-sm">
           <thead>
-            <tr className="text-left text-[11px] font-medium text-[#8B8FA3]">
+            <tr className="text-left text-[16px] font-medium text-[#8B8FA3]">
               <th className="border-b border-[#EEF0F5] px-4 py-3">
                 Unit Number
               </th>
@@ -91,7 +91,7 @@ export default function TruckInfoTable() {
 
           <tbody>
             {currentData.map((row, index) => (
-              <tr key={index} className="text-[13px] text-[#111827]">
+              <tr key={index} className="text-[16px] text-[#111827]">
                 <td className="border-b border-[#F3F4F6] px-4 py-4 font-medium text-[#4B5563]">
                   {row.unitNumber}
                 </td>
