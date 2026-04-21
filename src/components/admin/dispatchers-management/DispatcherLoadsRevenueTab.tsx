@@ -1,7 +1,7 @@
 "use client";
 
-import { CalendarDays } from "lucide-react";
 import { useState } from "react";
+import { Input } from "@/src/components/ui/input";
 import DispatcherLoadCard from "./DispatcherLoadCard";
 import type { DispatcherDetailsRecord } from "./dispatcherDetailsTypes";
 
@@ -12,8 +12,10 @@ type DispatcherLoadsRevenueTabProps = {
 export default function DispatcherLoadsRevenueTab({
     dispatcher,
 }: DispatcherLoadsRevenueTabProps) {
-    const [startDate, setStartDate] = useState("06/22/2025");
-    const [endDate, setEndDate] = useState("07/22/2025");
+    const [startDate, setStartDate] = useState("2025-06-22");
+    const [endDate, setEndDate] = useState("2025-07-22");
+    const displayStartDate = formatDisplayDate(startDate);
+    const displayEndDate = formatDisplayDate(endDate);
 
     return (
         <section>
@@ -39,8 +41,8 @@ export default function DispatcherLoadsRevenueTab({
             <div className="mt-4 rounded-lg bg-[#F8FAFC] p-4 sm:p-5">
                 <p className="text-sm text-[#344054]">
                     All completed loads from{" "}
-                    <span className="font-semibold text-[#101828]">{startDate}</span> -{" "}
-                    <span className="font-semibold text-[#101828]">{endDate}</span>
+                    <span className="font-semibold text-[#101828]">{displayStartDate}</span> -{" "}
+                    <span className="font-semibold text-[#101828]">{displayEndDate}</span>
                 </p>
 
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -66,6 +68,20 @@ export default function DispatcherLoadsRevenueTab({
     );
 }
 
+function formatDisplayDate(value: string) {
+    if (!value) {
+        return "Select date";
+    }
+
+    const [year, month, day] = value.split("-");
+
+    if (!year || !month || !day) {
+        return value;
+    }
+
+    return `${month}/${day}/${year}`;
+}
+
 function DateField({
     id,
     label,
@@ -83,14 +99,13 @@ function DateField({
                 {label}
             </label>
             <div className="relative mt-2">
-                <input
+                <Input
                     id={id}
-                    type="text"
+                    type="date"
                     value={value}
                     onChange={(event) => onChange(event.target.value)}
-                    className="h-10 w-full rounded-md border border-[#E4E7EC] bg-white px-3 pr-10 text-sm text-[#101828] outline-none focus:border-[#2E3A83] focus:ring-2 focus:ring-[#2E3A83]/10"
+                    className="h-10 rounded-md border-[#E4E7EC] bg-white px-3 text-sm text-[#101828] shadow-none outline-none focus:border-[#2E3A83] focus:ring-2 focus:ring-[#2E3A83]/10"
                 />
-                <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#344054]" />
             </div>
         </div>
     );
