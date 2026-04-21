@@ -3,26 +3,32 @@ import { Suspense } from "react";
 
 const ForgotPasswordFallback = () => {
   return (
-    <div
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-bottom px-6 py-12"
-      style={{
-        backgroundImage: "url('/images/johnrayn_login_bg_image.png')",
-      }}
-    >
-      <div className="w-full max-w-136 rounded-[28px] bg-white/90 px-6 py-8 shadow-[0_24px_80px_rgba(43,50,35,0.18)] backdrop-blur-md md:px-8">
-        <div className="space-y-4">
-          <div className="h-3 w-28 rounded-full bg-[#D9DED3]" />
-          <div className="flex gap-2">
-            <div className="h-1.5 flex-1 rounded-full bg-[#424A3B]" />
-            <div className="h-1.5 flex-1 rounded-full bg-[#D9DED3]" />
-          </div>
-          <div className="h-8 w-56 rounded-full bg-[#E8ECE1]" />
-          <div className="h-4 w-72 rounded-full bg-[#EEF2E8]" />
-          <div className="mt-6 space-y-4">
-            <div className="h-24 rounded-2xl bg-[#F6F8F2]" />
-            <div className="h-12 rounded-xl bg-[#D5DACE]" />
-            <div className="h-12 rounded-xl bg-[#EEF2E8]" />
-          </div>
+    <div className="box-border h-[100dvh] overflow-hidden bg-[#EEF2F8] px-3 py-3 sm:px-4 sm:py-4">
+      <div className="mx-auto flex h-full w-full flex-col overflow-hidden rounded-[30px] p-3 sm:p-4 lg:p-5">
+        <div className="grid h-full min-h-0 flex-1 gap-4 lg:grid-cols-[5fr_7fr]">
+          <section className="flex min-h-0 items-center justify-center rounded-[26px] px-6 py-8 sm:px-8 lg:px-10">
+            <div className="w-full max-w-[338px] space-y-7">
+              <div className="mx-auto h-12 w-24 rounded-xl bg-[#D9E0EF]" />
+              <div className="space-y-3">
+                <div className="mx-auto h-6 w-44 rounded-full bg-[#D9E0EF]" />
+                <div className="mx-auto h-4 w-64 rounded-full bg-[#E3E8F2]" />
+                <div className="mx-auto h-4 w-48 rounded-full bg-[#E3E8F2]" />
+              </div>
+              <div className="space-y-4">
+                <div className="h-[50px] rounded-[12px] bg-white" />
+                <div className="h-[52px] rounded-[14px] bg-[#AAB2D4]" />
+              </div>
+            </div>
+          </section>
+
+          <section className="hidden min-h-0 overflow-hidden rounded-[26px] lg:block">
+            <div
+              className="h-full rounded-[26px] border border-[#DDE4F2] bg-cover bg-center shadow-[0_30px_70px_rgba(46,58,131,0.12)]"
+              style={{
+                backgroundImage: "url('/images/auth/activate-workspace-hero.jpg')",
+              }}
+            />
+          </section>
         </div>
       </div>
     </div>
