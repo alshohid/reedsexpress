@@ -199,13 +199,19 @@ export const superAdminSidebarConfig: SidebarConfig = {
     {
       section: "Management",
       icon: <ShieldEllipsis size={18} />,
-      name: "Admin Management",
-      path: "/super-admin/dashboard/admin-management",
+      name: "User Management",
+      path: "/super-admin/dashboard/user-management",
+    },
+    {
+      section: "Management",
+      icon: <Briefcase size={18} />,
+      name: "Organizations",
+      path: "/super-admin/dashboard/organizations",
     },
     {
       section: "Management",
       icon: <UserCog size={18} />,
-      name: "Dispatcher Management",
+      name: "Dispatcher",
       path: "/super-admin/dashboard/dispatcher-management",
     },
     {
@@ -228,18 +234,6 @@ export const superAdminSidebarConfig: SidebarConfig = {
     },
 
     {
-      section: "Platform",
-      icon: <MonitorCog size={18} />,
-      name: "Platform Control",
-      path: "/super-admin/dashboard/platform-control",
-    },
-    {
-      section: "Platform",
-      icon: <BarChart3 size={18} />,
-      name: "Analytics",
-      path: "/super-admin/dashboard/analytics",
-    },
-    {
       section: "Finance",
       icon: <InvoicesIcon />,
       name: "Invoices",
@@ -250,6 +244,12 @@ export const superAdminSidebarConfig: SidebarConfig = {
       icon: <StatementsIcon />,
       name: "Statements",
       path: "/super-admin/dashboard/statements",
+    },
+    {
+      section: "Finance",
+      icon: <Receipt size={18} />,
+      name: "Pricing & Plan",
+      path: "/super-admin/dashboard/pricing-plan",
     },
     {
       section: "Settings",
