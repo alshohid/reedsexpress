@@ -18,6 +18,7 @@ export default function AdminDashboardLayout({
         "/admin/dashboard/documents",
         "/admin/dashboard/invoices",
         "/admin/dashboard/statements",
+        "/admin/dashboard/pricing-plan",
       ]}
     >
       {children}

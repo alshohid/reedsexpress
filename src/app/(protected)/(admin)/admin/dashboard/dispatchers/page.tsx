@@ -5,7 +5,7 @@ import DispatchersManagementContainer from "@/src/components/admin/dispatchers-m
 export default function AdminDispatchersPage() {
   return (
     <div className="w-full">
-      <DispatchersManagementContainer />
+      <DispatchersManagementContainer detailBaseHref="/admin/dashboard/dispatchers" />
     </div>
   );
 }

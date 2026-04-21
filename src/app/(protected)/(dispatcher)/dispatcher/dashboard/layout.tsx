@@ -19,11 +19,11 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/invoices',
         '/dispatcher/dashboard/statements',
         '/dispatcher/dashboard/drivers',
-        
+        '/dispatcher/dashboard/supports',
       ]}
     >
       {children}
-     
+
     </RoleDashboardShell>
   );
 }
