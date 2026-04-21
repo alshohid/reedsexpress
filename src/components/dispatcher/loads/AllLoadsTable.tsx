@@ -10,6 +10,7 @@ import { DownCaretIcon } from '@/src/icons';
 import TablePagination from '../TablePagination';
 import { useRouter } from 'next/navigation';
 
+
 const LOADS_DATA = [
   {
     id: '20241215-5-001',
@@ -174,7 +175,15 @@ const LOADS_DATA = [
 ];
 
 export function AllLoadsTable() {
+ 
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+ const handleViewLoad = (id: string) => {
+   router.push(`/dispatcher/dashboard/loads/${id}?tab=details`);
+ };
+
+ const handleEditLoad = (id: string) => {
+   router.push(`/dispatcher/dashboard/loads/${id}?tab=details&edit=true`);
+ };
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -290,10 +299,17 @@ export function AllLoadsTable() {
                   </button>
                   {activeDropdown === index && (
                     <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-100 shadow-xl rounded-xl z-10 py-2">
-                      <button className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm">
+                      <button
+                        onClick={() => handleViewLoad(load.id)}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                      >
                         View Load
                       </button>
-                      <button className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm">
+
+                      <button
+                        onClick={() => handleEditLoad(load.id)}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                      >
                         Edit Load
                       </button>
                       <button className="w-full px-4 py-2 text-left hover:bg-red-50 text-red-500 text-sm">
