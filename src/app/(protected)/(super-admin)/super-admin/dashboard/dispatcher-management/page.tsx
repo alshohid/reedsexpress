@@ -4,9 +4,8 @@ import DispatchersManagementContainer from "@/src/components/admin/dispatchers-m
 
 export default function SuperAdminDispatcherManagementPage() {
   return (
-    <DispatchersManagementContainer />
+    <DispatchersManagementContainer detailBaseHref="/super-admin/dashboard/dispatcher-management" />
   );
 }
-
 
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeferredValue, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import PendingInvitation, {
     type PendingInvitationRecord,
 } from "./PendingInvitation";
@@ -146,7 +147,15 @@ function formatSentAtLabel(date: Date) {
     return `Sent ${day} ${month}, ${year}`;
 }
 
-export default function DispatchersManagementContainer() {
+type DispatchersManagementContainerProps = {
+    detailBaseHref?: string;
+};
+
+export default function DispatchersManagementContainer({
+    detailBaseHref,
+}: DispatchersManagementContainerProps) {
+    const router = useRouter();
+    const pathname = usePathname();
     const [pendingInvitations, setPendingInvitations] = useState(
         INITIAL_PENDING_INVITATIONS,
     );
@@ -156,6 +165,10 @@ export default function DispatchersManagementContainer() {
     const { isOpen, openModal, closeModal } = useModal(false);
 
     const normalizedQuery = deferredQuery.trim().toLowerCase();
+    const resolvedDetailBaseHref = detailBaseHref
+        ?? (pathname.startsWith("/super-admin")
+            ? "/super-admin/dashboard/dispatcher-management"
+            : "/admin/dashboard/dispatchers");
 
     const filteredDispatchers = useMemo(() => {
         return DISPATCHERS.filter((dispatcher) => {
@@ -217,6 +230,10 @@ export default function DispatchersManagementContainer() {
         closeModal();
     };
 
+    const handleViewDispatcher = (dispatcher: DispatcherRecord) => {
+        router.push(`${resolvedDetailBaseHref}/${encodeURIComponent(dispatcher.id)}`);
+    };
+
     return (
         <>
             <div className="flex flex-col gap-6">
@@ -238,6 +255,7 @@ export default function DispatchersManagementContainer() {
                     pageSize={PAGE_SIZE}
                     onPageChange={setPage}
                     onAddDispatcher={openModal}
+                    onViewDispatcher={handleViewDispatcher}
                 />
             </div>
 

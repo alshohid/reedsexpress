@@ -26,6 +26,7 @@ export type DispatchersTableProps = {
     pageSize: number;
     onPageChange: (page: number) => void;
     onAddDispatcher: () => void;
+    onViewDispatcher: (dispatcher: DispatcherRecord) => void;
 };
 
 const tableHeader = ["ID", "Name", "Email", "Carriers", "Revenue", "Status", "Action"];
@@ -55,6 +56,7 @@ export default function DispatchersTable({
     pageSize,
     onPageChange,
     onAddDispatcher,
+    onViewDispatcher,
 }: DispatchersTableProps) {
     return (
         <section className="rounded-[1.5rem] border border-[#E4E7EC] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] sm:p-5">
@@ -110,6 +112,7 @@ export default function DispatchersTable({
                             <div className="flex justify-center">
                                 <button
                                     type="button"
+                                    onClick={() => onViewDispatcher(dispatcher)}
                                     className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#344054] transition hover:bg-[#F2F4F7]"
                                     aria-label={`View dispatcher ${dispatcher.name}`}
                                 >
