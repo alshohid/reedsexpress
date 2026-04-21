@@ -18,6 +18,8 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/documents',
         '/dispatcher/dashboard/invoices',
         '/dispatcher/dashboard/statements',
+        '/dispatcher/dashboard/drivers',
+        
       ]}
     >
       {children}

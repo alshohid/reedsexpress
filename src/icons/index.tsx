@@ -139,7 +139,9 @@ import DeleteIcon from './trash-icon.svg';
 import DocIcon from './doc-icon.svg';
 import SubmitIcon from './submit-icon.svg';
 import EditOptionIcon from './edit-icon.svg';
-import MessageChatIcon from './chat-icon.svg';
+import MessageChatIcon from './chat-icon.svg'
+import PendingIcon from './pending-icon.svg';
+import CompleteIcon from './complete-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -281,4 +283,6 @@ export {
   SubmitIcon,
   EditOptionIcon,
   MessageChatIcon,
+  PendingIcon,
+  CompleteIcon,
 };

@@ -1,3 +1,4 @@
+"use client"
 import { MoreHorizontal, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 import TablePagination from './TablePagination';
@@ -58,8 +59,8 @@ export default function DriverInfoTable() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const handleAddDriverSuccess = () => {
-    setIsAddModalOpen(false); // Close form
-    setIsSuccessModalOpen(true); // Show success message
+    setIsAddModalOpen(false); 
+    setIsSuccessModalOpen(true); 
   };
   return (
     <>
