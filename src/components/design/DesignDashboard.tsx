@@ -22,6 +22,8 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import OnboardingDocumentsModal from "@/src/components/admin/documents/OnboardingDocumentsModal";
+import type { DocumentRecord } from "@/src/components/admin/documents/documentTypes";
 
 const BRAND_PRIMARY = "#2E3A83";
 const BRAND_LINE = "#D8E0FF";
@@ -55,6 +57,18 @@ type DocumentItem = {
   date: string;
   status: DocumentStatus;
 };
+
+const driverUploadedDocumentTypes = [
+  "CDL License",
+  "Medical Card",
+  "Driver Application",
+];
+
+const dispatcherUploadedDocumentTypes = [
+  "Dispatch Agreement",
+  "W-9 Form",
+  "Carrier Packet",
+];
 
 const documents: DocumentItem[] = [
   {
@@ -190,11 +204,38 @@ const tooltipFormatter = (value: unknown) => {
   return formatCurrency(Number(normalizedValue ?? 0));
 };
 
+const buildDashboardDocumentRecord = (
+  item: DocumentItem,
+  type = `${item.userType} Onboarding`,
+): DocumentRecord => ({
+  id: `dashboard-${item.id}`,
+  carrier: item.company,
+  dispatcher: item.name,
+  type,
+  document: `${item.name.replace(/\s+/g, "_")}_${type.replace(/\s+/g, "_")}.pdf`,
+  date: item.date,
+  status: item.status,
+});
+
+const getUploadedDocumentsForDashboardItem = (item: DocumentItem) => {
+  const documentTypes =
+    item.userType === "Driver"
+      ? driverUploadedDocumentTypes
+      : dispatcherUploadedDocumentTypes;
+
+  return documentTypes.map((type, index) => ({
+    ...buildDashboardDocumentRecord(item, type),
+    id: `dashboard-${item.id}-uploaded-${index + 1}`,
+    document: `${item.name.replace(/\s+/g, "_")}_${type.replace(/\s+/g, "_")}.pdf`,
+  }));
+};
+
 export default function DesignDashboard() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"All" | DocumentStatus>("All");
   const [sortBy, setSortBy] = useState<"Newest" | "Oldest">("Newest");
   const [page, setPage] = useState(1);
+  const [selectedItem, setSelectedItem] = useState<DocumentItem | null>(null);
 
   const filteredDocuments = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -247,7 +288,22 @@ export default function DesignDashboard() {
     return [currentPage - 1, currentPage, currentPage + 1];
   }, [currentPage, totalPages]);
 
+  const selectedDocument = useMemo(
+    () => (selectedItem ? buildDashboardDocumentRecord(selectedItem) : null),
+    [selectedItem],
+  );
+
+  const selectedUploadedDocuments = useMemo(
+    () => (selectedItem ? getUploadedDocumentsForDashboardItem(selectedItem) : []),
+    [selectedItem],
+  );
+
+  const handleCloseModal = () => {
+    setSelectedItem(null);
+  };
+
   return (
+    <>
     <div className="space-y-6">
       <div className="grid gap-4 xl:grid-cols-3">
         {cardData.map(({ title, value, icon: Icon }) => (
@@ -469,6 +525,7 @@ export default function DesignDashboard() {
                     <td className="border-b border-[#EEF1F7] px-5 py-4 text-right">
                       <button
                         type="button"
+                        onClick={() => setSelectedItem(item)}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[#E1E7F5] text-[#667085] transition hover:bg-[#F7F8FE] hover:text-[#2E3A83]"
                         aria-label={`Open ${item.name}`}
                       >
@@ -535,5 +592,13 @@ export default function DesignDashboard() {
 
       </section>
     </div>
+    <OnboardingDocumentsModal
+      isOpen={Boolean(selectedItem)}
+      onClose={handleCloseModal}
+      document={selectedDocument}
+      uploadedDocuments={selectedUploadedDocuments}
+      userType={selectedItem?.userType ?? "Dispatcher"}
+    />
+    </>
   );
 }

@@ -210,7 +210,7 @@ export const superAdminSidebarConfig: SidebarConfig = {
     },
     {
       section: "Management",
-      icon: <UserCog size={18} />,
+      icon: <Activity />,
       name: "Performance",
       path: "/super-admin/dashboard/performance",
     },
