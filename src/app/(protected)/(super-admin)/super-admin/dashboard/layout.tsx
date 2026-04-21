@@ -17,6 +17,7 @@ export default function SuperAdminDashboardLayout({
         "/super-admin/dashboard/settings",
         "/super-admin/dashboard/invoices",
         "/super-admin/dashboard/statements",
+        "/super-admin/dashboard/dispatcher-management",
       ]}
     >
       {children}
