@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
 import { DateRangeOption, DateRangeType } from '@/src/types/dispatcher/type';
 import { DownCaretIcon } from '@/src/icons';
 

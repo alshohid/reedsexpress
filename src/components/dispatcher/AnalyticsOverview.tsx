@@ -1,12 +1,9 @@
 'use client';
-
-import { Boxes, DollarSign, CircleCheck } from 'lucide-react';
-
 import GlobalDateFilter from './GlobalDateFilter';
 import { DateRangeType } from '@/src/types/dispatcher/type';
 import SectionTitle from './SectionTitle';
 import OverviewStatCard from './OverviewStatCard';
-import { CircleIcon, DollarIcon, MoneyIcon, TotalLoadsIcon } from '@/src/icons';
+import { CircleIcon, DollarIcon, TotalLoadsIcon } from '@/src/icons';
 
 
 interface AnalyticsOverviewProps {

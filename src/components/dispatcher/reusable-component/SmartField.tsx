@@ -7,7 +7,7 @@
   border = false,
 }: {
   label: string;
-  value: string;
+  value: string  | undefined;
   isEditing: boolean;
   onChange: (v: string) => void;
   icon?: React.ElementType;
@@ -17,7 +17,7 @@
     <div
       className={`space-y-1 ${border ? 'border-b border-gray-100 pb-2' : ''}`}
     >
-      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">
+      <p className="text-[16px] font-semibold text-[#030304] uppercase tracking-tight">
         {label}
       </p>
       {isEditing ? (
@@ -32,7 +32,7 @@
             type="text"
             value={value}
             onChange={e => onChange(e.target.value)}
-            className={`w-full text-sm font-medium text-gray-800 bg-white border border-blue-200 rounded-md py-1.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all ${
+            className={`w-full text-sm font-medium text-[#777980] bg-white border border-blue-200 rounded-md py-1.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all ${
               IconComponent ? 'pl-9 pr-3' : 'px-3'
             }`}
           />
@@ -42,7 +42,7 @@
           {IconComponent && (
             <IconComponent className="text-gray-400" size={16} />
           )}
-          <p className="text-sm font-semibold text-gray-800 truncate">
+          <p className="text-sm font-semibold text-[#777980] truncate">
             {value || '—'}
           </p>
         </div>

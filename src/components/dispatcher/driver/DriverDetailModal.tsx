@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
-
-
-import { MessageChatIcon, EditOptionIcon } from '@/src/icons';
+import { X, Plus, ChevronDown } from 'lucide-react';
+import { MessageChatIcon, EditOptionIcon, DownCaretIcon } from '@/src/icons';
 import { Driver } from '@/src/types/driver/type';
 import { Modal } from '../../ui/modal';
 import SmartField from '../reusable-component/SmartField';
 import AvailableSlotsModal from './AvailableSlotsModal';
-import { Input } from '../../ui/input';
-
 
 interface Props {
   open: boolean;
@@ -18,18 +14,53 @@ interface Props {
   driver: Driver;
 }
 
+const TRUCK_OPTIONS = [
+  '30',
+  '80',
+  '15',
+  '22',
+  '40',
+];
+const TRAILER_OPTIONS = [
+  '6700',
+  '4380',
+  '3250',
+  '5100',
+  '9900',
+];
+
 export default function DriverDetailModal({ open, onClose, driver }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [showSlots, setShowSlots] = useState(false);
-
   const [showAddTruckForm, setShowAddTruckForm] = useState(false);
   const [formData, setFormData] = useState<Driver>(driver);
+  const [selectedSlot, setSelectedSlot] = useState<string>('');
 
-  // Helper to update specific fields
+  // Temp state for the assign form
+  const [assignTruck, setAssignTruck] = useState(formData?.truckNo || '');
+  const [assignTrailer, setAssignTrailer] = useState(formData?.trailerNo || '');
+
   const handleFieldChange = (field: keyof Driver, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
-  const [selectedSlot, setSelectedSlot] = useState<string>('');
+
+  const handleAssign = () => {
+    if (!assignTruck || !assignTrailer) return;
+    setFormData(prev => ({
+      ...prev,
+      truckNo: assignTruck,
+      trailerNo: assignTrailer,
+    }));
+    setShowAddTruckForm(false);
+  };
+
+  const handleCancelAssign = () => {
+    // Reset temp selects back to current formData values
+    setAssignTruck(formData.truckNo || '');
+    setAssignTrailer(formData.trailerNo || '');
+    setShowAddTruckForm(false);
+  };
+
   return (
     <>
       <Modal
@@ -71,7 +102,7 @@ export default function DriverDetailModal({ open, onClose, driver }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
             {/* Driver Information */}
             <div className="space-y-1">
-              <h3 className="font-bold text-lg text-[#111827] mb-4">
+              <h3 className="font-semibold text-lg text-[#111827] mb-4">
                 Driver Information
               </h3>
               <SmartField
@@ -145,7 +176,7 @@ export default function DriverDetailModal({ open, onClose, driver }: Props) {
                 border
               />
               <div className="pt-2">
-                <p className="text-[11px] font-bold text-gray-400 uppercase">
+                <p className="text-[16px] font-bold text-[#030304]">
                   Status
                 </p>
                 <span className="inline-block mt-1 px-3 py-1 bg-green-50 text-green-500 border border-green-200 rounded-full text-xs font-bold">
@@ -155,7 +186,7 @@ export default function DriverDetailModal({ open, onClose, driver }: Props) {
             </div>
           </div>
 
-          {/* Optional Add Truck Section */}
+          {/* Assign Truck Section */}
           <div className="mt-8">
             {!showAddTruckForm ? (
               <div className="flex flex-col sm:flex-row items-center justify-between p-6 rounded-2xl bg-[#F9FAFB] border border-gray-100">
@@ -164,50 +195,85 @@ export default function DriverDetailModal({ open, onClose, driver }: Props) {
                     Add Truck & Trailer (Optional)
                   </h4>
                   <p className="text-sm text-gray-500 mt-1">
-                    You have not selected any truck for this driver. Click on
-                    Add truck button to assign.
+                    {formData.truckNo && formData.trailerNo
+                      ? `Currently assigned: Truck #${formData.truckNo} · Trailer #${formData.trailerNo}`
+                      : 'You have not selected any truck for this driver. Click on Add truck button to assign.'}
                   </p>
                 </div>
                 <button
                   onClick={() => setShowAddTruckForm(true)}
                   className="mt-4 sm:mt-0 flex items-center gap-2 px-5 py-2.5 bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] transition-all"
                 >
-                  <Plus size={18} /> Add Now
+                  <Plus size={18} />{' '}
+                  {formData.truckNo ? 'Add Truck' : 'Add Truck'}
                 </button>
               </div>
             ) : (
               <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Assign Truck */}
-                  <div className="space-y-4">
-                    <label className="text-[15px] font-bold text-[#111827] ">
+                  {/* Assign Truck Select */}
+                  <div className="space-y-2">
+                    <label className="text-[15px] font-bold text-[#111827]">
                       Assign Truck
                     </label>
-                    <Input
-                      placeholder="Enter unit no."
-                      className="px-3 py-2 rounded-[10px] border-[#dfe1e7]"
-                    />
+                    <div className="relative">
+                      <select
+                        value={assignTruck}
+                        onChange={e => setAssignTruck(e.target.value)}
+                        className="w-full h-11 appearance-none rounded-[10px] border border-[#dfe1e7] bg-white px-3 pr-9 text-sm text-[#111827] outline-none focus:border-[#2B3674] transition"
+                      >
+                        <option value="">Select truck</option>
+                        {TRUCK_OPTIONS.map(truck => (
+                          <option key={truck} value={truck}>
+                            {truck}
+                          </option>
+                        ))}
+                      </select>
+                      <DownCaretIcon
+                        size={16}
+                        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      />
+                    </div>
                   </div>
 
-                  {/* Assign Trailer */}
-                  <div className="space-y-4">
-                    <label className="text-[15px] font-bold text-[#111827] border-[#dfe1e7]">
+                  {/* Assign Trailer Select */}
+                  <div className="space-y-2">
+                    <label className="text-[15px] font-bold text-[#111827]">
                       Assign Trailer
                     </label>
-                    <Input
-                      placeholder="Enter last name"
-                      className="px-3 py-2 rounded-[10px]"
-                    />
+                    <div className="relative">
+                      <select
+                        value={assignTrailer}
+                        onChange={e => setAssignTrailer(e.target.value)}
+                        className="w-full h-11 appearance-none rounded-[10px] border border-[#dfe1e7] bg-white px-3 pr-9 text-sm text-[#111827] outline-none focus:border-[#2B3674] transition"
+                      >
+                        <option value="">Select trailer</option>
+                        {TRAILER_OPTIONS.map(trailer => (
+                          <option key={trailer} value={trailer}>
+                            {trailer}
+                          </option>
+                        ))}
+                      </select>
+                      <DownCaretIcon
+                        size={16}
+                        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="flex  gap-3 pt-2">
+
+                <div className="flex gap-3 pt-2">
                   <button
-                    onClick={() => setShowAddTruckForm(false)}
+                    onClick={handleCancelAssign}
                     className="px-6 py-2.5 w-full border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50"
                   >
                     Cancel
                   </button>
-                  <button className="px-6 py-2.5 w-full bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756]">
+                  <button
+                    onClick={handleAssign}
+                    disabled={!assignTruck || !assignTrailer}
+                    className="px-6 py-2.5 w-full bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  >
                     Assign Truck
                   </button>
                 </div>
@@ -235,10 +301,7 @@ export default function DriverDetailModal({ open, onClose, driver }: Props) {
         </div>
       </Modal>
 
-      {/* Availability Slots Modal (Placeholder structure) */}
-
-      <div className="">
-        {/* Calendar & Slots logic here */}
+      <div>
         <AvailableSlotsModal
           isOpen={showSlots}
           onClose={() => setShowSlots(false)}

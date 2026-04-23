@@ -10,4 +10,7 @@ export interface Driver {
   state?: string;
   cdlExpDate?: string;
   medCardExpDate?: string;
+  regExpDate?: string;
+  assignedTruck?: string;
+  assignedTrailer?: string;
 }

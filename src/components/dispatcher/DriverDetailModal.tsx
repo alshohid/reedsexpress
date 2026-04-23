@@ -1,256 +1,333 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Plus, MessageSquare } from 'lucide-react';
+import { X, Plus } from 'lucide-react';
+import { MessageChatIcon, EditOptionIcon, DownCaretIcon } from '@/src/icons';
+import { Driver } from '@/src/types/driver/type';
+
+
 import { Modal } from '../ui/modal';
 import SmartField from './reusable-component/SmartField';
-import AssignTruckDropdown from './reusable-component/AssignTruckDropdown';
-import AssignTrailerDropdown from './reusable-component/AssignTrailerDropdown';
-import { EditIcon, EditOptionIcon, MessageChatIcon } from '@/src/icons';
-import { Input } from '../ui/input';
+import AvailableSlotsModal from './driver/AvailableSlotsModal';
 
-const TRUCK_OPTIONS = [
-  { label: 'Unit 101 - Kenworth T680', value: 'truck_101' },
-  { label: 'Unit 205 - Freightliner Cascadia', value: 'truck_205' },
-];
+interface Props {
+  open: boolean;
+  onClose: () => void;
+  driver: Driver;
+  onDelete?: (id: string) => void; // ← new: called when Delete Driver is clicked
+  onSave?: (updated: Driver) => void; // ← new: called when Save Changes is clicked
+}
 
-const TRAILER_OPTIONS = [
-  { label: 'TL-50 - Reefer', value: 'trailer_tl_50' },
-  { label: 'TL-72 - Dry Van', value: 'trailer_tl_72' },
-];
+const TRUCK_OPTIONS = ['30', '80', '15', '22', '40'];
+const TRAILER_OPTIONS = ['6700', '4380', '3250', '5100', '9900'];
 
 export default function DriverDetailModal({
   open,
   onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+  driver,
+  onDelete,
+  onSave,
+}: Props) {
   const [isEditing, setIsEditing] = useState(false);
+  const [showSlots, setShowSlots] = useState(false);
   const [showAddTruckForm, setShowAddTruckForm] = useState(false);
+  const [formData, setFormData] = useState<Driver>(driver);
+  const [selectedSlot, setSelectedSlot] = useState<string>('');
+  const [assignTruck, setAssignTruck] = useState(formData?.truckNo || '');
+  const [assignTrailer, setAssignTrailer] = useState(formData?.trailerNo || '');
 
-  const [driverData, setDriverData] = useState({
-    name: 'Ronaldo',
-    carrier: 'Logic LTD',
-    assignedTruck: 'N/A',
-    assignedTrailer: 'N/A',
-    state: 'Truck Inc.',
-    contact: '+32 23234',
-    cdlNumber: 'James Clark',
-    regExpDate: '1/1/25',
-    cdlExpDate: '1/1/25',
-    medCardExpDate: '12/12/28',
-    status: 'Active',
-    assignedTruckId: '',
-    assignedTrailerId: '',
-  });
+  const handleFieldChange = (field: keyof Driver, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
-  const handleInputChange = (field: string, value: string | number) => {
-    setDriverData(prev => ({ ...prev, [field]: value }));
+  // Save Changes — propagates updated driver up to parent
+  const handleSaveChanges = () => {
+    setIsEditing(false);
+    onSave?.(formData);
+  };
+
+  // Delete Driver — propagates up then closes modal
+  const handleDelete = () => {
+    onDelete?.(driver.id);
+    onClose();
+  };
+
+  // Contact Driver — opens default mail/phone client
+  const handleContact = () => {
+    if (formData.contact) {
+      const cleaned = formData.contact.replace(/\s+/g, '');
+      // If it looks like a phone number open tel:, otherwise mailto:
+      const isPhone = /^\+?[\d\s\-()]+$/.test(formData.contact);
+      window.open(isPhone ? `tel:${cleaned}` : `mailto:${formData.contact}`);
+    }
+  };
+
+  const handleAssign = () => {
+    if (!assignTruck || !assignTrailer) return;
+    setFormData(prev => ({
+      ...prev,
+      truckNo: assignTruck,
+      trailerNo: assignTrailer,
+    }));
+    setShowAddTruckForm(false);
+  };
+
+  const handleCancelAssign = () => {
+    setAssignTruck(formData.truckNo || '');
+    setAssignTrailer(formData.trailerNo || '');
+    setShowAddTruckForm(false);
   };
 
   return (
-    <Modal
-      isOpen={open}
-      onClose={onClose}
-      className="max-w-[850px] p-0"
-      contentBgClassName="bg-white"
-      showCloseButton={false}
-    >
-      <div className="relative w-full rounded-3xl p-8 max-h-[95vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-[#111827]">Driver Details</h2>
-          <button
-            onClick={onClose}
-            className="p-1.5 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
-          >
-            <X size={18} className="text-gray-500" />
-          </button>
-        </div>
-        <div className="flex justify-end">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="text-[#3E4EDD] p-1"
-          >
-            {isEditing ? 'Save' : <EditOptionIcon />}
-          </button>
-        </div>
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-1">
-          {/* Driver Information */}
-          <div className="space-y-1">
-            <h3 className="text-lg font-bold text-[#111827] mb-4">
-              Driver Information
-            </h3>
-            <SmartField
-              label="Name"
-              value={driverData.name}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('name', v)}
-              border
-            />
-            <SmartField
-              label="Carrier"
-              value={driverData.carrier}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('carrier', v)}
-              border
-            />
-            <SmartField
-              label="Assigned Truck"
-              value={driverData.assignedTruck}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('assignedTruck', v)}
-              border
-            />
-            <SmartField
-              label="Assigned Trailer"
-              value={driverData.assignedTrailer}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('assignedTrailer', v)}
-              border
-            />
-            <SmartField
-              label="State"
-              value={driverData.state}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('state', v)}
-              border
-            />
-            <SmartField
-              label="Contact"
-              value={driverData.contact}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('contact', v)}
-              border
-            />
+    <>
+      <Modal
+        isOpen={open}
+        onClose={onClose}
+        className="max-w-[850px] p-0"
+        showCloseButton={false}
+      >
+        <div className="p-8 bg-white rounded-3xl">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-[#111827]">
+              Driver Details #ID_{formData.id}
+            </h2>
+            <button
+              onClick={onClose}
+              className="p-2 border border-gray-100 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              <X size={18} className="text-gray-500" />
+            </button>
           </div>
 
-          {/* Compliance Column */}
-          <div className="space-y-1">
-            <h3 className="text-lg font-bold text-[#111827] mb-4">
-              Driver Fitness / Compliance
-            </h3>
-            <SmartField
-              label="CDL Number"
-              value={driverData.cdlNumber}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('cdlNumber', v)}
-              border
-            />
-            <SmartField
-              label="Registration Expiration Date"
-              value={driverData.regExpDate}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('regExpDate', v)}
-              border
-            />
-            <SmartField
-              label="CDL Expiration Date"
-              value={driverData.cdlExpDate}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('cdlExpDate', v)}
-              border
-            />
-            <SmartField
-              label="Medical Card Expiration Date"
-              value={driverData.medCardExpDate}
-              isEditing={isEditing}
-              onChange={v => handleInputChange('medCardExpDate', v)}
-              border
-            />
+          {/* Edit Toggle */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={isEditing ? handleSaveChanges : () => setIsEditing(true)}
+              className="text-[#3E4EDD] text-sm font-bold hover:underline flex items-center gap-1"
+            >
+              {isEditing ? (
+                'Save Changes'
+              ) : (
+                <>
+                  <EditOptionIcon /> Edit
+                </>
+              )}
+            </button>
+          </div>
 
-            {/* Status Field */}
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <div className="flex-1">
-                <p className="text-sm font-bold text-[#111827]">Status</p>
-                <div className="mt-1">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#ECFDF5] text-[#10B981] border border-[#A7F3D0]">
-                    Active
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            {/* Driver Information */}
+            <div className="space-y-1">
+              <h3 className="font-semibold text-lg text-[#111827] mb-4">
+                Driver Information
+              </h3>
+              <SmartField
+                label="Name"
+                value={formData.name}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('name', v)}
+                border
+              />
+              <SmartField
+                label="Carrier"
+                value={formData.carrier}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('carrier', v)}
+                border
+              />
+              <SmartField
+                label="Assigned Truck"
+                value={formData.truckNo}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('truckNo', v)}
+                border
+              />
+              <SmartField
+                label="Assigned Trailer"
+                value={formData.trailerNo}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('trailerNo', v)}
+                border
+              />
+              <SmartField
+                label="Contact"
+                value={formData.contact}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('contact', v)}
+                border
+              />
+            </div>
+
+            {/* Compliance Column */}
+            <div className="space-y-1">
+              <h3 className="font-bold text-lg text-[#111827] mb-4">
+                Driver Fitness / Compliance
+              </h3>
+              <SmartField
+                label="CDL Number"
+                value={formData.cdlNumber || formData.name}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('cdlNumber', v)}
+                border
+              />
+              <SmartField
+                label="State"
+                value={formData.state || 'Truck Inc.'}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('state', v)}
+                border
+              />
+              <SmartField
+                label="CDL Expiration Date"
+                value={formData.cdlExpDate || '1/1/25'}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('cdlExpDate', v)}
+                border
+              />
+              <SmartField
+                label="Medical Card Expiration Date"
+                value={formData.medCardExpDate || '12/12/28'}
+                isEditing={isEditing}
+                onChange={v => handleFieldChange('medCardExpDate', v)}
+                border
+              />
+              <div className="pt-2">
+                <p className="text-[16px] font-bold text-[#030304]">Status</p>
+                <span className="inline-block mt-1 px-3 py-1 bg-green-50 text-green-500 border border-green-200 rounded-full text-xs font-bold">
+                  {formData.status}
+                </span>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Optional Add Truck Section */}
-        <div className="mt-8">
-          {!showAddTruckForm ? (
-            <div className="flex flex-col sm:flex-row items-center justify-between p-6 rounded-2xl bg-[#F9FAFB] border border-gray-100">
-              <div className="text-center sm:text-left">
-                <h4 className="font-bold text-[#111827]">
-                  Add Truck & Trailer (Optional)
-                </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  You have not selected any truck for this driver. Click on Add
-                  truck button to assign.
-                </p>
+          {/* Assign Truck Section */}
+          <div className="mt-8">
+            {!showAddTruckForm ? (
+              <div className="flex flex-col sm:flex-row items-center justify-between p-6 rounded-2xl bg-[#F9FAFB] border border-gray-100">
+                <div className="text-center sm:text-left">
+                  <h4 className="font-bold text-[#111827]">
+                    Add Truck & Trailer (Optional)
+                  </h4>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {formData.truckNo && formData.trailerNo
+                      ? `Currently assigned: Truck #${formData.truckNo} · Trailer #${formData.trailerNo}`
+                      : 'You have not selected any truck for this driver. Click on Add truck button to assign.'}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowAddTruckForm(true)}
+                  className="mt-4 sm:mt-0 flex items-center gap-2 px-5 py-2.5 bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] transition-all"
+                >
+                  <Plus size={18} /> Add Truck
+                </button>
               </div>
+            ) : (
+              <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Assign Truck Select */}
+                  <div className="space-y-2">
+                    <label className="text-[15px] font-bold text-[#111827]">
+                      Assign Truck
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={assignTruck}
+                        onChange={e => setAssignTruck(e.target.value)}
+                        className="w-full h-11 appearance-none rounded-[10px] border border-[#dfe1e7] bg-white px-3 pr-9 text-sm text-[#111827] outline-none focus:border-[#2B3674] transition"
+                      >
+                        <option value="">Select truck</option>
+                        {TRUCK_OPTIONS.map(truck => (
+                          <option key={truck} value={truck}>
+                            {truck}
+                          </option>
+                        ))}
+                      </select>
+                      <DownCaretIcon
+                        size={16}
+                        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Assign Trailer Select */}
+                  <div className="space-y-2">
+                    <label className="text-[15px] font-bold text-[#111827]">
+                      Assign Trailer
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={assignTrailer}
+                        onChange={e => setAssignTrailer(e.target.value)}
+                        className="w-full h-11 appearance-none rounded-[10px] border border-[#dfe1e7] bg-white px-3 pr-9 text-sm text-[#111827] outline-none focus:border-[#2B3674] transition"
+                      >
+                        <option value="">Select trailer</option>
+                        {TRAILER_OPTIONS.map(trailer => (
+                          <option key={trailer} value={trailer}>
+                            {trailer}
+                          </option>
+                        ))}
+                      </select>
+                      <DownCaretIcon
+                        size={16}
+                        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={handleCancelAssign}
+                    className="px-6 py-2.5 w-full border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAssign}
+                    disabled={!assignTruck || !assignTrailer}
+                    className="px-6 py-2.5 w-full bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  >
+                    Assign Truck
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer Actions */}
+          <div className="mt-10 flex flex-wrap justify-between items-center gap-4">
+            <button
+              onClick={handleDelete}
+              className="px-8 py-3 border border-gray-200 rounded-xl font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all"
+            >
+              Delete Driver
+            </button>
+            <div className="flex gap-3">
               <button
-                onClick={() => setShowAddTruckForm(true)}
-                className="mt-4 sm:mt-0 flex items-center gap-2 px-5 py-2.5 bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] transition-all"
+                onClick={() => setShowSlots(true)}
+                className="bg-[#2B3674] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#1e2756] transition-all"
               >
-                <Plus size={18} /> Add Now
+                View Available Slots
+              </button>
+              <button
+                onClick={handleContact}
+                className="bg-[#2B3674] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#1e2756] transition-all"
+              >
+                <MessageChatIcon /> Contact Driver
               </button>
             </div>
-          ) : (
-            <div className="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Assign Truck */}
-                <div className="space-y-4">
-                  <label className="text-[15px] font-bold text-[#111827] ">
-                    Assign Truck
-                  </label>
-                  <Input
-                    placeholder="Enter unit no."
-                    className="px-3 py-2 rounded-[10px] border-[#dfe1e7]"
-                  />
-                </div>
-
-                {/* Assign Trailer */}
-                <div className="space-y-4">
-                  <label className="text-[15px] font-bold text-[#111827] border-[#dfe1e7]">
-                    Assign Trailer
-                  </label>
-                  <Input
-                    placeholder="Enter last name"
-                    className="px-3 py-2 rounded-[10px]"
-                  />
-                </div>
-              </div>
-              <div className="flex  gap-3 pt-2">
-                <button
-                  onClick={() => setShowAddTruckForm(false)}
-                  className="px-6 py-2.5 w-full border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button className="px-6 py-2.5 w-full bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756]">
-                  Assign Truck
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Footer Actions */}
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-          <button className="px-8 py-3 border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all">
-            Delete Driver
-          </button>
-
-          <div className="flex items-center gap-3">
-            <button className="px-6 py-3 bg-[#2B3674] text-white font-bold rounded-xl hover:bg-[#1e2756] transition-all">
-              View Available Slots
-            </button>
-            <button className="flex items-center gap-2 px-6 py-3 bg-[#2B3674] text-white font-bold rounded-xl hover:bg-[#1e2756] transition-all">
-              <MessageChatIcon/> Contact Driver
-            </button>
           </div>
         </div>
+      </Modal>
+
+      <div>
+        <AvailableSlotsModal
+          isOpen={showSlots}
+          onClose={() => setShowSlots(false)}
+          onSaveSlot={slot => setSelectedSlot(slot)}
+        />
       </div>
-    </Modal>
+    </>
   );
 }

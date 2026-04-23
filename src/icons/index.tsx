@@ -142,6 +142,7 @@ import EditOptionIcon from './edit-icon.svg';
 import MessageChatIcon from './chat-icon.svg'
 import PendingIcon from './pending-icon.svg';
 import CompleteIcon from './complete-icon.svg';
+import DownloadCloudIcon from './download-cloud.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -285,4 +286,5 @@ export {
   MessageChatIcon,
   PendingIcon,
   CompleteIcon,
+  DownloadCloudIcon,
 };

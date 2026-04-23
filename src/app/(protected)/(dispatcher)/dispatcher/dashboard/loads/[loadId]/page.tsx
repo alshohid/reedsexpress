@@ -1,14 +1,11 @@
+
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import TopTabs from '@/src/components/common/TopTabs';
-
-import { DetailsTab } from '@/src/components/dispatcher/loads/DetailsTab';
 import { DocumentsTab } from '@/src/components/dispatcher/loads/DocumentsTab';
 import { TrackLoadTab } from '@/src/components/dispatcher/loads/TrackLoadTab';
-import { EditOptionIcon } from '@/src/icons';
+import { DetailsTab } from '@/src/components/dispatcher/loads/DetailsTab';
 
 export type LoadTabKey = 'details' | 'documents' | 'track-load';
 
@@ -83,68 +80,51 @@ export const MOCK_LOAD: LoadFormData = {
   deadheadMiles: '30',
   loadedMiles: '270',
   additionalNotes:
-    'Lorem ipsum dolor sit amet consectetur. Faucibus leo tempor in sapien ut quam pulvinar vulputate aliquam.',
+    '',
 };
-
-export const RATE_CONFIRMATION_DOC: DocumentItem = {
-  id: 'rate-confirmation',
-  name: 'Rate Confirmation.pdf',
-  size: '0.7 MB',
-  uploadedAt: 'Mar 23, 2026, 09:06 PM',
-  tag: 'Rate Confirmation',
-};
-
-export const DRIVER_DOCS: DocumentItem[] = [
-  {
-    id: 'pod',
-    name: 'POD - Proof of Delivery.pdf',
-    size: '0.7 MB',
-    uploadedAt: 'Mar 23, 2026, 09:06 PM',
-    tag: 'POD',
-  },
-  {
-    id: 'bol',
-    name: 'BOL - Bill of Lading.PDF',
-    size: '0.7 MB',
-    uploadedAt: 'Mar 23, 2026, 09:06 PM',
-    tag: 'BOL',
-  },
-];
 
 export const INITIAL_TIMELINE: TimelineItem[] = [
-  {
-    id: 'assigned',
-    title: 'Assigned',
-    dateTime: '12 Feb 2025 — 09:00',
-    completed: true,
-    actionLabel: 'Done',
-    actionDisabled: true,
-  },
-  {
-    id: 'pickup',
-    title: 'Pickup',
-    dateTime: '12 Feb 2025 — 09:00',
-    completed: true,
-    actionLabel: 'Done',
-    actionDisabled: true,
-  },
-  {
-    id: 'delivered',
-    title: 'Delivered',
-    dateTime: '12 Feb 2025 — 09:00',
-    completed: true,
-    actionLabel: 'Mark Done',
-    actionDisabled: false,
-  },
-  {
-    id: 'completed',
-    title: 'Completed',
-    dateTime: '12 Feb 2025 — 09:00',
-    completed: false,
-    actionLabel: 'Done',
-    actionDisabled: true,
-  },
+  { id: 'assigned', title: 'Assigned', dateTime: '12 Feb 2025 — 09:00', completed: true, actionLabel: 'Done', actionDisabled: true },
+  { id: 'pickup', title: 'Pickup', dateTime: '12 Feb 2025 — 09:00', completed: true, actionLabel: 'Done', actionDisabled: true },
+  { id: 'delivered', title: 'Delivered', dateTime: '12 Feb 2025 — 09:00', completed: true, actionLabel: 'Mark Done', actionDisabled: false },
+  { id: 'completed', title: 'Completed', dateTime: '12 Feb 2025 — 09:00', completed: false, actionLabel: 'Done', actionDisabled: true },
 ];
+
+// ── Inline Tab Bar (matches screenshot style) ──────────────────────
+function TabBar({
+  tabs,
+  activeKey,
+  onChange,
+}: {
+  tabs: { key: LoadTabKey; label: string }[];
+  activeKey: LoadTabKey;
+  onChange: (key: LoadTabKey) => void;
+}) {
+  return (
+    <div className="flex border-b border-[#E5E7EB]">
+      {tabs.map(tab => {
+        const isActive = tab.key === activeKey;
+        return (
+          <button
+            key={tab.key}
+            onClick={() => onChange(tab.key)}
+            className={`relative mr-6 pb-3 pt-1 text-sm font-semibold transition-colors ${
+              isActive
+                ? 'text-[#2E3A83]'
+                : 'text-[#9CA3AF] hover:text-[#6B7280]'
+            }`}
+          >
+            {tab.label}
+            {/* Active underline */}
+            {isActive && (
+              <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-[#2E3A83]" />
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function ViewLoadPage() {
   const router = useRouter();
@@ -153,16 +133,15 @@ export default function ViewLoadPage() {
 
   const activeTabFromUrl = searchParams.get('tab') as LoadTabKey | null;
   const [activeTab, setActiveTab] = useState<LoadTabKey>(
-    activeTabFromUrl && TABS.some(tab => tab.key === activeTabFromUrl)
+    activeTabFromUrl && TABS.some(t => t.key === activeTabFromUrl)
       ? activeTabFromUrl
       : 'details',
   );
 
-  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<LoadFormData>(MOCK_LOAD);
-  const [savedData, setSavedData] = useState<LoadFormData>(MOCK_LOAD);
   const [showUploadBox, setShowUploadBox] = useState(false);
   const [timeline, setTimeline] = useState<TimelineItem[]>(INITIAL_TIMELINE);
+  const [isSaved, setIsSaved] = useState(false);
 
   const loadId = useMemo(() => {
     return Array.isArray(params?.loadId) ? params.loadId[0] : params?.loadId;
@@ -171,94 +150,78 @@ export default function ViewLoadPage() {
   useEffect(() => {
     if (
       activeTabFromUrl &&
-      TABS.some(tab => tab.key === activeTabFromUrl) &&
+      TABS.some(t => t.key === activeTabFromUrl) &&
       activeTabFromUrl !== activeTab
     ) {
       setActiveTab(activeTabFromUrl);
     }
-  }, [activeTabFromUrl, activeTab]);
+  }, [activeTabFromUrl]);
 
   const handleTabChange = (key: LoadTabKey) => {
     setActiveTab(key);
     const query = new URLSearchParams(searchParams.toString());
     query.set('tab', key);
-    router.replace(
-      `/dispatcher/dashboard/loads/${loadId}?${query.toString()}`,
-      { scroll: false },
-    );
+    router.replace(`/dispatcher/dashboard/loads/${loadId}?${query.toString()}`, { scroll: false });
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setIsSaved(false);
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(true);
+  // ── Date field helper — renders a native date input styled as calendar picker
+  const handleDateChange = (field: keyof LoadFormData, value: string) => {
+    // Convert yyyy-mm-dd (native date input) → dd/mm/yyyy for storage
+    if (value) {
+      const [y, m, d] = value.split('-');
+      setFormData(prev => ({ ...prev, [field]: `${d}/${m}/${y}` }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: '' }));
+    }
+    setIsSaved(false);
   };
 
-  const handleCancel = () => {
-    setFormData(savedData);
-    setIsEditing(false);
+  // Convert dd/mm/yyyy → yyyy-mm-dd for the native input value
+  const toInputDate = (ddmmyyyy: string) => {
+    if (!ddmmyyyy) return '';
+    const parts = ddmmyyyy.split('/');
+    if (parts.length !== 3) return '';
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
   };
 
   const handleSave = () => {
-    setSavedData(formData);
-    setIsEditing(false);
+    // Replace with your API call
+    console.log('Saving load:', formData);
+    setIsSaved(true);
   };
 
   const handleDeliveredDone = () => {
     setTimeline(prev =>
       prev.map(item => {
-        if (item.id === 'delivered') {
-          return {
-            ...item,
-            actionLabel: 'Done',
-            actionDisabled: true,
-          };
-        }
-
-        if (item.id === 'completed') {
-          return {
-            ...item,
-            completed: true,
-            actionDisabled: true,
-          };
-        }
-
+        if (item.id === 'delivered') return { ...item, actionLabel: 'Done', actionDisabled: true };
+        if (item.id === 'completed') return { ...item, completed: true, actionDisabled: true };
         return item;
       }),
     );
   };
 
+  const pageTitle =
+    activeTab === 'documents'
+      ? `Load Documents #${loadId}`
+      : activeTab === 'track-load'
+        ? `Track Load #${loadId}`
+        : `Load Details #${loadId}`;
+
   return (
     <div className="w-full rounded-2xl border border-[#E7EAF3] bg-white p-4 sm:p-6">
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <h1 className="text-[24px] font-bold  text-[#111827] ">
-          {activeTab === 'documents'
-            ? `Load Documents #${loadId}`
-            : activeTab === 'track-load'
-              ? `Track Load #${loadId}`
-              : `Load Details #${loadId}`}
-        </h1>
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <h1 className="text-[22px] font-bold text-[#111827]">{pageTitle}</h1>
 
-        {activeTab === 'details' && !isEditing && (
-          <button
-            type="button"
-            onClick={handleEditToggle}
-            className="inline-flex h-9  items-center justify-center rounded-lg  text-[#6B7280] transition hover:bg-[#F9FAFB]"
-          >
-            <EditOptionIcon />
-          </button>
-        )}
-
+        {/* Only show Add New on documents tab */}
         {activeTab === 'documents' && (
           <button
             type="button"
@@ -270,35 +233,44 @@ export default function ViewLoadPage() {
         )}
       </div>
 
-      <div className="mb-6 max-w-95">
-        <TopTabs<LoadTabKey>
-          tabs={TABS}
-          activeKey={activeTab}
-          onChange={handleTabChange}
-          className="border-none bg-transparent p-0 rounded-none gap-5 flex"
-          activeColorClassName="bg-transparent text-[#2E3A83] border-b-1 border-gray-200 border-t-none px-0 py-2 shadow-none"
-          inactiveColorClassName="bg-transparent text-[#7C8496] hover:bg-transparent rounded-none px-0 py-2"
-        />
+      {/* ── Tab Bar (matches screenshot) ── */}
+      <div className="mb-6">
+        <TabBar tabs={TABS} activeKey={activeTab} onChange={handleTabChange} />
       </div>
 
-      {activeTab === 'details' && (
-        <DetailsTab
-          formData={formData}
-          isEditing={isEditing}
-          onChange={handleInputChange}
-          onCancel={handleCancel}
-          onSave={handleSave}
-        />
-      )}
+      {/* ── Details Tab ── */}
+{activeTab === 'details' && (
+  <div>
+    <DetailsTab
+      formData={formData}
+      onChange={handleInputChange}
+      onSave={handleSave}
+    />
+    <div className="mt-8 flex justify-end gap-3">
+      <button
+        type="button"
+        onClick={() => setFormData(MOCK_LOAD)}
+        className="h-11 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-6 text-sm font-semibold text-[#374151] transition hover:bg-gray-100"
+      >
+        Reset
+      </button>
+      <button
+        type="button"
+        onClick={handleSave}
+        className="h-11 rounded-xl bg-[#2E3A83] px-8 text-sm font-semibold text-white transition hover:bg-[#26306d]"
+      >
+        {isSaved ? '✓ Saved' : 'Save Changes'}
+      </button>
+    </div>
+  </div>
+)}
 
-      {activeTab === 'documents' && (
-        <DocumentsTab
-          showUploadBox={showUploadBox}
-          onDelete={() => {}}
-          onDownload={() => {}}
-        />
-      )}
+{/* ── Documents Tab ── */}
+{activeTab === 'documents' && (
+  <DocumentsTab showUploadBox={showUploadBox} />  
+)}
 
+      {/* ── Track Load Tab ── */}
       {activeTab === 'track-load' && (
         <TrackLoadTab
           timeline={timeline}
@@ -308,9 +280,6 @@ export default function ViewLoadPage() {
     </div>
   );
 }
-
-
-
 
 
 
