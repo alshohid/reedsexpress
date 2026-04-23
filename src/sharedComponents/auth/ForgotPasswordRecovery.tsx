@@ -605,7 +605,7 @@ export default function ForgotPasswordRecovery() {
         <>
           <ScreenHeader
             title="Create New Password"
-            description="Choose a strong new password for your account. Make sure it's unique and different from your previous passwords to keep your account secure. "
+            description="Choose a strong new password   for your account. Make sure it's unique and different from your previous passwords to keep your account secure. "
           />
 
           <form
