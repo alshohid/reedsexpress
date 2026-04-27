@@ -210,8 +210,7 @@ export default function ReusableTable<T>({
 
   return (
     <div
-      className={`overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] ${wrapperClassName}`}
-    >
+      className={`overflow-hidden rounded-xl border-b-none border-gray-200 bg-white    ${wrapperClassName}`}>
       <div
         ref={scrollContainerRef}
         onPointerDown={handlePointerDown}
@@ -221,28 +220,24 @@ export default function ReusableTable<T>({
         onPointerLeave={finishDragging}
         onClickCapture={handleClickCapture}
         className={[
-          "max-w-full overflow-x-auto touch-pan-y",
-          hasHorizontalOverflow ? "cursor-grab" : "",
-          isDragging ? "cursor-grabbing select-none" : "",
-        ].join(" ")}
+          'max-w-full overflow-x-auto touch-pan-y',
+          hasHorizontalOverflow ? 'cursor-grab' : '',
+          isDragging ? 'cursor-grabbing select-none' : '',
+        ].join(' ')}
       >
         <div style={{ minWidth: minTableWidthPx }}>
           <Table className={tableClassName}>
             <TableHeader
               className={[
-                "border-b leading-3 border-gray-100 dark:bg-[#0b151d] dark:border-white/[0.05]",
+                'border-b leading-3 border-gray-100 bg-[#F6F8FA] dark:bg-[#0b151d]',
                 tableHeaderClassName,
               ]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
             >
               <TableRow>
                 {tableHeader.map((header, idx) => (
-                  <TableCell
-                    key={idx}
-                    isHeader
-                    className={headerCellClassName}
-                  >
+                  <TableCell key={idx} isHeader className={headerCellClassName}>
                     <span className="text-[1rem] font-medium">{header}</span>
                   </TableCell>
                 ))}
@@ -251,11 +246,11 @@ export default function ReusableTable<T>({
 
             <TableBody
               className={[
-                "divide-y divide-gray-100 dark:divide-white/[0.05]",
+                'divide-y divide-gray-100 dark:divide-white/[0.05]',
                 tableBodyClassName,
               ]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
             >
               {isLoading ? (
                 <TableRow>
@@ -273,28 +268,27 @@ export default function ReusableTable<T>({
                 items.map((item, index) => {
                   const isClickable = Boolean(onRowClick);
                   const resolvedRowClassName =
-                    typeof rowClassName === "function"
+                    typeof rowClassName === 'function'
                       ? rowClassName(item, index)
                       : rowClassName;
 
                   return (
                     <TableRow
                       key={getRowKey(item, index)}
-                      onClick={isClickable ? () => onRowClick?.(item) : undefined}
+                      onClick={
+                        isClickable ? () => onRowClick?.(item) : undefined
+                      }
                       className={[
                         resolvedRowClassName,
                         isClickable
-                          ? "cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.03]"
-                          : "",
+                          ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.03]'
+                          : '',
                       ]
                         .filter(Boolean)
-                        .join(" ")}
+                        .join(' ')}
                     >
                       {safeRenderers.map((render, colIndex) => (
-                        <TableCell
-                          key={colIndex}
-                          className={bodyCellClassName}
-                        >
+                        <TableCell key={colIndex} className={bodyCellClassName}>
                           {render(item, index)}
                         </TableCell>
                       ))}
