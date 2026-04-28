@@ -339,13 +339,14 @@
 // }
 
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, } from 'react';
 import { Search, MoreHorizontal } from 'lucide-react';
-import { DownCaretIcon } from '@/src/icons';
+
 import TablePagination from '../TablePagination';
 import { useRouter } from 'next/navigation';
 import { Modal } from '@/src/components/ui/modal';
 import { Trash2 } from 'lucide-react';
+import FilterDropdown from './FilterDropdown';
 
 const LOADS_DATA = [
   {
@@ -514,65 +515,7 @@ const STATUS_OPTIONS = ['All', 'Delivered', 'Assigned', 'Completed', 'Pickup'];
 const SORT_OPTIONS = ['Newest', 'Oldest'];
 
 // Reusable dropdown component
-function FilterDropdown({
-  label,
-  options,
-  selected,
-  onSelect,
-}: {
-  label: string;
-  options: string[];
-  selected: string;
-  onSelect: (val: string) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  return (
-    <div className="relative" ref={ref}>
-      <button
-        onClick={() => setOpen(prev => !prev)}
-        className="flex items-center gap-2 px-4 py-2 border border-gray-100 rounded-xl text-sm font-semibold text-gray-600 bg-white transition hover:bg-gray-50"
-      >
-        {selected === 'All' || selected === label ? label : selected}
-        <DownCaretIcon className={`transition ${open ? 'rotate-180' : ''}`} />
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-full z-30 mt-2 w-40 rounded-xl border border-gray-100 bg-white p-1 shadow-lg">
-          {options.map(option => {
-            const isActive = selected === option;
-            return (
-              <button
-                key={option}
-                onClick={() => {
-                  onSelect(option);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center rounded-lg px-3 py-2 text-left text-sm transition ${
-                  isActive
-                    ? 'bg-[#2B3674] text-white font-semibold'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                {option}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
 
 export function AllLoadsTable() {
   const router = useRouter();
