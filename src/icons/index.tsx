@@ -143,6 +143,19 @@ import MessageChatIcon from './chat-icon.svg'
 import PendingIcon from './pending-icon.svg';
 import CompleteIcon from './complete-icon.svg';
 import DownloadCloudIcon from './download-cloud.svg';
+import ClockIcon from './clock.svg';
+import Trailers from './trailers.svg';
+import Globe from './globe.svg';
+import ActivityIcon from './activity-circle.svg';
+import NoteIcon from './note.svg';
+import BoneIcon from './bone-break.svg';
+import MonitorIcon from './monitor-waveform.svg';
+import ClcokIcon from './clock-new1.svg';
+import HomeIconNew from './home-user.svg';
+import TruckIcon from './truck.svg';
+import InfoIconNew from './info-circle.svg';
+import EditIconNew from './edit.svg';
+import ExportIcon from './export-icon.svg';
 export {
   WalletIcon,
   DownloadGameIcon,
@@ -287,4 +300,17 @@ export {
   PendingIcon,
   CompleteIcon,
   DownloadCloudIcon,
+  ClockIcon,
+  Trailers,
+  Globe,
+  ActivityIcon,
+  NoteIcon,
+  BoneIcon,
+  MonitorIcon,
+  ClcokIcon,
+  HomeIconNew,
+  TruckIcon,
+  InfoIconNew, 
+  EditIconNew,
+  ExportIcon,
 };

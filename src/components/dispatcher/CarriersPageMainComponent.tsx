@@ -42,11 +42,11 @@ export default function CarriersPageMainComponent() {
   return (
     <main className="min-h-screen">
       <section className="space-y-4">
-        <TopTabs
+        {/* <TopTabs
           tabs={CARRIER_TABS}
           activeKey={activeTab}
           onChange={handleTabChange}
-        />
+        /> */}
 
         <div className="rounded-2xl border border-[#E9EDF5] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] md:p-5">
           {activeTab === 'carrier-info' && (

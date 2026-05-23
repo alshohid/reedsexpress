@@ -1,13 +1,14 @@
-
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { MoreHorizontal, Search, Edit2, Eye, Trash2 } from 'lucide-react';
 
-import DriverDetailModal from './DriverDetailModal';
+
 import TablePagination from '../TablePagination';
 import { Modal } from '../../ui/modal';
 import { Driver } from '@/src/types/driver/type';
 import ReusableTable from '../../tables/ReusableTable';
+import DriverDetailModal from './DriverDetailModal';
+
 
 const ITEMS_PER_PAGE = 5;
 

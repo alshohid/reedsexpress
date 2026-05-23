@@ -4,11 +4,10 @@ import React, { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 import { MessageChatIcon, EditOptionIcon, DownCaretIcon } from '@/src/icons';
 import { Driver } from '@/src/types/driver/type';
+import SmartField from '../reusable-component/SmartField';
+import { Modal } from '../../ui/modal';
+import AvailableSlotsModal from './AvailableSlotsModal';
 
-
-import { Modal } from '../ui/modal';
-import SmartField from './reusable-component/SmartField';
-import AvailableSlotsModal from './driver/AvailableSlotsModal';
 
 interface Props {
   open: boolean;
@@ -219,7 +218,7 @@ export default function DriverDetailModal({
                   onClick={() => setShowAddTruckForm(true)}
                   className="mt-4 sm:mt-0 flex items-center gap-2 px-5 py-2.5 bg-[#2B3674] text-white rounded-xl text-sm font-bold hover:bg-[#1e2756] transition-all"
                 >
-                  <Plus size={18} /> Add Now
+                  <Plus size={18} /> Add Truck
                 </button>
               </div>
             ) : (
