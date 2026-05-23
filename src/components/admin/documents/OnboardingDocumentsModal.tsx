@@ -16,6 +16,7 @@ type OnboardingDocumentsModalProps = {
     document: DocumentRecord | null;
     uploadedDocuments: DocumentRecord[];
     userType: string;
+    onOpenDocument?: (document: DocumentRecord) => void;
 };
 
 export default function OnboardingDocumentsModal({
@@ -24,6 +25,7 @@ export default function OnboardingDocumentsModal({
     document,
     uploadedDocuments,
     userType,
+    onOpenDocument,
 }: OnboardingDocumentsModalProps) {
     if (!document) {
         return null;
@@ -50,9 +52,10 @@ export default function OnboardingDocumentsModal({
 
                 <UploadedDocumentsTable
                     documents={uploadedDocuments}
-                    onOpenDocument={(selectedDocument) =>
-                        console.log("Open uploaded document", selectedDocument.id)
-                    }
+                    onOpenDocument={(selectedDocument) => {
+                        console.log("Open uploaded document", selectedDocument.id);
+                        onOpenDocument?.(selectedDocument);
+                    }}
                 />
 
                 <RequestDocumentsSection

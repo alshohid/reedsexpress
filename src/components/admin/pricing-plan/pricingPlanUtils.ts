@@ -10,7 +10,9 @@ export const emptyPricingPlanFormValues: PricingPlanFormValues = {
     dispatchFeePercentage: "",
     billingDay: "Monday",
     billingCycle: "weekly",
-    featureIds: [],
+    freeTrialEnabled: true,
+    trialDuration: "14 Days",
+    featureIds: ["load-dispatching"],
 };
 
 export function createPricingPlanFormValues(
@@ -26,6 +28,8 @@ export function createPricingPlanFormValues(
         dispatchFeePercentage: plan.dispatchFeePercentage,
         billingDay: plan.billingDay,
         billingCycle: plan.billingCycle,
+        freeTrialEnabled: plan.freeTrialEnabled ?? true,
+        trialDuration: plan.trialDuration ?? "14 Days",
         featureIds: plan.featureIds,
     };
 }
@@ -60,6 +64,8 @@ export function buildPricingPlanRecord({
         dispatchFeePercentage: formValues.dispatchFeePercentage.trim(),
         billingDay: formValues.billingDay,
         billingCycle: formValues.billingCycle,
+        freeTrialEnabled: formValues.freeTrialEnabled,
+        trialDuration: formValues.trialDuration,
         featureIds: formValues.featureIds,
         features: getPricingPlanFeatureLabels(formValues.featureIds, featureOptions),
     };

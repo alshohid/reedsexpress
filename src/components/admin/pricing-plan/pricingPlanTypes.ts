@@ -38,6 +38,8 @@ export type PricingPlanFormValues = {
     dispatchFeePercentage: string;
     billingDay: BillingDay;
     billingCycle: BillingFrequency;
+    freeTrialEnabled: boolean;
+    trialDuration: FreeTrialPeriod;
     featureIds: string[];
 };
 
@@ -49,6 +51,8 @@ export type PricingPlanRecord = {
     dispatchFeePercentage: string;
     billingDay: BillingDay;
     billingCycle: BillingFrequency;
+    freeTrialEnabled?: boolean;
+    trialDuration?: FreeTrialPeriod;
     featureIds: string[];
     features: string[];
 };
