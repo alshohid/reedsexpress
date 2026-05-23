@@ -9,6 +9,8 @@ export type BillingDay =
     | "Saturday"
     | "Sunday";
 
+export type FreeTrialPeriod = "7 Days" | "14 Days" | "30 Days";
+
 export type BillingFrequencyOption = {
     value: BillingFrequency;
     label: string;
@@ -19,6 +21,7 @@ export type PricingBillingSettings = {
     frequency: BillingFrequency;
     dispatchFeePercentage: string;
     billingDay: BillingDay;
+    freeTrial?: FreeTrialPeriod;
 };
 
 export type PricingPlanStatus = "active" | "inactive";

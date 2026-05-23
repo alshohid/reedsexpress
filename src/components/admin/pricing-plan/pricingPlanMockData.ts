@@ -1,6 +1,7 @@
 import type {
     BillingDay,
     BillingFrequencyOption,
+    FreeTrialPeriod,
     PricingBillingSettings,
     PricingPlanFeatureOption,
     PricingPlanRecord,
@@ -34,10 +35,25 @@ export const billingDayOptions: BillingDay[] = [
     "Sunday",
 ];
 
+export const freeTrialOptions: FreeTrialPeriod[] = [
+    "7 Days",
+    "14 Days",
+    "30 Days",
+];
+
+export const defaultBillingFeatureLabels = [
+    "Driver Recruiting",
+    "Permits & IFTA Filing",
+    "Permits & IFTA Filing",
+    "Permits & IFTA Filing",
+    "Financial Metrics",
+];
+
 export const defaultPricingBillingSettings: PricingBillingSettings = {
     frequency: "weekly",
     dispatchFeePercentage: "",
     billingDay: "Monday",
+    freeTrial: "14 Days",
 };
 
 export const pricingPlanFeatureOptions: PricingPlanFeatureOption[] = [
