@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import OnboardingDocumentsModal from "@/src/components/admin/documents/OnboardingDocumentsModal";
-import DocumentImagePreviewModal from "@/src/components/admin/documents/components/DocumentImagePreviewModal";
 import { dispatcherCarrierDocuments } from "@/src/components/admin/documents/documentMockData";
 import type { DocumentRecord } from "@/src/components/admin/documents/documentTypes";
 import ReusableTable from "@/src/components/tables/ReusableTable";
@@ -74,8 +73,6 @@ export default function UserManagementTable({
   emptyText = "No users matched the current filters.",
 }: UserManagementTableProps) {
   const [selectedUser, setSelectedUser] = useState<UserRecord | null>(null);
-  const [previewDocument, setPreviewDocument] = useState<DocumentRecord | null>(null);
-
   const onboardingDocument = selectedUser
     ? buildOnboardingDocument(selectedUser)
     : null;
@@ -83,7 +80,6 @@ export default function UserManagementTable({
 
   const closeOnboardingModal = () => {
     setSelectedUser(null);
-    setPreviewDocument(null);
   };
 
   return (
@@ -128,20 +124,13 @@ export default function UserManagementTable({
       />
 
       <OnboardingDocumentsModal
-        isOpen={Boolean(selectedUser) && !previewDocument}
+        isOpen={Boolean(selectedUser)}
         onClose={closeOnboardingModal}
         document={onboardingDocument}
         uploadedDocuments={uploadedDocuments}
         userType={selectedUser?.userType ?? ""}
-        onOpenDocument={setPreviewDocument}
       />
 
-      <DocumentImagePreviewModal
-        isOpen={Boolean(previewDocument)}
-        onClose={() => setPreviewDocument(null)}
-        document={previewDocument}
-        personLabel={selectedUser?.userType ?? "Driver"}
-      />
     </>
   );
 }

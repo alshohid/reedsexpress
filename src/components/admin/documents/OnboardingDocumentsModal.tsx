@@ -52,6 +52,7 @@ export default function OnboardingDocumentsModal({
 
                 <UploadedDocumentsTable
                     documents={uploadedDocuments}
+                    previewPersonLabel={userType}
                     onOpenDocument={(selectedDocument) => {
                         console.log("Open uploaded document", selectedDocument.id);
                         onOpenDocument?.(selectedDocument);
