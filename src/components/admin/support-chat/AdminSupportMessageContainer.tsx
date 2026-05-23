@@ -14,6 +14,7 @@ function AdminSupportMessageWorkspace() {
     filteredConversations,
     searchQuery,
     selectConversation,
+    sendDocumentRequest,
     sendMessage,
     updateDraft,
     updateSearch,
@@ -34,8 +35,10 @@ function AdminSupportMessageWorkspace() {
           conversation={activeConversation}
           draft={activeDraft}
           messages={activeMessages}
+          mode="admin"
           onDraftChange={updateDraft}
           onSendMessage={sendMessage}
+          onSendDocumentRequest={sendDocumentRequest}
         />
       </div>
     </section>

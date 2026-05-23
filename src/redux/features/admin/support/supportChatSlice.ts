@@ -4,6 +4,7 @@ import type {
   SupportChatBootstrapPayload,
   SupportChatState,
   SupportConnectionStatus,
+  SupportDocumentRequest,
   SupportMessage,
 } from "@/src/types/adminSupportChatTypes";
 
@@ -168,6 +169,52 @@ const adminSupportChatSlice = createSlice({
         };
       },
     },
+    sendSupportDocumentRequest: {
+      reducer(
+        state,
+        action: PayloadAction<{
+          conversationId: string;
+          message: SupportMessage;
+        }>,
+      ) {
+        const { conversationId, message } = action.payload;
+
+        if (!state.conversationsById[conversationId]) {
+          return;
+        }
+
+        upsertMessage(state, conversationId, message);
+        refreshConversationSnapshot(state, conversationId, message);
+        state.draftsByConversationId[conversationId] = "";
+        state.conversationsById[conversationId].typing = false;
+      },
+      prepare(payload: {
+        conversationId: string;
+        documentRequest: SupportDocumentRequest;
+      }) {
+        const timestamp = new Date().toISOString();
+        const documentList = payload.documentRequest.documentTypes.join(", ");
+        const body = payload.documentRequest.message?.trim()
+          ? payload.documentRequest.message.trim()
+          : "Need these documents";
+
+        return {
+          payload: {
+            conversationId: payload.conversationId,
+            message: {
+              id: buildMessageId("admin"),
+              conversationId: payload.conversationId,
+              sender: "admin" as const,
+              senderName: "Admin Support",
+              body: documentList ? body + ": " + documentList : body,
+              createdAt: timestamp,
+              status: "sent" as const,
+              documentRequest: payload.documentRequest,
+            },
+          },
+        };
+      },
+    },
     receiveSupportMessage: {
       reducer(
         state,
@@ -221,6 +268,7 @@ export const {
   hydrateSupportChat,
   markConversationRead,
   receiveSupportMessage,
+  sendSupportDocumentRequest,
   sendSupportMessage,
   setActiveConversation,
   setConnectionStatus,

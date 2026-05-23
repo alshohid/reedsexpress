@@ -1,24 +1,39 @@
+"use client";
+
+import { useState } from "react";
 import SupportConversationHeader from "@/src/components/admin/support-chat/SupportConversationHeader";
 import SupportMessageComposer from "@/src/components/admin/support-chat/SupportMessageComposer";
 import SupportMessageList from "@/src/components/admin/support-chat/SupportMessageList";
 import SupportQuickActionBar from "@/src/components/admin/support-chat/SupportQuickActionBar";
-import type { SupportConversation, SupportMessage } from "@/src/types/adminSupportChatTypes";
+import SupportRequestDocumentModal from "@/src/components/admin/support-chat/SupportRequestDocumentModal";
+import type {
+  SupportChatViewMode,
+  SupportConversation,
+  SupportDocumentRequest,
+  SupportMessage,
+} from "@/src/types/adminSupportChatTypes";
 
 type SupportConversationPanelProps = {
   conversation: SupportConversation | null;
   draft: string;
   messages: SupportMessage[];
+  mode?: SupportChatViewMode;
   onDraftChange: (value: string) => void;
   onSendMessage: (body: string) => void;
+  onSendDocumentRequest?: (documentRequest: SupportDocumentRequest) => void;
 };
 
 export default function SupportConversationPanel({
   conversation,
   draft,
   messages,
+  mode = "admin",
   onDraftChange,
   onSendMessage,
+  onSendDocumentRequest,
 }: SupportConversationPanelProps) {
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+
   if (!conversation) {
     return (
       <div className="flex h-full min-h-[420px] items-center justify-center bg-white p-8">
@@ -35,21 +50,35 @@ export default function SupportConversationPanel({
     );
   }
 
+  const isDispatcherMode = mode === "dispatcher";
+
   return (
     <section className="flex h-full min-h-[560px] flex-col bg-white">
-      <SupportConversationHeader conversation={conversation} />
-      <SupportQuickActionBar
-        actions={conversation.quickActions}
-        onSendAction={onSendMessage}
-      />
+      <SupportConversationHeader conversation={conversation} mode={mode} />
+      {isDispatcherMode ? (
+        <SupportQuickActionBar
+          actions={conversation.quickActions}
+          onRequestDocuments={() => setIsRequestModalOpen(true)}
+        />
+      ) : null}
       <SupportMessageList
+        conversation={conversation}
         messages={messages}
+        mode={mode}
         isParticipantTyping={conversation.typing}
       />
       <SupportMessageComposer
         draft={draft}
         onDraftChange={onDraftChange}
         onSend={onSendMessage}
+      />
+
+      <SupportRequestDocumentModal
+        isOpen={isRequestModalOpen}
+        onClose={() => setIsRequestModalOpen(false)}
+        onSubmit={(payload) => {
+          onSendDocumentRequest?.(payload);
+        }}
       />
     </section>
   );

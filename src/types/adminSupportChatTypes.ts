@@ -5,11 +5,18 @@ export type SupportConversationPriority = "high" | "medium" | "low";
 export type SupportMessageSender = "admin" | "customer" | "system";
 export type SupportMessageStatus = "sent" | "delivered" | "read";
 
+export type SupportChatViewMode = "admin" | "dispatcher";
+
 export type SupportQuickAction = {
   id: string;
   label: string;
   message: string;
   tone?: "primary" | "secondary";
+};
+
+export type SupportDocumentRequest = {
+  documentTypes: string[];
+  message?: string;
 };
 
 export type SupportConversation = {
@@ -41,6 +48,7 @@ export type SupportMessage = {
   body: string;
   createdAt: string;
   status: SupportMessageStatus;
+  documentRequest?: SupportDocumentRequest;
 };
 
 export type SupportChatBootstrapPayload = {

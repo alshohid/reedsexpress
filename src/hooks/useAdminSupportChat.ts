@@ -5,11 +5,13 @@ import {
   markConversationRead,
   selectActiveSupportConversation,
   selectSupportConversationList,
+  sendSupportDocumentRequest,
   sendSupportMessage,
   setActiveConversation,
   setConversationDraft,
   setSupportSearchQuery,
 } from "@/src/redux/features/admin/support/supportChatSlice";
+import type { SupportDocumentRequest } from "@/src/types/adminSupportChatTypes";
 import { useAppDispatch, useAppSelector } from "@/src/redux/store";
 
 export function useAdminSupportChat() {
@@ -122,6 +124,21 @@ export function useAdminSupportChat() {
     return true;
   };
 
+  const sendDocumentRequest = (documentRequest: SupportDocumentRequest) => {
+    if (!activeConversationId || documentRequest.documentTypes.length === 0) {
+      return false;
+    }
+
+    dispatch(
+      sendSupportDocumentRequest({
+        conversationId: activeConversationId,
+        documentRequest,
+      }),
+    );
+
+    return true;
+  };
+
   return {
     activeConversation,
     activeConversationId,
@@ -138,6 +155,7 @@ export function useAdminSupportChat() {
     totalConversations: conversations.length,
     unreadCount,
     selectConversation,
+    sendDocumentRequest,
     sendMessage,
     updateDraft,
     updateSearch,
