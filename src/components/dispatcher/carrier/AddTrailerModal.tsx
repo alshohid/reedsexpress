@@ -63,7 +63,7 @@ export default function AddTrailerModal({
       isOpen={isOpen}
       onClose={onClose}
       showCloseButton={false}
-      className="max-w-[650px] w-[calc(100%-24px)] p-0 shadow-[0px_20px_60px_rgba(15,23,42,0.12)]"
+      className="max-w-[650px] w-[calc(100%-24px)] px-6 py-4 shadow-[0px_20px_60px_rgba(15,23,42,0.12)]"
       contentBgClassName="bg-white"
       textClassName="text-[#111827]"
       overlayClassName="bg-[#100F0F59] backdrop-blur-[6px]"

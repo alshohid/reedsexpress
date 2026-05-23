@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal } from '../ui/modal';
+
 import { Search, ChevronDown, X } from 'lucide-react';
-import CustomDropdown from './reusable-component/CustomDropdown';
-import AssignTruckDropdown from './reusable-component/AssignTruckDropdown';
-import AssignTrailerDropdown from './reusable-component/AssignTrailerDropdown';
+import { Modal } from '../../ui/modal';
+import CustomDropdown from '../reusable-component/CustomDropdown';
+import AssignTruckDropdown from '../reusable-component/AssignTruckDropdown';
+
 
 const MOCK_DRIVERS = [
   {
@@ -53,7 +54,7 @@ export default function AddDriverModal({
   );
   const handleSubmit = () => {
     onSuccess();
-  }
+  };
   return (
     <Modal
       isOpen={isOpen}

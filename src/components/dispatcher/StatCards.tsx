@@ -1,17 +1,19 @@
 
 'use client';
-import { HomeIcon, MoneyIcon, PeopleIcon, TotalLoadsIcon, TrackIcon } from '@/src/icons';
+import { ClockIcon, Globe, HomeIcon, MoneyIcon, PeopleIcon, TotalLoadsIcon, TrackIcon, Trailers } from '@/src/icons';
 
 
 
 const cardData = [
+  {label:'Delivery Schedule', value:'30', Icon:<ClockIcon/>},
   { label: 'Total Carriers', value: '32', Icon: <HomeIcon/> },
   { label: 'Total Drivers', value: '28', Icon: <PeopleIcon/>},
-  { label: 'Total Miles', value: '2,506', Icon: <TrackIcon/> },
+  { label: 'Total Trucks', value: '26', Icon: <TrackIcon/> },
 ];
 const cardData2 = [
-  { label: 'Dispatch Fee', value: '$6,832', Icon: <MoneyIcon/> },
-  { label: 'Total Loads', value: '32', Icon: <TotalLoadsIcon/> },
+  { label: 'Trailers', value: '32', Icon: <Trailers /> },
+  { label: 'Loads In Transit', value: '32', Icon: <Globe /> },
+  { label: 'Active Loads', value: '32', Icon: <TotalLoadsIcon /> },
 ];
 
 function StatCard({

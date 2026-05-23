@@ -1,5 +1,6 @@
 import React from "react";
 import RoleDashboardShell from "@/src/sharedComponents/layouts/RoleDashboardShell";
+import ToastProvider from "@/src/components/dispatcher/providers/ToastProvider";
 
 export default function DispatcherDashboardLayout({
   children,
@@ -23,7 +24,7 @@ export default function DispatcherDashboardLayout({
       ]}
     >
       {children}
-
+      <ToastProvider />
     </RoleDashboardShell>
   );
 }

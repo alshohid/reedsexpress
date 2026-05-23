@@ -5,6 +5,7 @@ import { DownCaretIcon } from '@/src/icons';
 import GlobalDateFilter from './GlobalDateFilter';
 import { DateRangeType } from '@/src/types/dispatcher/type';
 import Link from 'next/link';
+import DriverAvailabilityModal from './DriverAvailabilityModal';
 
 export default function DeliveryScheduleList() {
   const scheduleRows = useMemo(
@@ -147,7 +148,7 @@ export default function DeliveryScheduleList() {
   const currentData = filteredRows.slice(startIndex, startIndex + itemsPerPage);
   const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
-
+  const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -284,13 +285,12 @@ export default function DeliveryScheduleList() {
 
                       {openMenuIndex === index && (
                         <div className="absolute right-0 top-full z-30 mt-1 w-[150px] rounded-xl border border-[#E3E7EF] bg-white p-1 shadow-lg">
-                          <Link
-                            href={`/dispatcher/dashboard/loads/${row.loadId}?tab=details`}
+                          <button
                             className="flex w-full items-center rounded-lg px-3 py-2 text-left text-sm text-[#374151] transition hover:bg-[#F5F7FB]"
-                            onClick={() => setOpenMenuIndex(null)}
+                            onClick={() => setAvailabilityModalOpen(true)}
                           >
                             Edit Schedule
-                          </Link>
+                          </button>
                         </div>
                       )}
                     </div>
@@ -315,6 +315,13 @@ export default function DeliveryScheduleList() {
           />
         </div>
       </div>
+      <DriverAvailabilityModal
+        isOpen={availabilityModalOpen}
+        onClose={() => setAvailabilityModalOpen(false)}
+        onSuccess={() => {
+          console.log('Availability updated successfully');
+        }}
+      />
     </>
   );
 }

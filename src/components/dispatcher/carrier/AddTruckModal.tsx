@@ -71,12 +71,12 @@ export default function AddTruckModal({
       isOpen={isOpen}
       onClose={onClose}
       showCloseButton={false}
-      className="max-w-[850px]  p-0 shadow-[0px_20px_60px_rgba(15,23,42,0.12)]"
+      className="max-w-[850px]  px-6 py-4 shadow-[0px_20px_60px_rgba(15,23,42,0.12)]"
       contentBgClassName="bg-white"
       textClassName="text-[#111827]"
       overlayClassName="bg-[#100F0F59] backdrop-blur-[6px]"
     >
-      <div className="relative rounded-[12px] bg-white px-4 pt-4 pb-3">
+      <div className="relative rounded-[12px] bg-white px-4 pt-4 pb-3 ">
         <div className="mb-3 flex items-start justify-between">
           <h2 className="text-[24px] font-semibold leading-[24px] text-[#111827]">
             Add Truck
