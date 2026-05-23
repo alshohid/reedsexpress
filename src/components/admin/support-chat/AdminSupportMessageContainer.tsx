@@ -21,8 +21,8 @@ function AdminSupportMessageWorkspace() {
   } = useAdminSupportChat();
 
   return (
-    <section className="overflow-hidden rounded-[22px] border border-[#E4E7EC] bg-white shadow-[0_14px_34px_rgba(16,24,40,0.08)]">
-      <div className="grid min-h-[760px] grid-cols-1 xl:grid-cols-[300px_minmax(0,1fr)]">
+    <section className="h-[calc(100vh-132px)] min-h-[620px] overflow-hidden rounded-[22px] border border-[#E4E7EC] bg-white shadow-[0_14px_34px_rgba(16,24,40,0.08)]">
+      <div className="grid h-full min-h-0 grid-cols-1 xl:grid-cols-[300px_minmax(0,1fr)]">
         <SupportInboxSidebar
           activeConversationId={activeConversationId}
           conversations={filteredConversations}

@@ -36,7 +36,7 @@ export default function SupportConversationPanel({
 
   if (!conversation) {
     return (
-      <div className="flex h-full min-h-[420px] items-center justify-center bg-white p-8">
+      <div className="flex h-full min-h-0 items-center justify-center bg-white p-8">
         <div className="max-w-md rounded-[28px] border border-dashed border-[#D0D5DD] bg-[#FCFCFD] px-8 py-10 text-center">
           <h3 className="text-lg font-semibold text-[#101828]">
             Select a conversation
@@ -53,7 +53,7 @@ export default function SupportConversationPanel({
   const isDispatcherMode = mode === "dispatcher";
 
   return (
-    <section className="flex h-full min-h-[560px] flex-col bg-white">
+    <section className="flex h-full min-h-0 flex-col overflow-hidden bg-white">
       <SupportConversationHeader conversation={conversation} mode={mode} />
       {isDispatcherMode ? (
         <SupportQuickActionBar

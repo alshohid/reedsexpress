@@ -22,7 +22,7 @@ export default function SupportMessageComposer({
   };
 
   return (
-    <div className="border-t border-[#EAECF0] bg-white px-4 py-4 sm:px-6">
+    <div className="shrink-0 border-t border-[#EAECF0] bg-white px-4 py-4 sm:px-6">
       <div className="rounded-[14px] border border-[#E4E7EC] bg-white px-3 py-2 shadow-[0_8px_20px_rgba(16,24,40,0.04)]">
         <div className="flex items-end gap-2">
           <button

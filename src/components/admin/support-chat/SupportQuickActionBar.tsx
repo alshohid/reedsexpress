@@ -18,7 +18,7 @@ export default function SupportQuickActionBar({
   const buttonAction = actions[1] ?? actions[0];
 
   return (
-    <div className="border-b border-[#EAECF0] bg-white px-4 py-3 sm:px-6">
+    <div className="shrink-0 border-b border-[#EAECF0] bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-col gap-3 rounded-[12px] border border-[#BFD8FF] bg-[#EEF6FF] px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="inline-flex min-w-0 items-center gap-2 text-sm text-[#006AFF]">
           <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-[#006AFF]">

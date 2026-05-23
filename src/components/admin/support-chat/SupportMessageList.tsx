@@ -68,7 +68,7 @@ export default function SupportMessageList({
   return (
     <div
       ref={scrollContainerRef}
-      className="flex-1 overflow-y-auto bg-white px-4 py-5 sm:px-6"
+      className="min-h-0 flex-1 overflow-y-auto bg-white px-4 py-5 sm:px-6"
     >
       <div className="space-y-7">
         {mode === "admin" ? <SupportIssueCard conversation={conversation} /> : null}
