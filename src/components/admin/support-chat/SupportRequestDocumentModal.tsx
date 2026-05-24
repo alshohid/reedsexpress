@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Modal } from "@/src/components/ui/modal";
 
-const documentOptions = ["POD", "BOL", "Rate Con", "Lumper", "Scale", "Fuel"];
+const documentOptions = ["POD", "BOL", "Lumper", "Rate Con", "Scale", "Fuel"];
 
 type SupportRequestDocumentModalProps = {
   isOpen: boolean;
@@ -74,7 +74,7 @@ export default function SupportRequestDocumentModal({
 
         <div className="mt-7">
           <p className="text-base font-semibold text-[#101828]">Document Type</p>
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {documentOptions.map((type) => {
               const isSelected = selectedTypes.includes(type);
 
@@ -126,7 +126,7 @@ export default function SupportRequestDocumentModal({
             disabled={!canSubmit}
             className="inline-flex h-12 items-center justify-center rounded-[9px] bg-[#2F3A8C] px-4 text-sm font-semibold text-white transition hover:bg-[#273174] disabled:cursor-not-allowed disabled:bg-[#C9D0E8]"
           >
-            Send Request
+            Send
           </button>
         </div>
       </div>
