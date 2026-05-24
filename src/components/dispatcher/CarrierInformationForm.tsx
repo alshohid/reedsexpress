@@ -1,10 +1,11 @@
 'use client';
 
 import { CheckIcon, EditIconNew, UploadIcon } from '@/src/icons';
-import { ArrowRightIcon, CloudUpload } from 'lucide-react';
+import { ArrowRightIcon, Calendar, Calendar1, CloudUpload } from 'lucide-react';
 import { useState } from 'react';
 import UploadDropzoneField from '../ui/input/UploadDropzoneField';
 import EditSquareIcon from '@/src/icons/EditSquareIcon';
+
 
 interface CarrierInformationFormProps {
   onNext: () => void;
@@ -55,15 +56,45 @@ export default function CarrierInformationForm({
   onCancel,
 }: CarrierInformationFormProps) {
 
-  
+   const [isFactoringEnabled, setIsFactoringEnabled] = useState(false);
+   const [formData, setFormData] = useState({
+     companyName: '',
+     email: '',
+     phone: '',
+     address: '',
+     duration: '',
+     startDate: '',
+     endDate: '',
+   });
+
+   const handleInputChange = (
+     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+   ) => {
+     const { name, value } = e.target;
+     setFormData(prev => ({
+       ...prev,
+       [name]: value,
+     }));
+   };
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [uploadResetSignal, setUploadResetSignal] = useState(0);
   const [selectedPlanId, setSelectedPlanId] = useState<string>('pro');
 
   const [customDispatchFee, setCustomDispatchFee] = useState<string>('2.5');
-  const [isFactoringEnabled, setIsFactoringEnabled] = useState(false);
-  const [isFreeTrialEnabled, setIsFreeTrialEnabled] = useState(false);
+ 
+  
+
+   const [isFreeTrialEnabled, setIsFreeTrialEnabled] = useState(false);
+  
+
+   const durationOptions = [
+     { value: '7', label: '7 Day' },
+     { value: '14', label: '14 Day' },
+     { value: '30', label: '30 Day' },
+     { value: '60', label: '60 Day' },
+     { value: '90', label: '90 Day' },
+   ];
   return (
     <div className="rounded-2xl border border-[#E9EDF5] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] md:p-5">
       <div className="mt-6">
@@ -71,7 +102,7 @@ export default function CarrierInformationForm({
           <h3 className="mb-3 text-[24px] font-semibold text-[#111827]">
             Carrier Logo
           </h3>
-          <EditIconNew className="cursor-pointer"/>
+          <EditIconNew className="cursor-pointer" />
         </span>
         <UploadDropzoneField
           hint="PNG, JPG up to 5Mb (Will appear on invoice)"
@@ -204,7 +235,14 @@ export default function CarrierInformationForm({
             type="checkbox"
             checked={isFactoringEnabled}
             onChange={e => setIsFactoringEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-[#D0D5DD] text-[#016822] focus:ring-[#117e00] "
+            className="appearance-none h-8 w-8 rounded-md border-2 border-[#E5E7EB] bg-white cursor-pointer transition-all checked:bg-[#22c55e] checked:border-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-1"
+            style={{
+              backgroundImage: isFactoringEnabled
+                ? 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 16 16%22 fill=%22white%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 1 1-1.06-1.06L12.72 4.22a.75.75 0 0 1 1.06 0Z%22/%3E%3Cpath d=%22M2.22 9.28a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L3.28 9.28a.75.75 0 0 0-1.06 0Z%22/%3E%3C/svg%3E")'
+                : 'none',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
           />
 
           <div>
@@ -217,6 +255,72 @@ export default function CarrierInformationForm({
             </p>
           </div>
         </label>
+
+        {isFactoringEnabled && (
+          <div className="mt-6 space-y-6">
+            <div className="grid grid-cols-2 gap-6">
+              {/* Factoring Company Name */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  Factoring Company Name
+                </label>
+                <input
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleInputChange}
+                  placeholder="e.g. GTS Financial"
+                  className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                />
+              </div>
+
+              {/* Factoring Email */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  Factoring Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="invoices@gmail.com"
+                  className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                />
+              </div>
+
+              {/* Factoring Phone */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  Factoring Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="(888) 123-4040"
+                  className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                />
+              </div>
+
+              {/* Factoring Address */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  Factoring Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  placeholder="123 Main Street, Dallas, TX 75241"
+                  className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-6 rounded-[8px] border border-[#E5E7EB] bg-[#F9FAFB] p-4">
@@ -229,12 +333,19 @@ export default function CarrierInformationForm({
             type="checkbox"
             checked={isFreeTrialEnabled}
             onChange={e => setIsFreeTrialEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-[#D0D5DD] text-[#0d8702] focus:ring-[#008314]"
+            className="appearance-none mt-1 h-8 w-8 rounded-md border-2 border-[#E5E7EB] bg-white cursor-pointer transition-all checked:bg-[#22c55e] checked:border-none focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:ring-offset-1"
+            style={{
+              backgroundImage: isFreeTrialEnabled
+                ? 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 16 16%22 fill=%22white%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 1 1-1.06-1.06L12.72 4.22a.75.75 0 0 1 1.06 0Z%22/%3E%3Cpath d=%22M2.22 9.28a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L3.28 9.28a.75.75 0 0 0-1.06 0Z%22/%3E%3C/svg%3E")'
+                : 'none',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
           />
 
           <div>
             <p className="text-[16px] font-semibold text-[#111827]">
-              Enable Free Trial
+              Enable a Free Trial
             </p>
             <p className="mt-1 text-[16px] leading-5 text-[#667085]">
               Enabling this free trial will let the carrier to use features
@@ -242,6 +353,68 @@ export default function CarrierInformationForm({
             </p>
           </div>
         </label>
+
+        {isFreeTrialEnabled && (
+          <div className="mt-6 space-y-6">
+            {/* Free Trial Duration */}
+            <div>
+              <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                Free Trial
+              </label>
+              <select
+                name="duration"
+                value={formData.duration}
+                onChange={handleInputChange}
+                className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 text-[14px] text-[#111827] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+              >
+                {durationOptions.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Date Fields */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* Start Date */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  Start Date
+                </label>
+                <div className="relative">
+                  <input
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                    placeholder="mm/dd/yyyy"
+                    className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 pr-10 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                  />
+                  {/* <Calendar className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" /> */}
+                </div>
+              </div>
+
+              {/* End Date */}
+              <div>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">
+                  End Date
+                </label>
+                <div className="relative">
+                  <input
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleInputChange}
+                    placeholder="mm/dd/yyyy"
+                    className="w-full rounded-[6px] border border-[#D0D5DD] bg-white px-3 py-2 pr-10 text-[14px] text-[#111827] placeholder-[#9CA3AF] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                  />
+                  {/* <Calendar className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" /> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {/*  */}
       <div className="mt-6">
