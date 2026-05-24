@@ -1,6 +1,5 @@
-import CarrierProfileDetailMainComponent from "@/src/components/dispatcher/carrier/CarrierProfileDetailMainComponent";
+import CarrierDetailRoutePage from "@/src/components/carriers/CarrierDetailRoutePage";
 
-
-export default function CarrierProfileDetailPage() {
-  return <CarrierProfileDetailMainComponent />;
+export default function CarriersPage() {
+  return <CarrierDetailRoutePage role="dispatcher" />;
 }

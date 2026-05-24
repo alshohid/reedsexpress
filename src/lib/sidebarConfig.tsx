@@ -3,13 +3,8 @@
 import React from "react";
 import {
   Activity,
-  BarChart3,
   Briefcase,
-  CreditCard,
-  FolderOpen,
   LayoutDashboard,
-  LifeBuoy,
-  MonitorCog,
   Receipt,
   Settings,
   ShieldEllipsis,
@@ -17,8 +12,10 @@ import {
   Users,
 } from "lucide-react";
 import { CarriesIcon, CommunicationsIcon, DashboardIconForDispacher, DocumentsIcon, DriversIcon, InvoicesIcon, LoadsIcon, ReportsIcon, StatementsIcon, SupportIcon } from "../icons";
+import { getCarrierRouteConfig } from "./carrierRoutes";
+import type { DashboardRole } from "./dashboardRoles";
 
-export type DashboardRole = "dispatcher" | "admin" | "super-admin";
+export type { DashboardRole } from "./dashboardRoles";
 
 export type NavItem = {
   section: string;
@@ -65,7 +62,7 @@ export const dispatcherSidebarConfig: SidebarConfig = {
       section: 'Management',
       icon: <CarriesIcon />,
       name: 'Carriers',
-      path: '/dispatcher/dashboard/carriers',
+      path: getCarrierRouteConfig('dispatcher').listPath,
     },
     {
       section: 'Management',
@@ -148,6 +145,12 @@ export const adminSidebarConfig: SidebarConfig = {
       path: "/admin/dashboard/performance",
     },
     {
+      section: 'Management',
+      icon: <CarriesIcon />,
+      name: 'Carriers',
+      path: getCarrierRouteConfig('admin').listPath,
+    },
+    {
       section: "Operations",
       icon: <DocumentsIcon />,
       name: "Documents",
@@ -208,6 +211,7 @@ export const superAdminSidebarConfig: SidebarConfig = {
       name: "Organizations",
       path: "/super-admin/dashboard/organizations",
     },
+
     {
       section: "Management",
       icon: <UserCog size={18} />,
@@ -225,6 +229,12 @@ export const superAdminSidebarConfig: SidebarConfig = {
       icon: <DocumentsIcon />,
       name: 'Documents',
       path: '/super-admin/dashboard/documents',
+    },
+    {
+      section: 'Management',
+      icon: <CarriesIcon />,
+      name: 'Carriers',
+      path: getCarrierRouteConfig('super-admin').listPath,
     },
     {
       section: 'Operations',
