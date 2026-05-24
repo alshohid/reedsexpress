@@ -40,6 +40,14 @@ export default function DispatcherSupportsContainer({
 
     const handleReplySubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!replyMessage.trim()) {
+            return;
+        }
+        setReplyMessage("");
+        setIsReplying(false);
+    };
+
+    const handleCancelReply = () => {
         setReplyMessage("");
         setIsReplying(false);
     };
@@ -52,12 +60,13 @@ export default function DispatcherSupportsContainer({
                 onToggleFaq={handleToggleFaq}
             />
 
-            {!latestSupportResponse ? (
+            {latestSupportResponse ? (
                 <SupportResponseCard
                     response={latestSupportResponse}
                     isReplying={isReplying}
                     replyMessage={replyMessage}
                     onReplyClick={() => setIsReplying(true)}
+                    onCancelReply={handleCancelReply}
                     onReplyMessageChange={setReplyMessage}
                     onReplySubmit={handleReplySubmit}
                 />

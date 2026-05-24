@@ -6,6 +6,7 @@ type SupportResponseCardProps = {
     isReplying: boolean;
     replyMessage: string;
     onReplyClick: () => void;
+    onCancelReply: () => void;
     onReplyMessageChange: (message: string) => void;
     onReplySubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
@@ -15,6 +16,7 @@ export default function SupportResponseCard({
     isReplying,
     replyMessage,
     onReplyClick,
+    onCancelReply,
     onReplyMessageChange,
     onReplySubmit,
 }: SupportResponseCardProps) {
@@ -67,8 +69,24 @@ export default function SupportResponseCard({
                         onChange={(event) => onReplyMessageChange(event.target.value)}
                         placeholder="Ask question, report an issue to solve."
                         rows={4}
+                        required
                         className="mt-2 min-h-[96px] w-full resize-none rounded-md border border-[#E4E7EC] bg-[#F8F9FB] px-3 py-2 text-sm leading-5 text-[#101828] outline-none placeholder:text-[#98A2B3] focus:border-[#2E3A83] focus:bg-white focus:ring-2 focus:ring-[#2E3A83]/10"
                     />
+                    <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                        <button
+                            type="submit"
+                            className="inline-flex h-10 w-full min-w-[135px] items-center justify-center rounded-lg bg-[#2E3A83] px-5 text-sm font-semibold text-white transition hover:bg-[#25306F] focus:outline-none focus:ring-2 focus:ring-[#2E3A83]/25 sm:w-auto"
+                        >
+                            Send Reply
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onCancelReply}
+                            className="inline-flex h-10 w-full min-w-[100px] items-center justify-center rounded-lg border border-[#D0D5DD] bg-white px-5 text-sm font-semibold text-[#344054] transition hover:bg-[#F8F9FB] focus:outline-none focus:ring-2 focus:ring-[#2E3A83]/10 sm:w-auto"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             ) : null}
         </section>
