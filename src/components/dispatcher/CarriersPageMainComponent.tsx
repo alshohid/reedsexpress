@@ -1,55 +1,40 @@
 'use client';
 
-import { useMemo } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import {
-  Search,
-  Plus,
-} from 'lucide-react';
-import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Plus, Search } from 'lucide-react';
 import CarrierInfoTable from './CarrierInfoTable';
-import DriverInfoTable from './DriverInfoTable';
-import TruckInfoTable from './TruckInfoTable';
-import TrailerInfoTable from './TrailerInfoTable';
+import { getCarrierRouteConfig } from '@/src/lib/carrierRoutes';
+import type { DashboardRole } from '@/src/lib/sidebarConfig';
 
 type CarrierTabType = 'carrier-info' | 'drivers' | 'trucks' | 'trailers';
 
-const CARRIER_TABS: TabItem<CarrierTabType>[] = [
-  { key: 'carrier-info', label: 'Carrier Info' },
-  { key: 'drivers', label: 'Drivers' },
-  { key: 'trucks', label: 'Trucks' },
-  { key: 'trailers', label: 'Trailers' },
-];
+type CarriersPageMainComponentProps = {
+  role?: DashboardRole;
+};
 
-export default function CarriersPageMainComponent() {
+export default function CarriersPageMainComponent({
+  role = 'dispatcher',
+}: CarriersPageMainComponentProps) {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const carrierRoutes = getCarrierRouteConfig(role);
 
   const activeTab =
     (searchParams.get('tab') as CarrierTabType) || 'carrier-info';
 
-  const handleTabChange = (key: CarrierTabType) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('tab', key);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  const handleAddCarrier = () => {
+    router.push(carrierRoutes.addPath);
   };
 
-   const handleAddCarrier = () => {
-     router.push('/dispatcher/dashboard/carriers/add-carrier');
-   };
+  const handleOpenCarrier = (carrierId: string) => {
+    router.push(carrierRoutes.detailPath(carrierId, 'overview'));
+  };
 
   return (
     <main className="min-h-screen">
       <section className="space-y-4">
-        {/* <TopTabs
-          tabs={CARRIER_TABS}
-          activeKey={activeTab}
-          onChange={handleTabChange}
-        /> */}
-
         <div className="rounded-2xl border border-[#E9EDF5] bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] md:p-5">
-          {activeTab === 'carrier-info' && (
+          {activeTab === 'carrier-info' ? (
             <>
               <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <h2 className="text-[20px] font-semibold text-[#111827]">
@@ -57,6 +42,7 @@ export default function CarriersPageMainComponent() {
                 </h2>
 
                 <button
+                  type="button"
                   onClick={handleAddCarrier}
                   className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-[#2F3E9E] px-4 text-sm font-medium text-white transition hover:opacity-95"
                 >
@@ -77,14 +63,13 @@ export default function CarriersPageMainComponent() {
               </div>
 
               <div className="rounded-xl border border-[#EEF0F5]">
-                <CarrierInfoTable />
+                <CarrierInfoTable
+                  onEditCarrier={handleOpenCarrier}
+                  onViewCarrier={handleOpenCarrier}
+                />
               </div>
             </>
-          )}
-
-          {/* {activeTab === 'drivers' && <DriverInfoTable />}
-          {activeTab === 'trucks' && <TruckInfoTable />}
-          {activeTab === 'trailers' && <TrailerInfoTable />} */}
+          ) : null}
         </div>
       </section>
     </main>

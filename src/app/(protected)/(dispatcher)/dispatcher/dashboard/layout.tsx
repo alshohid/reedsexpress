@@ -1,5 +1,6 @@
 import React from "react";
 import RoleDashboardShell from "@/src/sharedComponents/layouts/RoleDashboardShell";
+import { getCarrierRouteConfig } from "@/src/lib/carrierRoutes";
 import ToastProvider from "@/src/components/dispatcher/providers/ToastProvider";
 
 export default function DispatcherDashboardLayout({
@@ -14,7 +15,7 @@ export default function DispatcherDashboardLayout({
         '/dispatcher/dashboard/reports',
         '/dispatcher/dashboard/loads',
         '/dispatcher/dashboard/communications',
-        '/dispatcher/dashboard/carriers',
+        getCarrierRouteConfig('dispatcher').listPath,
         '/dispatcher/dashboard/settings',
         '/dispatcher/dashboard/documents',
         '/dispatcher/dashboard/invoices',
