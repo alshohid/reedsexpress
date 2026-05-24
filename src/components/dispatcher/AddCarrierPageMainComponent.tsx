@@ -1,25 +1,33 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
-import CarrierInformationForm from './CarrierInformationForm';
-import CarrierDocumentsForm from './CarrierDocumentsForm';
-import SubmissionDoneModal from './SubmissionDoneModal';
-import { useState } from 'react';
 import { InfoIconNew } from '@/src/icons';
+import { getCarrierRouteConfig } from '@/src/lib/carrierRoutes';
+import type { DashboardRole } from '@/src/lib/sidebarConfig';
+import CarrierDocumentsForm from './CarrierDocumentsForm';
+import CarrierInformationForm from './CarrierInformationForm';
+import SubmissionDoneModal from './SubmissionDoneModal';
 
 type AddCarrierTabType = 'Onboard a Carrier' | 'documents';
+
+type AddCarrierPageMainComponentProps = {
+  role?: DashboardRole;
+};
 
 const ADD_CARRIER_TABS: TabItem<AddCarrierTabType>[] = [
   { key: 'Onboard a Carrier', label: 'Onboard a Carrier' },
   { key: 'documents', label: 'Documents' },
 ];
 
-export default function AddCarrierPageMainComponent() {
+export default function AddCarrierPageMainComponent({
+  role = 'dispatcher',
+}: AddCarrierPageMainComponentProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
+  const carrierRoutes = getCarrierRouteConfig(role);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const activeTab =
@@ -34,13 +42,18 @@ export default function AddCarrierPageMainComponent() {
   const goToDocumentsTab = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('tab', 'documents');
-    router.push(`${pathname}?${params.toString()}`, { scroll: true});
+    router.push(`${pathname}?${params.toString()}`, { scroll: true });
   };
 
   const goToInformationTab = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('tab', 'Onboard a Carrier');
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const closeSubmissionModal = () => {
+    setIsModalOpen(false);
+    router.push(carrierRoutes.listPath);
   };
 
   return (
@@ -60,36 +73,34 @@ export default function AddCarrierPageMainComponent() {
               </div>
 
               <div>
-                <InfoIconNew/>
+                <InfoIconNew />
               </div>
             </div>
           </div>
+
           <TopTabs
             tabs={ADD_CARRIER_TABS}
             activeKey={activeTab}
             onChange={handleTabChange}
           />
 
-          {activeTab === 'Onboard a Carrier' && (
+          {activeTab === 'Onboard a Carrier' ? (
             <CarrierInformationForm
               onNext={goToDocumentsTab}
-              onCancel={() => router.back()}
+              onCancel={() => router.push(carrierRoutes.listPath)}
             />
-          )}
+          ) : null}
 
-          {activeTab === 'documents' && (
+          {activeTab === 'documents' ? (
             <CarrierDocumentsForm
               onBack={goToInformationTab}
               onSubmit={() => setIsModalOpen(true)}
             />
-          )}
+          ) : null}
         </section>
       </main>
 
-      <SubmissionDoneModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <SubmissionDoneModal open={isModalOpen} onClose={closeSubmissionModal} />
     </>
   );
 }
