@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChevronDown, Pencil } from 'lucide-react';
 import TopTabs, { TabItem } from '@/src/components/common/TopTabs';
 import { DownCaretIcon, EditIconNew } from '@/src/icons';
+import type { DashboardRole } from '@/src/lib/sidebarConfig';
 import DriverInfoTable from '../DriverInfoTable';
 import TruckInfoTable from '../TruckInfoTable';
 import TrailerInfoTable from '../TrailerInfoTable';
@@ -25,7 +25,13 @@ const CARRIER_DETAIL_TABS: TabItem<CarrierDetailTabType>[] = [
   { key: 'carrier-packet', label: 'Carrier Packet' },
 ];
 
-export default function CarrierProfileDetailMainComponent() {
+type CarrierProfileDetailMainComponentProps = {
+  role?: DashboardRole;
+};
+
+export default function CarrierProfileDetailMainComponent({
+  role = 'dispatcher',
+}: CarrierProfileDetailMainComponentProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,7 +47,7 @@ export default function CarrierProfileDetailMainComponent() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white" data-carrier-role={role}>
       <section className="space-y-4">
         <h1 className="text-[22px] font-semibold text-[#111827]">
           Carrier&apos;s Profile Detail #ID_02
@@ -73,7 +79,7 @@ export default function CarrierProfileDetailMainComponent() {
           </div>
         )}
 
-        {activeTab === 'carrier-packet' && <CarrierPacket/>}
+        {activeTab === 'carrier-packet' && <CarrierPacket />}
       </section>
     </main>
   );
