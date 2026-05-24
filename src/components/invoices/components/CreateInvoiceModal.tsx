@@ -29,15 +29,53 @@ type CreateInvoiceModalProps = {
     onSave: (values: InvoiceFormValues) => void;
 };
 
+function getDateInputValue(value: string) {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue || trimmedValue === "-") {
+        return "";
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)) {
+        return trimmedValue;
+    }
+
+    const slashDateMatch = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(trimmedValue);
+
+    if (!slashDateMatch) {
+        return "";
+    }
+
+    const [, month, day, year] = slashDateMatch;
+
+    return year + "-" + month.padStart(2, "0") + "-" + day.padStart(2, "0");
+}
+
+function getInvoiceDateLabel(value: string) {
+    const dateInputValue = getDateInputValue(value);
+
+    if (!dateInputValue) {
+        return "";
+    }
+
+    const [year, month, day] = dateInputValue.split("-");
+
+    return month + "/" + day + "/" + year;
+}
+
 function DateTextField({
     id,
     label,
     value,
+    min,
+    max,
     onChange,
 }: {
     id: string;
     label: string;
     value: string;
+    min?: string;
+    max?: string;
     onChange: (value: string) => void;
 }) {
     return (
@@ -48,10 +86,19 @@ function DateTextField({
             <div className="relative mt-2">
                 <Input
                     id={id}
+                    type="date"
                     value={value}
+                    min={min}
+                    max={max}
+                    onClick={(event) => {
+                        try {
+                            event.currentTarget.showPicker?.();
+                        } catch {
+                            event.currentTarget.focus();
+                        }
+                    }}
                     onChange={(event) => onChange(event.target.value)}
-                    placeholder="Select Date & Time"
-                    className="h-10 rounded-lg border-[#D7DDE8] bg-white pr-10 text-sm text-[#101828] shadow-none placeholder:text-[#98A2B3] focus-visible:ring-0"
+                    className="h-10 rounded-lg border-[#D7DDE8] bg-white pr-10 text-sm text-[#101828] shadow-none focus-visible:ring-0"
                 />
                 <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#667085]" />
             </div>
@@ -70,8 +117,8 @@ export default function CreateInvoiceModal({
 }: CreateInvoiceModalProps) {
     const [invoiceNumber, setInvoiceNumber] = useState(invoice?.invoiceNumber ?? "INV-2024-001");
     const [carrierId, setCarrierId] = useState(invoice?.carrierId ?? "");
-    const [startDate, setStartDate] = useState(invoice?.startDate ?? "");
-    const [endDate, setEndDate] = useState(invoice?.endDate ?? "");
+    const [startDate, setStartDate] = useState(() => getDateInputValue(invoice?.startDate ?? ""));
+    const [endDate, setEndDate] = useState(() => getDateInputValue(invoice?.endDate ?? ""));
     const [notes, setNotes] = useState(invoice?.notes ?? "");
 
     const selectedLoads = useMemo(
@@ -82,6 +129,8 @@ export default function CreateInvoiceModal({
     const totalDue = getInvoiceTotalDue(selectedLoads, pricingPlan);
     const hasCarrier = Boolean(carrierId);
     const canSave = invoiceNumber.trim().length > 0 && hasCarrier;
+    const startDateLabel = getInvoiceDateLabel(startDate);
+    const endDateLabel = getInvoiceDateLabel(endDate);
 
     const handleSave = () => {
         if (!canSave) {
@@ -91,8 +140,8 @@ export default function CreateInvoiceModal({
         onSave({
             invoiceNumber: invoiceNumber.trim(),
             carrierId,
-            startDate,
-            endDate,
+            startDate: startDateLabel,
+            endDate: endDateLabel,
             notes: notes.trim(),
         });
     };
@@ -149,12 +198,14 @@ export default function CreateInvoiceModal({
                         id="invoice-start-date"
                         label="Start Date"
                         value={startDate}
+                        max={endDate || undefined}
                         onChange={setStartDate}
                     />
                     <DateTextField
                         id="invoice-end-date"
                         label="End Date"
                         value={endDate}
+                        min={startDate || undefined}
                         onChange={setEndDate}
                     />
                 </div>
@@ -163,8 +214,8 @@ export default function CreateInvoiceModal({
                     <InvoiceLoadDetailsSection
                         loads={selectedLoads}
                         hasCarrier={hasCarrier}
-                        startDate={startDate}
-                        endDate={endDate}
+                        startDate={startDateLabel}
+                        endDate={endDateLabel}
                     />
 
                     <InvoicePaymentCalculationSection
