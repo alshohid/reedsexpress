@@ -1,0 +1,27 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "abedin",
+    "after-client-confirmaton-figma",
+    "development",
+    "feature/chatInterfaceDesign",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "abedin": "main",
+    "after-client-confirmaton-figma": "main",
+    "development": "main",
+    "feature/chatInterfaceDesign": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "abedin",
+    "after-client-confirmaton-figma",
+    "development",
+    "feature/chatInterfaceDesign",
+    "origin"
+  ]
+}

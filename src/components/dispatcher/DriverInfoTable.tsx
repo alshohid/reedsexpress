@@ -1,7 +1,7 @@
 
 
 'use client';
-import { MoreHorizontal, Plus, Search } from 'lucide-react';
+import { MoreHorizontal, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import TablePagination from './TablePagination';
@@ -9,6 +9,7 @@ import DriverDetailModal from './DriverDetailModal';
 import AddDriverModal from './AddDiverModal';
 import SubmissionDoneModal from './SubmissionDoneModal';
 import ReusableTable from '../tables/ReusableTable';
+import { EditIcon, EyeIcon } from '@/src/icons';
 
 type DriverRow = {
   id: string;
@@ -141,7 +142,7 @@ export default function DriverInfoTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   // Filter rows by search query
   const filteredRows = driverRows.filter(
     row =>
@@ -212,17 +213,44 @@ export default function DriverInfoTable() {
       </span>
     ),
 
-    // Action button
+    
+    // Action dropdown
     (row: DriverRow) => (
-      <button
-        onClick={e => {
-          e.stopPropagation();
-          handleOpenDetail(row);
-        }}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]"
-      >
-        <MoreHorizontal className="h-4 w-4" />
-      </button>
+      <div className="relative flex justify-self-auto">
+        <button
+          type="button"
+          onClick={e => {
+            e.stopPropagation();
+            setOpenDropdownId(openDropdownId === row.id ? null : row.id);
+          }}
+          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#6B7280] transition hover:bg-[#F8FAFC]"
+        >
+          <MoreHorizontal className="h-4 w-4" />
+        </button>
+
+        {openDropdownId === row.id && (
+          <div className="absolute right-0 top-10 z-10 w-36 rounded-md border bg-white shadow-lg">
+            <button
+              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-50"
+              onClick={() => handleOpenDetail(row)}
+            >
+              View
+            </button>
+            <button
+              className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-50"
+              onClick={() => handleOpenDetail(row)}
+            >
+              Edit
+            </button>
+            <button
+              className="flex items-center gap-2 w-full px-4 py-2 text-left text-red-600 hover:bg-gray-50"
+              onClick={() => handleDelete(row.id)}
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
     ),
   ];
 
