@@ -10,10 +10,6 @@ import TrailerInfoTable from '../TrailerInfoTable';
 import { CarrierPacket } from './CarrierPacket';
 
 
-// import DriverInfoTable from './DriverInfoTable';
-// import TruckInfoTable from './TruckInfoTable';
-// import TrailerInfoTable from './TrailerInfoTable';
-
 type CarrierDetailTabType =
   | 'overview'
   | 'drivers'

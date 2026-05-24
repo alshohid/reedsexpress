@@ -82,9 +82,9 @@ export default function CarriersPageMainComponent() {
             </>
           )}
 
-          {activeTab === 'drivers' && <DriverInfoTable />}
+          {/* {activeTab === 'drivers' && <DriverInfoTable />}
           {activeTab === 'trucks' && <TruckInfoTable />}
-          {activeTab === 'trailers' && <TrailerInfoTable />}
+          {activeTab === 'trailers' && <TrailerInfoTable />} */}
         </div>
       </section>
     </main>
