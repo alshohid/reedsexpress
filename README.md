@@ -25,6 +25,7 @@
 - [About](#about)
 - [Features](#features)
 - [Role-based workspaces](#role-based-workspaces)
+- [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
 - [Environment variables](#environment-variables)
@@ -65,6 +66,26 @@ The application is split into three isolated, role-scoped workspaces — **Dispa
 | **Super Admin** | `/super-admin/dashboard` | Overview, user management, organizations, dispatcher management, performance, documents, carriers, support, invoices, statements, pricing plan, analytics |
 
 Public pages: `/login`, `/sign-up`, `/forgot-password`. The root `/` redirects visitors to `/login`, and unauthenticated users visiting a protected route are redirected to login.
+
+## Screenshots
+
+Screenshots are stored in `public/screenshots/`:
+
+| File | Screen |
+| --- | --- |
+| `login_sm.png` | Login page |
+| `dashboard.png` | Dispatcher dashboard |
+| `login_lg.png` | Login page |
+| `admin-sm.png` | Dispatcher dashboard |
+
+| Login (Mobile) | Login (Desktop) |
+| :---: | :---: |
+| ![Login mobile](/screenshots/login_sm.png) | ![Login desktop](/screenshots/login_lg.png) |
+
+| Dispatcher Dashboard (Desktop) | Dispatcher Dashboard (Mobile) |
+| :---: | :---: |
+| ![Dispatcher Dashboard](/screenshots/dashboard.png) | ![Dispatcher Dashboard mobile](/screenshots/admin-sm.png) |
+
 ## Tech stack
 
 | Layer | Technology |
