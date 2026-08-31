@@ -80,11 +80,11 @@ Screenshots are stored in `public/screenshots/`:
 
 | Login (Mobile) | Login (Desktop) |
 | :---: | :---: |
-| ![Login mobile](/screenshots/login_sm.png) | ![Login desktop](/screenshots/login_lg.png) |
+| ![Login mobile](/public/screenshots/login_sm.png) | ![Login desktop](/public/screenshots/login_lg.png) |
 
 | Dispatcher Dashboard (Desktop) | Dispatcher Dashboard (Mobile) |
 | :---: | :---: |
-| ![Dispatcher Dashboard](/screenshots/dashboard.png) | ![Dispatcher Dashboard mobile](/screenshots/admin-sm.png) |
+| ![Dispatcher Dashboard](/public/screenshots/dashboard.png) | ![Dispatcher Dashboard mobile](/public/screenshots/admin-sm.png) |
 
 ## Tech stack
 
