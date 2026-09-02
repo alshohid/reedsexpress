@@ -5,7 +5,7 @@
   <p>
     A production-oriented, multi-tenant freight &amp; logistics dispatch management platform.
     <br/>
-    Powered by <strong>Next.js 16</strong> (App Router), <strong>React 19</strong>, <strong>TypeScript</strong> and <strong>Redux Toolkit / RTK Query</strong>.
+    Powered by <strong>Next.js 16</strong> (App Router), <strong>React 19</strong>,<strong> Socket.io(Real time Chating) <strong>TypeScript</strong> and <strong>Redux Toolkit / RTK Query</strong>.
   </p>
 
   <p>
