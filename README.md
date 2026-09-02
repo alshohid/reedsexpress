@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>🚚 Reeds Express</h1>
+  <h1>🚚 Fleetos pro</h1>
 
   <p>
     A production-oriented, multi-tenant freight &amp; logistics dispatch management platform.
@@ -40,7 +40,7 @@
 
 ## About
 
-Reeds Express is a web application for managing day-to-day freight and logistics operations: dispatching loads, onboarding carriers and drivers, tracking shipments, generating invoices and financial statements, and administering pricing plans and organizations.
+Fleetos Pro is a web application for managing day-to-day freight and logistics operations: dispatching loads, onboarding carriers and drivers, tracking shipments, generating invoices and financial statements, and administering pricing plans and organizations.
 
 The application is split into three isolated, role-scoped workspaces — **Dispatcher**, **Admin** and **Super Admin** — all sharing a single codebase, a common UI kit, and one Redux Toolkit / RTK Query data layer that performs automatic access-token refresh on `401` responses.
 
@@ -120,7 +120,7 @@ npm install
 Create a `.env.local` file in the project root and adjust the values:
 
 ```bash
-# URL of the Reeds Express backend API (trailing slash is optional)
+# URL of the Fleetos Pro backend API (trailing slash is optional)
 NEXT_PUBLIC_API_BASE_URL=http://192.168.7.42:4010/api
 
 # When true, all API calls return deterministic mock responses (no backend needed).
@@ -236,7 +236,7 @@ mock payloads built in `src/redux/api/designMode.ts`, so the entire UI can be ex
 - Dashboard stats endpoints (`/dispatcher/dashboard/stats`, `/admin/dashboard/states`, `/super-admin/dashboard/stats`, …) return empty-shaped payloads that match the dashboard contracts.
 - Generic `GET` endpoints return empty paginated collections; other methods return a success envelope.
 
-Set `NEXT_PUBLIC_DESIGN_MODE=false` to connect the dashboard to the real Reeds Express API.
+Set `NEXT_PUBLIC_DESIGN_MODE=false` to connect the dashboard to the real Fleetos Pro API.
 
 ## Deployment
 
